@@ -11,7 +11,17 @@ import Step2 from "./components/Step2";
 import Result from "./components/Result";
 import { StateMachineProvider, createStore } from "little-state-machine";
 import { DevTool } from "little-state-machine-devtools";
-
+createStore({
+    "eventDetails": {
+        "eventName": "",
+        "latitude": "",
+        "longitude": "",
+        "eventStartDate": "",
+        "eventEndDate": "",
+        "headCount":-1,
+        "organiserEmail":"",
+    }
+})
 function Main() {
         return (
             <StateMachineProvider>
