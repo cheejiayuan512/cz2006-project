@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 function Counter() {
-    // Set the initial count state to zero, 0
+    // Set the initial count state to 1
     const [count, setCount] = useState(1);
     // Create handleIncrement event handler
     const handleIncrement = () => {
@@ -12,9 +12,6 @@ function Counter() {
         if (count>=2) {
             setCount(prevCount => prevCount - 1);
         }
-    };
-    const getCount = () => {
-        return count;
     };
     return (
         <div>
