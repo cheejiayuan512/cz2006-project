@@ -63,7 +63,7 @@ const Step2 = props => {
                                  apiKey='AIzaSyD07E1VvpsN_0FvsmKAj4nK9GnLq-9jtj8'/> </div>
 
             </Form.Group>
-            <Button variant="secondary m-2" type="button" as={Link} to='/contact/' >Back!</Button>
+            <Button variant="secondary m-2" type="button" as={Link} to='/contact' >Back!</Button>
             <Button variant="primary" type="submit">Next!</Button>
         </Form>
     </div>

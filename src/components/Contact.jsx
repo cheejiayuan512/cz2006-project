@@ -24,7 +24,7 @@ const Contact = () => {
                             <Navbar.Toggle aria-controls="basic-navbar-nav" />
                             <Navbar.Collapse id="basic-navbar-nav">
                                 <Nav className="m-auto">
-                                    <Nav.Link as={Link} to="/contact/">Step 1</Nav.Link>
+                                    <Nav.Link as={Link} to="/contact">Step 1</Nav.Link>
                                     <Nav.Link as={Link} to="/contact/step2">Step 2</Nav.Link>
                                     <Nav.Link as={Link} to="/contact/step3">Step 3</Nav.Link>
                                     <Nav.Link as={Link} to="/contact/step4">Step 4</Nav.Link>
@@ -34,7 +34,7 @@ const Contact = () => {
                                 </Nav>
                             </Navbar.Collapse>
                         </Navbar>
-                    <Route exact path="/contact/" component={Step1} />
+                    <Route exact path="/contact" component={Step1} />
                     <Route path="/contact/step2" component={Step2} />
                     <Route path="/contact/step3" component={Step3} />
                     <Route path="/contact/step4" component={Step4} />
