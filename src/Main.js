@@ -18,7 +18,7 @@ createStore({
         "longitude": "",
         "eventStartDate": "",
         "eventEndDate": "",
-        "headCount":-1,
+        "headCount":1,
         "organiserEmail":"",
     }
 })
