@@ -31,6 +31,13 @@ const Step2 = props => {
         setDefaultLocation({ ...DefaultLocation});
         setZoom(DefaultZoom);
     }
+
+    // function checkNull(){
+    //     if (location.lng.isNull()|location.lat.isNull()){
+    //         setDefaultLocation({ ...DefaultLocation});
+    //     }
+    // }
+
     const onSubmit = data => {
         actions.updateAction(data);
         push("/contact/step3");

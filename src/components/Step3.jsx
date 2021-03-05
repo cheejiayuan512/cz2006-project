@@ -19,7 +19,7 @@ export default () => {
     const onSubmit = data => {
         console.log(data.startDate)
         actions.updateAction(data);
-        push("/contact/result");
+        push("/contact/Step4");
     };
     const [dateRange, setDateRange] = useState(DateRange);
     const [userDateRange, setUserDateRange] = useState(dateRange);
