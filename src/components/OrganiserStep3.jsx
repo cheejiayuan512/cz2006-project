@@ -19,7 +19,7 @@ export default () => {
     const onSubmit = data => {
         console.log(data.startDate)
         actions.updateAction(data);
-        push("/contact/Step4");
+        push("/organiser/organiserStep4");
     };
     const [dateRange, setDateRange] = useState(DateRange);
     const [userDateRange, setUserDateRange] = useState(dateRange);
@@ -59,7 +59,7 @@ export default () => {
                 <Form.Text className="text-muted">Tip: Don't be a dick.</Form.Text>
 
                 {/*if we wanna be zai make onclick so can hide the url hehehe*/}
-                <Button variant="secondary m-2" type="button" as={Link} to='/contact/step2' >Back!</Button>
+                <Button variant="secondary m-2" type="button" as={Link} to='/organiser/organiserStep2' >Back!</Button>
                 <Button variant="primary" type="submit">Next!</Button>
             </Form>
         </div>

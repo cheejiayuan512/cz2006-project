@@ -6,7 +6,7 @@ import updateAction from "./updateAction";
 import {Button, Form} from "react-bootstrap";
 import { GetEventDetails } from "../Main";
 
-const Step4 = props => {
+const OrganiserStep4 = props => {
     let x = parseInt(GetEventDetails().headCount, 10);
     const [numPax, setCount] = useState(x);
     const { state, actions } = useStateMachine({ updateAction });
@@ -16,7 +16,7 @@ const Step4 = props => {
     const { push } = useHistory();
     const onSubmit = data => {
         actions.updateAction(data);
-        push("/contact/Step5");
+        push("/organiser/organiserStep5");
     };
     const incrementPax = () =>{
         if (numPax<25) {
@@ -43,11 +43,11 @@ const Step4 = props => {
                     </Form.Text>
                 </Form.Group>
 
-                <Button variant="secondary m-2" type="button" as={Link} to='/contact/step3' >Back!</Button>
+                <Button variant="secondary m-2" type="button" as={Link} to='/organiser/organiserStep3' >Back!</Button>
                 <Button variant="primary" type="submit">Next!</Button>
             </Form>
         </div>
     );
 };
 
-export default Step4;
+export default OrganiserStep4;

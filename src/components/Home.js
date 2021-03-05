@@ -27,7 +27,7 @@ class Home extends Component {
                         </Col>
                         <Col>
                             <p className="text-center font-weight-bold">Want to create an event? </p>
-                            <Link exact to="/contact">
+                            <Link exact to="/organiser/organiserStep1">
                                 <button type="button" className="btn btn-secondary btn-lg m-3">Create New Event</button>
                             </Link>
                         </Col>

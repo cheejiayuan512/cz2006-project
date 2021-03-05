@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { useStateMachine } from "little-state-machine";
 import updateAction from "./updateAction";
 import {Button, Form} from "react-bootstrap";
-const Step1 = props => {
+const OrganiserStep1 = props => {
     const { state, actions } = useStateMachine({ updateAction });
     const { handleSubmit, errors, register } = useForm({
         defaultValues: state.eventDetails
@@ -12,7 +12,7 @@ const Step1 = props => {
     const { push } = useHistory();
     const onSubmit = data => {
         actions.updateAction(data);
-        push("/contact/step2");
+        push("/organiser/organiserStep2");
     };
 
     return (
@@ -32,4 +32,4 @@ const Step1 = props => {
     );
 };
 
-export default Step1;
+export default OrganiserStep1;

@@ -2,7 +2,7 @@ import React from "react";
 import { useStateMachine } from "little-state-machine";
 import updateAction from "./updateAction";
 import {Link} from "react-router-dom";
-const Result = props => {
+const OrganiserResult = props => {
     const { state } = useStateMachine({updateAction});
 
     return (
@@ -19,4 +19,4 @@ const Result = props => {
     );
 };
 
-export default Result;
+export default OrganiserResult;

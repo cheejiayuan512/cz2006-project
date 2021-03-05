@@ -7,7 +7,7 @@ import MapPicker from 'react-google-map-picker';
 import {Button, Form} from "react-bootstrap";
 const DefaultLocation = { lat: 1.35, lng: 103.8198};
 const DefaultZoom = 11;
-const Step2 = props => {
+const OrganiserStep2 = props => {
     const { state, actions } = useStateMachine({updateAction});
     const { handleSubmit, register, errors } = useForm({
         defaultValues: state.eventDetails
@@ -40,7 +40,7 @@ const Step2 = props => {
 
     const onSubmit = data => {
         actions.updateAction(data);
-        push("/contact/step3");
+        push("/organiser/organiserStep3");
     };
     return (
         <div className='justify-content-center text-center align-items-center'>
@@ -70,7 +70,7 @@ const Step2 = props => {
                                  apiKey='AIzaSyD07E1VvpsN_0FvsmKAj4nK9GnLq-9jtj8'/> </div>
 
             </Form.Group>
-            <Button variant="secondary m-2" type="button" as={Link} to='/contact' >Back!</Button>
+            <Button variant="secondary m-2" type="button" as={Link} to='/organiser/organiserStep1' >Back!</Button>
             <Button variant="primary" type="submit">Next!</Button>
         </Form>
     </div>
@@ -79,4 +79,4 @@ const Step2 = props => {
     );
 };
 
-export default Step2;
+export default OrganiserStep2;
