@@ -2,13 +2,30 @@ import React from "react";
 import { useStateMachine } from "little-state-machine";
 import updateAction from "./updateAction";
 import {Link} from "react-router-dom";
+import {Button} from "react-bootstrap";
+import { FirebaseDatabaseMutation } from "@react-firebase/database";
+
 const Result = props => {
     const { state } = useStateMachine({updateAction});
 
     return (
         <div className="container text-center">
-            <h2>Result</h2>
+            <h2>Are your details entered correctly?</h2>
             <pre>{JSON.stringify(state, null, 2)}</pre>
+            <FirebaseDatabaseMutation type="push" path="user_bookmarks">
+                {({ runMutation }) => (
+                    <form
+                        onSubmit={async ev => {
+                            ev.preventDefault();
+                            await runMutation({
+                                link_url: state,
+                            });
+                        }}
+                    >
+                        <button type="submit"> Make my event! </button>
+                    </form>
+                )}
+            </FirebaseDatabaseMutation>;
             <div>
             <p>Thank you for registering, your event has been created. You may proceed with joining the event!</p>
                 <Link exact to="/stuff">
