@@ -11,7 +11,7 @@ import 'firebase/firestore';
 import "firebase/auth";
 import Home from "./components/Home";
 import Stuff from "./components/Stuff";
-import Contact from "./components/Contact";
+import OrganiserForm from "./components/OrganiserForm";
 import MainNavbar from "./components/MainNavbar";
 import { StateMachineProvider, createStore, useStateMachine } from "little-state-machine";
 import { DevTool } from "little-state-machine-devtools";
@@ -94,7 +94,7 @@ function HomePage() {
                     <div className="content">
                         <Route exact path="/" component={Home}/>
                         <Route path="/stuff" component={Stuff}/>
-                        <Route path="/contact" component={Contact}/>
+                        <Route path="/organiser" component={OrganiserForm}/>
                     </div>
 
                 </div>

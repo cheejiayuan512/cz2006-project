@@ -39,7 +39,7 @@ class Contact extends Component {
                     <Route path="/organiser/organiserStep4" component={OrganiserStep4}/>
                     <Route path="/organiser/organiserStep5" component={OrganiserStep5}/>
                     <Route path="/organiser/organiserResult" component={OrganiserResult}/>
-                </div>organiser      </>
+                </div></>
         );
     }
 }
