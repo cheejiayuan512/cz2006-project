@@ -62,7 +62,7 @@ function asyncSendEmail(eventCode, resultList) {
     var mailOptions = {
         from: 'makanwhere@gmail.com',
         to: destEmail,
-        subject: 'Sending Email using Node.js',
+        subject: 'Here is a list of restaurant for you & your friends!',
         text: resultList
       };
       
