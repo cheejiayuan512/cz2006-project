@@ -6,10 +6,7 @@ import Home from "./components/Home";
 import Stuff from "./components/Stuff";
 import Contact from "./components/Contact";
 import MainNavbar from "./components/MainNavbar";
-import Step1 from "./components/Step1";
-import Step2 from "./components/Step2";
-import Result from "./components/Result";
-import { StateMachineProvider, createStore } from "little-state-machine";
+import { StateMachineProvider, createStore, useStateMachine } from "little-state-machine";
 import { DevTool } from "little-state-machine-devtools";
 createStore({
     "eventDetails": {
@@ -22,6 +19,15 @@ createStore({
         "organiserEmail":"",
     }
 })
+export function GetHeadCount () {
+    const { state } = useStateMachine();
+    return state.eventDetails.headCount;
+}
+export function GetEventDetails () {
+    const { state } = useStateMachine();
+    return state.eventDetails;
+}
+
 function Main() {
         return (
             <StateMachineProvider>
