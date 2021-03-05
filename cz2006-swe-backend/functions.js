@@ -35,7 +35,7 @@ function asyncUpdateParticipant(data) {
         })
     }
     else {
-        // logic to find suitable time slots and suitable cuisine for them
+        // logic to find suitable time slots and suitable cuisine for them ** not dont **
         // call gooogle places API to get a list of restaurants
         try {
             const area = data.area;
@@ -50,7 +50,7 @@ function asyncUpdateParticipant(data) {
           catch (err) {
             next(err)
           }
-        // display result list 
+        // display result list **not done**
         // send email to organiser to notify him/her that result is ready
         asyncSendEmail(eventCode, resultList);
     }
