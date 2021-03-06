@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { useForm } from "react-hook-form";
 import {Link, useHistory} from "react-router-dom";
 import { useStateMachine } from "little-state-machine";
-import updateAction from "./updateAction";
+import { updateUserAction } from "./updateAction";
 import {ErrorMessage} from "@hookform/error-message";
 import {Button, Form, Col} from "react-bootstrap";
 import DateTimePicker from 'react-datetime-picker'
@@ -12,13 +12,13 @@ import {func} from "prop-types";
 const DateRange = {startDate: '01/01/2020', endDate: '01/12/2020'};
 
 export default () => {
-    const { state, actions } = useStateMachine({ updateAction });
+    const { state, actions } = useStateMachine({ updateUserAction });
     const { handleSubmit, errors, register, control } = useForm({
-        defaultValues: state.eventDetails
+        defaultValues: state.userDetails
     });
     const { push } = useHistory();
     const onSubmit = data => {
-        actions.updateAction(data);
+        actions.updateUserAction(data);
         push("/user/userStep4");
     };
     const [dateRange, setDateRange] = useState(DateRange);

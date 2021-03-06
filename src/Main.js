@@ -10,7 +10,7 @@ import firebase from "firebase/app";
 import 'firebase/firestore';
 import "firebase/auth";
 import Home from "./components/Home";
-// import UserForm from "./components/UserForm";
+import UserForm from "./components/UserForm";
 import OrganiserForm from "./components/OrganiserForm";
 import MainNavbar from "./components/MainNavbar";
 import { StateMachineProvider, createStore, useStateMachine } from "little-state-machine";
@@ -27,18 +27,29 @@ createStore({
         "longitude": "",
         "eventStartDate": "",
         "eventEndDate": "",
-        "headCount":1,
-        "organiserEmail":"",
+        "headCount": 1,
+        "organiserEmail": "",
+    },
+    "userDetails": {
+        "userName": "",
+        "userTiming": "",
+        "longitude": "",
+        "eventStartDate": "",
+        "eventEndDate": "",
+        "headCount": 1,
+        "organiserEmail": "",
     }
 })
-export function GetHeadCount () {
-    const { state } = useStateMachine();
-    return state.eventDetails.headCount;
-}
+
 export function GetEventDetails () {
     const { state } = useStateMachine();
     return state.eventDetails;
 }
+export function GetUserDetails () {
+    const { state } = useStateMachine();
+    return state.userDetails;
+}
+
 function Main() {
     return (<div>
         <FirebaseAuthProvider {...config} firebase={firebase}>
@@ -91,7 +102,7 @@ function HomePage() {
                 }}>
                     <div className="content">
                         <Route exact path="/" component={Home}/>
-                        {/*<Route path="/user" component={UserForm}/>*/}
+                        <Route path="/user" component={UserForm}/>
                         <Route path="/organiser" component={OrganiserForm}/>
                     </div>
 

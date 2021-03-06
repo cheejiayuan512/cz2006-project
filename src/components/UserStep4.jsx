@@ -2,20 +2,20 @@ import React, {useState} from "react";
 import { useForm } from "react-hook-form";
 import {Link, useHistory} from "react-router-dom";
 import { useStateMachine } from "little-state-machine";
-import updateAction from "./updateAction";
+import { updateUserAction } from "./updateAction";
 import {Button, Form} from "react-bootstrap";
 import { GetEventDetails } from "../Main";
 
 const UserStep4 = props => {
     let x = parseInt(GetEventDetails().headCount, 10);
     const [numPax, setCount] = useState(x);
-    const { state, actions } = useStateMachine({ updateAction });
+    const { state, actions } = useStateMachine({ updateUserAction });
     const { handleSubmit, errors, register } = useForm({
-        defaultValues: state.eventDetails
+        defaultValues: state.userDetails
     });
     const { push } = useHistory();
     const onSubmit = data => {
-        actions.updateAction(data);
+        actions.updateUserAction(data);
         push("/user/userStep5");
     };
     const incrementPax = () =>{

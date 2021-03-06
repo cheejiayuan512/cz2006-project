@@ -2,16 +2,16 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import {Link, useHistory} from "react-router-dom";
 import { useStateMachine } from "little-state-machine";
-import updateAction from "./updateAction";
+import { updateOrganiserAction } from "./updateAction";
 import {Button, Form} from "react-bootstrap";
 const OrganiserStep5 = props => {
-    const { state, actions } = useStateMachine({ updateAction });
+    const { state, actions } = useStateMachine({ updateOrganiserAction });
     const { handleSubmit, errors, register } = useForm({
         defaultValues: state.eventDetails
     });
     const { push } = useHistory();
     const onSubmit = data => {
-        actions.updateAction(data);
+        actions.updateOrganiserAction(data);
         push("/organiser/organiserResult");
     };
 
