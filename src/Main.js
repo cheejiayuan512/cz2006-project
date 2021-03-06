@@ -10,7 +10,7 @@ import firebase from "firebase/app";
 import 'firebase/firestore';
 import "firebase/auth";
 import Home from "./components/Home";
-import UserForm from "./components/UserForm";
+// import UserForm from "./components/UserForm";
 import OrganiserForm from "./components/OrganiserForm";
 import MainNavbar from "./components/MainNavbar";
 import { StateMachineProvider, createStore, useStateMachine } from "little-state-machine";
@@ -18,7 +18,7 @@ import { DevTool } from "little-state-machine-devtools";
 import {Button} from "react-bootstrap";
 import {config} from './secret.js'
 import MakanGoWhereLogo from "./assets/MakanGoWhereLogo";
-firebase.initializeApp(config)
+firebase.app()
 
 createStore({
     "eventDetails": {
@@ -91,7 +91,7 @@ function HomePage() {
                 }}>
                     <div className="content">
                         <Route exact path="/" component={Home}/>
-                        <Route path="/user" component={UserForm}/>
+                        {/*<Route path="/user" component={UserForm}/>*/}
                         <Route path="/organiser" component={OrganiserForm}/>
                     </div>
 
