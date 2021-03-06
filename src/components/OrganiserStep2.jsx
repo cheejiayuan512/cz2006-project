@@ -2,13 +2,13 @@ import React, {useState} from "react";
 import { useForm } from "react-hook-form";
 import {Link, useHistory} from "react-router-dom";
 import { useStateMachine } from "little-state-machine";
-import updateAction from "./updateAction";
+import { updateOrganiserAction } from "./updateAction";
 import MapPicker from 'react-google-map-picker';
 import {Button, Form} from "react-bootstrap";
 const DefaultLocation = { lat: 1.35, lng: 103.8198};
 const DefaultZoom = 11;
 const OrganiserStep2 = props => {
-    const { state, actions } = useStateMachine({updateAction});
+    const { state, actions } = useStateMachine({updateOrganiserAction});
     const { handleSubmit, register, errors } = useForm({
         defaultValues: state.eventDetails
     });
@@ -39,7 +39,7 @@ const OrganiserStep2 = props => {
     // }
 
     const onSubmit = data => {
-        actions.updateAction(data);
+        actions.updateOrganiserAction(data);
         push("/organiser/organiserStep3");
     };
     return (

@@ -1,6 +1,6 @@
 import React from "react";
 import { useStateMachine } from "little-state-machine";
-import updateAction from "./updateAction";
+import { updateOrganiserAction } from "./updateAction";
 import {Link} from "react-router-dom";
 import {Button} from "react-bootstrap";
 import { useList } from "react-firebase-hooks/database";
@@ -9,12 +9,12 @@ import { useList } from "react-firebase-hooks/database";
 // const tutorialsRef = firebase.database().ref("/tutorials");
 
 const OrganiserResult = props => {
-    const { state } = useStateMachine({updateAction});
+    const { state } = useStateMachine({updateOrganiserAction});
 
     return (
         <div className="container text-center">
             <h2>Are your details entered correctly?</h2>
-            <pre>{JSON.stringify(state, null, 2)}</pre>
+            <pre>{JSON.stringify(state.eventDetails, null, 2)}</pre>
             <div>
             <p>Thank you for registering, your event has been created. You may proceed with joining the event!</p>
                 <Link exact to="/user/userStep1">

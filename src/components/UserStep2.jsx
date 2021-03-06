@@ -2,16 +2,16 @@ import React, {useState} from "react";
 import { useForm } from "react-hook-form";
 import {Link, useHistory} from "react-router-dom";
 import { useStateMachine } from "little-state-machine";
-import updateAction from "./updateAction";
+import { updateUserAction } from "./updateAction";
 import MapPicker from 'react-google-map-picker';
 import {Button, Form} from "react-bootstrap";
 const DefaultLocation = { lat: 1.35, lng: 103.8198};
 const DefaultZoom = 11;
 
 const UserStep2 = props => {
-    const { state, actions } = useStateMachine({updateAction});
+    const { state, actions } = useStateMachine({updateUserAction});
     const { handleSubmit, register, errors } = useForm({
-        defaultValues: state.eventDetails
+        defaultValues: state.userDetails
     });
     const { push } = useHistory();
 
@@ -33,14 +33,8 @@ const UserStep2 = props => {
         setZoom(DefaultZoom);
     }
 
-    // function checkNull(){
-    //     if (location.lng.isNull()|location.lat.isNull()){
-    //         setDefaultLocation({ ...DefaultLocation});
-    //     }
-    // }
-
     const onSubmit = data => {
-        actions.updateAction(data);
+        actions.updateUserAction(data);
         push("/user/userStep3");
     };
     return (

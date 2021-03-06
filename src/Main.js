@@ -18,7 +18,7 @@ import { DevTool } from "little-state-machine-devtools";
 import {Button} from "react-bootstrap";
 import {config} from './secret.js'
 import MakanGoWhereLogo from "./assets/MakanGoWhereLogo";
-firebase.initializeApp(config)
+// firebase.initializeApp(config)
 
 createStore({
     "eventDetails": {
@@ -27,18 +27,29 @@ createStore({
         "longitude": "",
         "eventStartDate": "",
         "eventEndDate": "",
-        "headCount":1,
-        "organiserEmail":"",
+        "headCount": 1,
+        "organiserEmail": "",
+    },
+    "userDetails": {
+        "userName": "",
+        "userTiming": "",
+        "longitude": "",
+        "eventStartDate": "",
+        "eventEndDate": "",
+        "headCount": 1,
+        "organiserEmail": "",
     }
 })
-export function GetHeadCount () {
-    const { state } = useStateMachine();
-    return state.eventDetails.headCount;
-}
+
 export function GetEventDetails () {
     const { state } = useStateMachine();
     return state.eventDetails;
 }
+export function GetUserDetails () {
+    const { state } = useStateMachine();
+    return state.userDetails;
+}
+
 function Main() {
     return (<div>
         <FirebaseAuthProvider {...config} firebase={firebase}>
