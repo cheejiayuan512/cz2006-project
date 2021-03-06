@@ -11,7 +11,7 @@ const OrganiserResult = props => {
     const [submitted, setSubmitted] = useState(false);
 
     const saveTutorial = () => {
-        const data = state;
+        const data = state.eventDetails;
 
         TutorialDataService.create(data)
             .then(() => {
