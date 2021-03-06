@@ -8,7 +8,7 @@ import { useList } from "react-firebase-hooks/database";
 //
 // const tutorialsRef = firebase.database().ref("/tutorials");
 
-const Result = props => {
+const OrganiserResult = props => {
     const { state } = useStateMachine({updateAction});
 
     return (
@@ -25,4 +25,4 @@ const Result = props => {
     );
 };
 
-export default Result;
+export default OrganiserResult;
