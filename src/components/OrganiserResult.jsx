@@ -4,16 +4,24 @@ import { updateOrganiserAction } from "./updateAction";
 import {Link} from "react-router-dom";
 import {Button} from "react-bootstrap";
 import { useList } from "react-firebase-hooks/database";
-import TutorialDataService from '../services/MakanService';
+import MakanService from '../services/MakanService';
 
 const OrganiserResult = props => {
     const { state } = useStateMachine({updateOrganiserAction});
     const [submitted, setSubmitted] = useState(false);
 
+    const createRoom = () => {
+        let roomID = Math.random().toString(36).substring(8);
+        while (MakanService.checkRoomNameAvailable(roomID)) {
+            roomID = Math.random().toString(36).substring(8);
+        }
+        return roomID;
+    }
+
     const saveTutorial = () => {
         const data = state.eventDetails;
-
-        TutorialDataService.create(data)
+        data['roomID'] = createRoom();
+        MakanService.create(data)
             .then(() => {
                 setSubmitted(true);
             })
@@ -21,6 +29,8 @@ const OrganiserResult = props => {
                 console.log(e);
             });
     };
+
+
 
     return (
         <div className="container text-center">

@@ -21,9 +21,9 @@ const UserStep1 = props => {
             <Form className='d-inline-block flex-column p-2 ' onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group>
                     <Form.Label column='lg' className='font-weight-bold' style={{fontSize:'150%'}}>What is your name?</Form.Label>
-                    <Form.Control required name="userName" type="text" placeholder="Finals Bojio??!" ref={register()} />
+                    <Form.Control required name="userName" type="text" placeholder="Enter cool name here!" ref={register()} />
                     <Form.Text className="text-muted">
-                        Please
+                        You can use any name! Just make sure your friends know you!
                     </Form.Text>
                 </Form.Group>
 
