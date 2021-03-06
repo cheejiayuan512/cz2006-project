@@ -17,7 +17,7 @@ class Home extends Component {
                             <div className="d-flex justify-content-center">
                             <Form inline className='justify-content-center'>
                             <FormControl type="text" placeholder="Your Event Code" />
-                            <Link exact to="/stuff">
+                            <Link exact to="/user/userStep1">
                                 <button type="button" className="btn btn-primary btn-lg m-3 ">Join Event</button>
                             </Link>
                             </Form>

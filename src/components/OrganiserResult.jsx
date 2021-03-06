@@ -4,9 +4,9 @@ import updateAction from "./updateAction";
 import {Link} from "react-router-dom";
 import {Button} from "react-bootstrap";
 import { useList } from "react-firebase-hooks/database";
-import firebase from "firebase/app";
-
-const tutorialsRef = firebase.database().ref("/tutorials");
+// import firebase from "firebase/app";
+//
+// const tutorialsRef = firebase.database().ref("/tutorials");
 
 const Result = props => {
     const { state } = useStateMachine({updateAction});
@@ -17,7 +17,7 @@ const Result = props => {
             <pre>{JSON.stringify(state, null, 2)}</pre>
             <div>
             <p>Thank you for registering, your event has been created. You may proceed with joining the event!</p>
-                <Link exact to="/stuff">
+                <Link exact to="/user/userStep1">
                     <button type="button" className="btn btn-primary btn-lg m-3">Join Event</button>
                 </Link>
             </div>

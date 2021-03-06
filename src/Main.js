@@ -10,7 +10,7 @@ import firebase from "firebase/app";
 import 'firebase/firestore';
 import "firebase/auth";
 import Home from "./components/Home";
-import UserForm from "./components/UserForm";
+import UserForm from "./components/UserForm.jsx";
 import OrganiserForm from "./components/OrganiserForm";
 import MainNavbar from "./components/MainNavbar";
 import { StateMachineProvider, createStore, useStateMachine } from "little-state-machine";

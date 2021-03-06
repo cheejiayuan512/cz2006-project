@@ -26,12 +26,12 @@ class UserForm extends Component {
                             </Nav>
                         </Navbar.Collapse>
                     </Navbar>
-                    <Route exact path="/user/userStep1" component={OrganiserStep1}/>
-                    <Route path="/user/userStep2" component={OrganiserStep2}/>
-                    <Route path="/user/userStep3" component={OrganiserStep3}/>
-                    <Route path="/user/userStep4" component={OrganiserStep4}/>
-                    <Route path="/user/userStep5" component={OrganiserStep5}/>
-                    <Route path="/user/userResult" component={OrganiserResult}/>
+                    <Route exact path="/user/userStep1" component={UserStep1}/>
+                    <Route path="/user/userStep2" component={UserStep2}/>
+                    <Route path="/user/userStep3" component={UserStep3}/>
+                    <Route path="/user/userStep4" component={UserStep4}/>
+                    <Route path="/user/userStep5" component={UserStep5}/>
+                    <Route path="/user/userResult" component={UserResult}/>
                 </div></>
         );
     }
