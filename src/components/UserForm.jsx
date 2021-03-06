@@ -1,12 +1,13 @@
-import React, { Component } from "react";
-import {Nav, Navbar} from "react-bootstrap";
-import {Link, Route} from "react-router-dom";
 import UserStep1 from "./UserStep1";
 import UserStep2 from "./UserStep2";
 import UserStep3 from "./UserStep3";
 import UserStep4 from "./UserStep4";
 import UserStep5 from "./UserStep5";
 import UserResult from "./UserResult";
+import {Nav, Navbar} from "react-bootstrap";
+import {Link, Route} from "react-router-dom";
+import React, { Component } from "react";
+
 
 class UserForm extends Component {
     render() {

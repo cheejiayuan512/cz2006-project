@@ -1,10 +1,5 @@
 import React, {Component} from "react";
-import {
-MemoryRouter,
-    Route,
-    Link,
-    useLocation
-} from "react-router-dom";
+import { Route,Link } from "react-router-dom";
 import OrganiserStep1 from "./OrganiserStep1";
 import OrganiserStep2 from "./OrganiserStep2";
 import OrganiserStep3 from "./OrganiserStep3";
