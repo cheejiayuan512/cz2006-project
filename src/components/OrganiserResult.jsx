@@ -7,7 +7,7 @@ import { useList } from "react-firebase-hooks/database";
 import TutorialDataService from '../services/MakanService';
 
 const OrganiserResult = props => {
-    const { state } = useStateMachine({updateAction});
+    const { state } = useStateMachine({updateOrganiserAction});
     const [submitted, setSubmitted] = useState(false);
 
     const saveTutorial = () => {
