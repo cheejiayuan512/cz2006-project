@@ -3,7 +3,10 @@ import { useStateMachine } from "little-state-machine";
 import updateAction from "./updateAction";
 import {Link} from "react-router-dom";
 import {Button} from "react-bootstrap";
-import { FirebaseDatabaseMutation } from "@react-firebase/database";
+import { useList } from "react-firebase-hooks/database";
+import firebase from "firebase/app";
+
+const tutorialsRef = firebase.database().ref("/tutorials");
 
 const Result = props => {
     const { state } = useStateMachine({updateAction});
