@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import ReactDOM from "react-dom";
 import {
 MemoryRouter,
     Route,
@@ -15,7 +14,7 @@ import OrganiserResult from "./OrganiserResult";
 import {Nav, Navbar} from "react-bootstrap";
 
 
-class Contact extends Component {
+class OrganiserForm extends Component {
     render() {
         return (
             <>
@@ -45,4 +44,4 @@ class Contact extends Component {
 }
 
 
-export default Contact;
+export default OrganiserForm;
