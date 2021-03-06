@@ -15,20 +15,6 @@ const Result = props => {
         <div className="container text-center">
             <h2>Are your details entered correctly?</h2>
             <pre>{JSON.stringify(state, null, 2)}</pre>
-            <FirebaseDatabaseMutation type="push" path="user_bookmarks">
-                {({ runMutation }) => (
-                    <form
-                        onSubmit={async ev => {
-                            ev.preventDefault();
-                            await runMutation({
-                                link_url: state,
-                            });
-                        }}
-                    >
-                        <button type="submit"> Make my event! </button>
-                    </form>
-                )}
-            </FirebaseDatabaseMutation>;
             <div>
             <p>Thank you for registering, your event has been created. You may proceed with joining the event!</p>
                 <Link exact to="/stuff">
