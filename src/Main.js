@@ -10,7 +10,7 @@ import firebase from "firebase/app";
 import 'firebase/firestore';
 import "firebase/auth";
 import Home from "./components/Home";
-import Stuff from "./components/Stuff";
+import UserForm from "./components/UserForm";
 import OrganiserForm from "./components/OrganiserForm";
 import MainNavbar from "./components/MainNavbar";
 import { StateMachineProvider, createStore, useStateMachine } from "little-state-machine";
@@ -93,7 +93,7 @@ function HomePage() {
                 }}>
                     <div className="content">
                         <Route exact path="/" component={Home}/>
-                        <Route path="/stuff" component={Stuff}/>
+                        <Route path="/user" component={UserForm}/>
                         <Route path="/organiser" component={OrganiserForm}/>
                     </div>
 
