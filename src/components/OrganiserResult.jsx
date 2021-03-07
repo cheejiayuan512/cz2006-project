@@ -11,14 +11,14 @@ const OrganiserResult = props => {
     const [submitted, setSubmitted] = useState(false);
 
     const createRoom = () => {
-        let roomID = Math.random().toString(36).substring(8);
-        while (MakanService.checkRoomNameAvailable(roomID)) {
-            roomID = Math.random().toString(36).substring(8);
+        let roomID = Math.random().toString(36).substring(2,10).toUpperCase();
+        while (MakanService.checkRoomNameAvailable(roomID) || roomID.length!=8) {
+            roomID = Math.random().toString(36).substring(2,10).toUpperCase();
         }
         return roomID;
     }
 
-    const saveTutorial = () => {
+    const saveRoom = () => {
         const data = state.eventDetails;
         data['roomID'] = createRoom();
         MakanService.create(data)
@@ -30,14 +30,12 @@ const OrganiserResult = props => {
             });
     };
 
-
-
     return (
         <div className="container text-center">
             <h2>Are your details entered correctly?</h2>
             <pre>{JSON.stringify(state.eventDetails, null, 2)}</pre>
             <div>
-                <Button onClick={saveTutorial}>Create my Makan Event!</Button>
+                <Button onClick={saveRoom}>Create my Makan Event!</Button>
             <p>Thank you for registering, your event has been created. You may proceed with joining the event!</p>
                 <Link exact to="/user/userStep1">
                     <button type="button" className="btn btn-primary btn-lg m-3">Join Event</button>
