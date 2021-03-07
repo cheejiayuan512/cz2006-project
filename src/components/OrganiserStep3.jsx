@@ -6,7 +6,8 @@ import { updateOrganiserAction } from "./updateAction";
 import {Button, Form, Col} from "react-bootstrap";
 import 'bootstrap-daterangepicker/daterangepicker.css';
 import DateRangePicker from 'react-bootstrap-daterangepicker';
-const DateRange = {startDate: '01/01/2020', endDate: '01/12/2020'};
+import {GetEventDetails} from "../Main";
+// const DateRange = {startDate: '01/01/2020', endDate: '01/12/2020'};
 export default () => {
     const { state, actions } = useStateMachine({ updateOrganiserAction });
     const { handleSubmit, errors, register, control } = useForm({
@@ -17,12 +18,13 @@ export default () => {
         actions.updateOrganiserAction(data);
         push("/organiser/organiserStep4");
     };
+    let DateRange = {startDate: GetEventDetails().eventStartDate, endDate: GetEventDetails().eventEndDate};
     const [dateRange, setDateRange] = useState(DateRange);
     const [userDateRange, setUserDateRange] = useState(dateRange);
     function handleChangeDate (startDate, endDate, label){
         console.log(startDate, endDate, label);
-        setUserDateRange({startDate:startDate.format("DD/MM/YYYY"), endDate:endDate.format("DD/MM/YYYY")});
-        setDateRange({startDate:startDate.format("DD/MM/YYYY"), endDate:endDate.format("DD/MM/YYYY")});
+        setUserDateRange({startDate:startDate.format("MM/DD/YYYY"), endDate:endDate.format("MM/DD/YYYY")});
+        setDateRange({startDate:startDate.format("MM/DD/YYYY"), endDate:endDate.format("MM/DD/YYYY")});
         console.log(dateRange);
     }
     function handleEvent(event, picker) {
@@ -35,7 +37,7 @@ export default () => {
                 <Form.Label column='lg' className='font-weight-bold' style={{fontSize:'150%'}}>When is the approximate date of the event?</Form.Label>
                 <Form.Control required name="eventStartDate" type="hidden" value={userDateRange.startDate !== undefined ? userDateRange.startDate : DateRange.startDate} ref={register()} />
                 <Form.Control required name="eventEndDate" type="hidden" value={userDateRange.endDate !== undefined ? userDateRange.endDate : DateRange.endDate} ref={register()} />
-                <DateRangePicker required onEvent={handleEvent} onCallback={handleChangeDate}  initialSettings={dateRange}>
+                <DateRangePicker required onEvent={handleEvent} onCallback={handleChangeDate} initialSettings={dateRange} format='dd/mm/yyyy'>
                     <input required type="text" className="form-control"/>
                 </DateRangePicker>
 
