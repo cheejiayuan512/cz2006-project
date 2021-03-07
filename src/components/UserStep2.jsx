@@ -23,7 +23,6 @@ const UserStep2 = props => {
             super();
             this.state = { show: false };
         }
-
         _toggle = (bool) => {
             if (this.state.show == false) {
                 this.setState({
@@ -35,12 +34,12 @@ const UserStep2 = props => {
                 });
             }
         }
-
         render() {
             return (
                 <div>
-                    <button type='button' onClick={this._toggle.bind(null, true)}> Add another </button>
-                    { this.state.show && (<Slider name={'date' + 'TimingAvailable'} />) }
+                    <br/>
+                    <Button className='m-4' type='button' onClick={this._toggle.bind(null, true)}> Add another </Button>
+                    { this.state.show && (<div><Slider name={'date' + 'TimingAvailable'} /></div>) }
                 </div>
             )
         }
@@ -50,7 +49,6 @@ const UserStep2 = props => {
             super();
             this.state = { show: false }
         }
-
         _toggle = (bool) => {
             if (this.state.show == false) {
                 this.setState({
@@ -62,12 +60,11 @@ const UserStep2 = props => {
                 });
             }
         }
-
         render() {
             return (
                 <div>
-                    <button type='button' onClick={this._toggle.bind(null, true)}> Show/Hide </button>
-                    { this.state.show && (<div> <Slider name={'date' + 'TimingAvailable'} /> <DateRangeHelper/> </div>) }
+                    <Button className='m-4' type='button' onClick={this._toggle.bind(null, true)}> Show/Hide </Button> // not using
+                    { this.state.show && (<div> <Slider className='m-4' name={'date' + 'TimingAvailable'} /> <DateRangeHelper/> </div>) }
                 </div>
             )
         }
