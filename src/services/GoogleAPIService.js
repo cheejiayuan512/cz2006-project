@@ -9,8 +9,7 @@ import ReactLoading from 'react-loading';
 
 class RestaurantSlider extends Component  {
     state = {
-        restaurants: [],
-        photoID : []
+        restaurants: []
     };
     componentDidMount() {
         fetch(CORSProxy +'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key='+ GoogleApiKey + '&location='+this.props.locationdetails.lat+','+this.props.locationdetails.long+'&radius='+this.props.locationdetails.radius+'&keyword=food')
