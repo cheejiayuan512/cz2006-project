@@ -40,10 +40,10 @@ class RestaurantSlider extends Component  {
             <div className="d-flex flex-row flex-nowrap">
             {this.state.restaurants['results'].map((anObjectMapped, index)=>
                 <div className='card' style={{minHeight:'300px', minWidth: '300px', width:'300px', marginRight: '5px'}} id={index} key={`${anObjectMapped.name}`}>
-                    <div className='d-flex align-items-center' style={{height: '300px', overflow : 'hidden' }}>
+                    <div className='d-flex align-items-center' style={{height: '160px', overflow : 'hidden' }}>
                         <img className="card-img-top"
                          src={jsonQuery('photos.photo_reference', {data: anObjectMapped}).value ?
-                             `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${jsonQuery('photos.photo_reference', {data: anObjectMapped}).value}&key=${GoogleApiKey}`
+                             `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${jsonQuery('photos.photo_reference', {data: anObjectMapped}).value}&key=${GoogleApiKey}`
                              : ErrorImage} alt="Card image cap"  />
                     </div>
                         <h5 className='card-title'>{anObjectMapped.name}</h5>
