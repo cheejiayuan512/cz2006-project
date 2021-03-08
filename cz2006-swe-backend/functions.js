@@ -1,46 +1,46 @@
-var db = require('./db');
 var mail = require('./email');
 const key = process.env.GOOGLE_API_KEY
 
+
 // generate a unique code for each session
-function codeGeneration() {
+function codeGeneration(event) {
+    //console.log("in codeGeneration fxn");
     while (true) {
         var code = Math.random().toString(36).substring(7);
-        if (db.collection("event.eventDetails").find({eventCode: code}).count() === 0) {
-            return code;
+        if (event.find({eventCode: code}).count() === 0) {
+            break;
         }
     }
+    return code;
 }
 
 // create event and store in DB
-function createEvent(data) {
-    var code = codeGeneration();
+function createEvent(data, event) {
+    //console.log("in createEvent function");
+    var code = codeGeneration(event);
+    console.log(code);
+    console.log(data);
     data["eventCode"] = code;
-    db.collection("event").insertOne(data, function(err, res) {
+    event.insertOne(data, function(err, res) {
         if (err) throw err;
         console.log("Document inserted successfully into Event!");
-        db.close();
     })
+    return code;
 }
 
 // insert participant details into DB, check if currentPax >= maxPax
-function updateParticipant(data) {
-    if (db.collection("session").aggregate([
+function updateParticipant(data, session) {
+    if (session.aggregate([
         {$project: {ab: {$cmp: ['$currentPax', '$maxPax']}}},
         {$match: {ab: {$gt: 0}}}
     ]).count() === 0) {
-        db.collection("session").insertOne(data, function(err, res) {
+        session.insertOne(data, function(err, res) {
             if (err) throw err;
             console.log("Document inserted successfully into Session!");
-            db.close();
         })
     }
     else {
-<<<<<<< Updated upstream
-        // logic to find suitable time slots and suitable cuisine for them ** not done **
-=======
         // logic to find suitable time slots and suitable cuisine for them **not done**
->>>>>>> Stashed changes
         // call gooogle places API to get a list of restaurants
         try {
             const area = data.area;
@@ -63,7 +63,7 @@ function updateParticipant(data) {
 
 // send email to organiser
 function sendEmail(eventCode, resultList) {
-    var destEmail = db.collection("event.eventDetails").find({eventCode: eventCode}, {organiserEmail: 1})
+    var destEmail = db.collection("event").find({eventCode: eventCode}, {organiserEmail: 1})
     var mailOptions = {
         from: 'makanwhere@gmail.com',
         to: destEmail,
@@ -79,12 +79,10 @@ function sendEmail(eventCode, resultList) {
         }
     });
 }
-<<<<<<< Updated upstream
-=======
 
 // verify session ID aka room code
-function verifySessID(sessID) {
-    if (db.collection("event.eventDetails").find({eventCode: sessID}.count() === 1)) {
+function verifySessID(sessID, event) {
+    if (event.find({eventCode: sessID}.count() === 1)) {
         return true;
     }
     else {
@@ -93,14 +91,14 @@ function verifySessID(sessID) {
 }
 
 // get start date of event
-function getStartDate(sessID) {
-    var startDate = db.collection("event.eventDetails").find({eventCode: sessID}, {eventStartDate: 1});
+function getStartDate(sessID, event) {
+    var startDate = event.find({eventCode: sessID}, {eventStartDate: 1});
     return startDate;
 }
 
 // get end date of event
-function getEndDate(sessID) {
-    var endDate = db.collection("event.eventDetails").find({eventCode: sessID}, {eventEndDate: 1});
+function getEndDate(sessID, event) {
+    var endDate = event.find({eventCode: sessID}, {eventEndDate: 1});
     return endDate;
 }
 
@@ -128,4 +126,3 @@ module.exports = {
     getEndDate: getEndDate,
     getNearbyRestaurants: getNearbyRestaurants
 }
->>>>>>> Stashed changes
