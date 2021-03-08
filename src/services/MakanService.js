@@ -29,7 +29,7 @@ const checkRoomNameAvailable = (roomID) => {
         }
     });
     return result;
-}
+};
 
 const getLong = (roomID) => {
     let loc = '0';
@@ -41,7 +41,8 @@ const getLong = (roomID) => {
         }
     });
     return loc;
-}
+};
+
 const getLat = (roomID) => {
     let lat = '0';
     db.orderByChild("roomID").equalTo(roomID).on("value",snapshot => {
@@ -52,6 +53,29 @@ const getLat = (roomID) => {
         }
     });
     return lat;
+};
+
+const getEventStartDate = (roomID) => {
+    let startDate = '0';
+    db.orderByChild("roomID").equalTo(roomID).on("value",snapshot => {
+        if (snapshot.exists()){
+            snapshot.forEach(item => {
+                startDate = { eventStartDate: item.val().eventStartDate };
+            });
+        }
+    });
+    return startDate;
+}
+const getEventEndDate = (roomID) => {
+    let endDate = '0';
+    db.orderByChild("roomID").equalTo(roomID).on("value",snapshot => {
+        if (snapshot.exists()){
+            snapshot.forEach(item => {
+                endDate = { eventEndDate: item.val().eventEndDate };
+            });
+        }
+    });
+    return endDate;
 }
 
 export default {
@@ -62,4 +86,7 @@ export default {
     removeAll,
     checkRoomNameAvailable,
     getLong,
+    getLat,
+    getEventStartDate,
+    getEventEndDate
 };

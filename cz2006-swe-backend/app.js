@@ -7,17 +7,22 @@ var fxn = require('./functions');
 const axios = require('axios')
 var router = express.Router(); 
 module.exports = router
-const key = process.env.GOOGLE_API_KEY
+
 
 // create event
 router.post('/eventCreation', async(req, res, next) => {
-  fxn.asyncCreateEvent(req.body);
+  fxn.createEvent(req.body);
 });
 
 // update participant
 router.post('/userDetail', async(req, res, next) => {
-  fxn.asyncUpdateParticipant(req.body);
+  fxn.updateParticipant(req.body);
 });
+
+// get nearby restaurant
+router.get('/getNearbyRestaurant', async(req, res, next) => {
+  fxn.getNearbyRestaurants(req.body);
+})
     
 app.use(router); 
   

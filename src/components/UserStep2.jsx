@@ -18,7 +18,7 @@ const UserStep2 = props => {
         push("/user/userStep3");
     };
 
-    class DateRangeHelper extends React.Component {
+    class TimeRangeHelper extends React.Component {
         constructor() {
             super();
             this.state = { show: false };
@@ -44,7 +44,7 @@ const UserStep2 = props => {
             )
         }
     }
-    class DateRange extends React.Component {
+    class TimeRange extends React.Component {
         constructor() {
             super();
             this.state = { show: false }
@@ -64,7 +64,33 @@ const UserStep2 = props => {
             return (
                 <div>
                     <Button className='m-4' type='button' onClick={this._toggle.bind(null, true)}> Show/Hide </Button> // not using
-                    { this.state.show && (<div> <Slider className='m-4' name={'date' + 'TimingAvailable'} /> <DateRangeHelper/> </div>) }
+                    { this.state.show && (<div> <Slider className='m-4' name={'date' + 'TimingAvailable'} /> <TimeRangeHelper/> </div>) }
+                </div>
+            )
+        }
+    }
+    class DateRange extends React.Component {
+        constructor() {
+            super();
+            this.state = { show: false }
+        }
+        _toggle = (bool) => {
+            if (this.state.show == false) {
+                this.setState({
+                    show: true
+                });
+            } else {
+                this.setState({
+                    show: false
+                });
+            }
+        }
+        render() {
+            return (
+                // for (let i=0;)
+                <div>
+                    <Button className='m-4' type='button' onClick={this._toggle.bind(null, true)}> Show/Hide </Button> // not using
+                    { this.state.show && (<div> <Slider className='m-4' name={'date' + 'TimingAvailable'} /> </div>) }
                 </div>
             )
         }
@@ -77,12 +103,11 @@ const UserStep2 = props => {
                     <Form.Label column='lg' className='font-weight-bold' style={{fontSize:'150%'}}>What is your name?</Form.Label>
                     <div>
                         <h1/>
-                        <DateRange/>
+                        <TimeRange/>
                     </div>
-
-                    <Form.Control required name="someName" type="text" placeholder="Enter cool name here!" ref={register()} />
+                    <Form.Control required name="someName" type="text" placeholder="Select the date and time that you are available!" ref={register()} />
                     <Form.Text className="text-muted">
-                        You can use any name! Just make sure your friends know you!
+                        Tip: You can add two different timeslots per day!
                     </Form.Text>
                 </Form.Group>
 
