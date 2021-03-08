@@ -16,7 +16,6 @@ class RestaurantSlider extends Component  {
             .then(res => res.json())
             .then((data) => {
                 this.setState({ restaurants: data });
-                console.log(this.state.restaurants);
             })
             .catch(console.log)
 
@@ -29,14 +28,10 @@ class RestaurantSlider extends Component  {
         return <div className='d-flex justify-content-center'><ReactLoading color='#0000FF'/></div>
     }
     const jsonQuery = require('json-query');
-    console.log(jsonQuery('results.photos.photo_reference', {data: this.state.restaurants}));
-    return(<div>
-        <h1>message: {this.props.locationdetails.text}</h1>
-        <h1>lat: {this.props.locationdetails.lat}</h1>
-        <h1>long: {this.props.locationdetails.long}</h1>
-        <h1>radius: {this.props.locationdetails.radius}</h1>
-        <div className="container-fluid py-2" style={{overflowX:'auto'}}>
-            <div className="d-flex flex-row flex-nowrap">
+    return(<div >
+        <h5>message: {this.props.locationdetails.text}, lat: {this.props.locationdetails.lat}, long: {this.props.locationdetails.long}, radius: {this.props.locationdetails.radius}</h5>
+        <div className="container-fluid py-2"  >
+            <div className="d-flex flex-row flex-nowrap scroll" style={{  overflow:'auto' }}>
             {this.state.restaurants['results'].map((anObjectMapped, index)=>
                 <div className='card' style={{minHeight:'300px', minWidth: '300px', width:'300px', marginRight: '5px'}} id={index} key={`${anObjectMapped.name}`}>
                     <div className='d-flex align-items-center' style={{height: '160px', overflow : 'hidden' }}>
