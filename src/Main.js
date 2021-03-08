@@ -17,6 +17,7 @@ import { StateMachineProvider, createStore, useStateMachine } from "little-state
 import { DevTool } from "little-state-machine-devtools";
 import {Button} from "react-bootstrap";
 import {config} from './secret.js'
+import {RestaurantSlider} from "./services/GoogleAPIService";
 import MakanGoWhereLogo from "./assets/MakanGoWhereLogo";
 firebase.app()
 
@@ -51,6 +52,10 @@ export function GetUserDetails () {
 }
 
 function Main() {
+    const welcomeMessage = 'Welcome to MakanWhere!!';
+    const latitude = '1.3321';
+    const longitude = '103.8198';
+    const radiusInMeters = '1000'
     return (<div>
         <FirebaseAuthProvider {...config} firebase={firebase}>
             <div>
@@ -66,6 +71,9 @@ function Main() {
                 {({ firebase }) => (
                     <div className='align-items-center justify-content-center text-center'>
                         <MakanGoWhereLogo/>
+                        {/*has a register argument taking in the ref={register()} too but not sure if it works*/}
+                        <RestaurantSlider locationdetails={{text : welcomeMessage , lat : latitude , long : longitude, radius : radiusInMeters}}/>
+
                         <h2>Sign in to join or create events! </h2>
                         <Button type='button'
                             onClick={() => {

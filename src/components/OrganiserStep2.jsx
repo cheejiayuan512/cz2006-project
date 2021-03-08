@@ -5,6 +5,7 @@ import { useStateMachine } from "little-state-machine";
 import { updateOrganiserAction } from "./updateAction";
 import MapPicker from 'react-google-map-picker';
 import {Button, Form} from "react-bootstrap";
+import {RestaurantSlider} from "../services/GoogleAPIService";
 const DefaultLocation = { lat: 1.35, lng: 103.8198};
 const DefaultZoom = 11;
 const OrganiserStep2 = props => {
@@ -50,6 +51,7 @@ const OrganiserStep2 = props => {
                 <Form.Text className="text-muted" style={{fontSize:'100%'}}>
                     Tip: Choose somewhere further away from you so you have an excuse to be late!
                 </Form.Text>
+
             </Form.Group>
             <Form.Group>
                 {/*need to add type="button" to prevent html auto thinking its a submit button lmao*/}

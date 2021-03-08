@@ -7,3 +7,5 @@ export const config = {
     appId: "1:798743753349:web:6822d3bd8272feb4422fec",
     measurementId: "G-C4DF69SKCN"
 };
+export const GoogleApiKey = "AIzaSyCHxrGY8RvdkGbYv83_OZqEZ7g6YWH2hes";
+export const CORSProxy = 'https://whispering-castle-04061.herokuapp.com/'
