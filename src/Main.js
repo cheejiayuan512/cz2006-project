@@ -81,7 +81,7 @@ function Main() {
                 {({ firebase }) => (
                     <div className='align-items-center justify-content-center text-center'>
                         <MakanGoWhereLogo/>
-                        {/*has a register argument taking in the ref={register()} too but not sure if it works*/}
+                        {/*has a register argument taking in the ref={register()} too and it works*/}
                         <RestaurantSlider locationdetails={{text : welcomeMessage , lat : latitude , long : longitude, radius : radiusInMeters}}/>
 
                         <h2>Sign in to join or create events! </h2>

@@ -6,7 +6,7 @@ import {Button, Form} from "react-bootstrap";
 
 import ReactLoading from 'react-loading';
 
-
+const cuisineList = ['chinese', 'japanese','mexican', 'malay', 'indian', 'dessert', 'cafe', 'korean', 'western', 'peranakan', 'nyonya', 'hawker', 'italian', 'german', 'french', 'spanish', 'thai', 'vietnamese', 'fast+food','bakery','']
 class RestaurantSlider extends Component  {
     state = {
         restaurants: []
