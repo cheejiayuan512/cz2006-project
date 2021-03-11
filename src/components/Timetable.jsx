@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import TableDragSelect from "react-table-drag-select";
 import "react-table-drag-select/style.css";
 import {dateRangeArrayGenerator, timeSlotsArrayGenerator, timeTableArrayGenerator} from './TimetableHelper';
+import {Button} from "react-bootstrap";
 class Timetable extends React.Component {
     constructor(props) {
         super(props);
@@ -43,7 +44,7 @@ class Timetable extends React.Component {
                 {this.state.cells.slice(1).map((anObjectMapped, index)=> <tr><td disabled>{this.state.timeSlotsArray[index]}</td>{anObjectMapped.slice(1).map((anotherObjectMapped)=> <td/>)}</tr>)}
 
             </TableDragSelect>
-            <button type={"button"} onClick={this.handleClick}>Reset</button>
+            <Button className='m-2' type={"button"} variant="warning" onClick={this.handleClick}>Reset Available Timings</Button>
         </div>;
 
     handleChange = cells => {
@@ -53,7 +54,7 @@ class Timetable extends React.Component {
     };
 
     handleClick = () => {
-        const cells = timeTableArrayGenerator();
+        const cells = timeTableArrayGenerator(this.props.startDate, this.props.endDate, this.props.timeSlots);
         this.setState({ cells });
     };
 }
