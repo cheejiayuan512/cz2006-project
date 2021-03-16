@@ -81,25 +81,51 @@ function sendEmail(eventCode, resultList) {
 }
 
 // verify session ID aka room code
-function verifySessID(sessID, event) {
-    if (event.find({eventCode: sessID}.count() === 1)) {
-        return true;
-    }
-    else {
-        return false;
-    }
+function verifySessID(sessID, event, callback) {
+    var cursor = event.find({eventCode: sessID});
+    cursor.count(function (err, num) {
+        if(err) {
+            console.log(err);
+        }
+        if (num >= 1) {
+            //console.log("true");
+            return callback(true);
+        }
+        else {
+            //console.log("false");
+            return callback(false);
+        }
+    });
 }
 
 // get start date of event
 function getStartDate(sessID, event) {
-    var startDate = event.find({eventCode: sessID}, {eventStartDate: 1});
-    return startDate;
+    return new Promise(function(resolve, reject) {
+        event.find({eventCode: sessID}).toArray((err, startDate) => {
+            if (!err) {
+                //console.log(startDate[0].eventStartDate);
+                resolve(startDate[0].eventStartDate);
+            }
+            else {
+                console.log("ERROR: ", err);
+            }
+        });
+    })
 }
 
 // get end date of event
 function getEndDate(sessID, event) {
-    var endDate = event.find({eventCode: sessID}, {eventEndDate: 1});
-    return endDate;
+    return new Promise(function(resolve, reject) {
+        event.find({eventCode: sessID}).toArray((err, startDate) => {
+            if (!err) {
+                //console.log(startDate[0].eventStartDate);
+                resolve(startDate[0].eventEndDate);
+            }
+            else {
+                console.log("ERROR: ", err);
+            }
+        });
+    })
 }
 
 // function to get nearby restaurants

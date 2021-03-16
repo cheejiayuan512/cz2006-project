@@ -25,6 +25,12 @@ MongoClient.connect(url)
   app.listen(PORT, function(err){ 
     if (err) console.log(err); 
     console.log("Server listening on PORT", PORT);
+    fxn.getStartDate("LZ9PWEL0", event).then(function(response) {
+      console.log(response);
+    });
+    /*fxn.getStartDate("LZ9PWEL0", event, function(response) {
+      console.log(response);
+    });*/
   })
 }).catch(error => console.error(error));
 
@@ -48,21 +54,27 @@ router.get('/getNearbyRestaurant', async(req, res, next) => {
 })
 
 // get event start date
-router.get('/getStartDate', async (req, res, next) => {
+router.post('/getStartDate', async (req, res, next) => {
   const event = app.locals.event;
-  fxn.getStartDate(req.body.eventDetail, event);
+  fxn.getStartDate(req.body.eventDetail, event).then(function(response) {
+    res.send(response);
+  });
 })
 
 // get event end date
-router.get('/getEndDate', async (req, res, next) => {
+router.post('/getEndDate', async (req, res, next) => {
   const event = app.locals.event;
-  fxn.getEndDate(req.body.eventDetail, event);
+  fxn.getEndDate(req.body.eventDetail, event).then(function(response) {
+    res.send(response);
+  });
 })
 
 // verify session ID
-router.get('/verifySessID', async (req, res, next) => {
+router.post('/verifySessID', async (req, res, next) => {
   const event = app.locals.event;
-  fxn.verifySessID(req.body.eventDetail, event);
+  fxn.verifySessID(req.body.eventDetail, event, callback);
 })
     
 app.use(router); 
+
+
