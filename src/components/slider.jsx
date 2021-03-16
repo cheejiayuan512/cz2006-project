@@ -6,8 +6,16 @@ const MAX = 1440; //this is to accommodate up to 2359 in hours
 const toTimeFormat = (values, index) =>{
     return (Math.floor(values[index]/60)/100).toFixed(2).toString().slice(-2)+':'+((values[index].toFixed(0)%60)/100).toFixed(2).toString().slice(-2);
 }
-export const Slider: React.FC<{ rtl: boolean }> = ({ rtl }) => {
+export const Slider = ({setParentData , passParentData}) => {
     const [values, setValues] = React.useState([0, 1440]);
+    const testsetValues = (value) =>{
+        setValues(value)
+        console.log(value)
+
+        setParentData(value)
+        console.log(passParentData)
+    };
+    const rtl = false
     return (
         <div
             className ='m-4'
@@ -23,7 +31,7 @@ export const Slider: React.FC<{ rtl: boolean }> = ({ rtl }) => {
                 min={MIN}
                 max={MAX}
                 rtl={rtl}
-                onChange={(values) => setValues(values)}
+                onChange={(values) => testsetValues(values)}
                 renderTrack={({ props, children }) => (
                     <div
                         onMouseDown={props.onMouseDown}
@@ -43,7 +51,7 @@ export const Slider: React.FC<{ rtl: boolean }> = ({ rtl }) => {
                                 borderRadius: '4px',
                                 background: getTrackBackground({
                                     values,
-                                    colors: ['#ccc', '#548BF4', '#ccc'],
+                                    colors: ['#cccccc', '#548BF4', '#ccc'],
                                     min: MIN,
                                     max: MAX,
                                     rtl
@@ -83,7 +91,7 @@ export const Slider: React.FC<{ rtl: boolean }> = ({ rtl }) => {
                                 backgroundColor: '#548BF4'
                             }}
                         >
-                            {toTimeFormat(values, index)=="24:00"?"00:00":toTimeFormat(values, index)}
+                            {toTimeFormat(values, index)==="24:00"?"00:00":toTimeFormat(values, index)}
 
                         </div>
                         <div
