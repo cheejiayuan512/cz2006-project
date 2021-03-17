@@ -1,3 +1,4 @@
+const e = require('express');
 var mail = require('./email');
 const key = process.env.GOOGLE_API_KEY
 
@@ -81,22 +82,20 @@ function sendEmail(eventCode, resultList) {
 }
 
 // verify session ID aka room code
-function verifySessID(sessID, event, callback) {
-    console.log(sessID);
-    var cursor = event.find({eventCode: sessID});
-    cursor.count(function (err, num) {
-        if(err) {
-            console.log(err);
-        }
-        if (num >= 1) {
-            //console.log("true");
-            return callback(true);
-        }
-        else {
-            //console.log("false");
-            return callback(false);
-        }
-    });
+function verifySessID(sessID, event) {
+    return new Promise(function(resolve, reject) {
+        event.find({eventCode: sessID}).count((err, num) => {
+            if (err) throw err;
+            else {
+                if (num >= 1) {
+                    resolve(true);
+                }
+                else {
+                    resolve(false);
+                }
+            }
+        })
+    })
 }
 
 // get start date of event
