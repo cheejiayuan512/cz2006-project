@@ -25,10 +25,33 @@ MongoClient.connect(url)
   app.listen(PORT, function(err){ 
     if (err) console.log(err); 
     console.log("Server listening on PORT", PORT);
-    fxn.getStartDate("LZ9PWEL0", event).then(function(response) {
+
+    // my test dump LOL 
+    /*fxn.getStartDate("LZ9PWEL0", event).then(function(response) {
       console.log(response);
     });
-    /*fxn.getStartDate("LZ9PWEL0", event, function(response) {
+    fxn.verifySessID("LZ9PWEL0", event).then(function(response) {
+      console.log(response);
+    });
+    fxn.verifySessID("LZ9PWEL0", event).then(function(response) {
+      console.log(response);
+    });
+    fxn.verifySessID("LZ9PWEL0", event).then(function(response) {
+      console.log(response);
+    });
+    fxn.verifySessID("LZ9PWEL0", event).then(function(response) {
+      console.log(response);
+    });
+    fxn.verifySessID("LZ9PWEL0", event).then(function(response) {
+      console.log(response);
+    });
+    fxn.verifySessID("LZ9PWEL0", event).then(function(response) {
+      console.log(response);
+    });
+    fxn.verifySessID("LZ9PWEL0", event).then(function(response) {
+      console.log(response);
+    });
+    fxn.verifySessID("LZ9PWEL0", event).then(function(response) {
       console.log(response);
     });*/
   })
@@ -72,7 +95,9 @@ router.post('/getEndDate', async (req, res, next) => {
 // verify session ID
 router.post('/verifySessID', async (req, res, next) => {
   const event = app.locals.event;
-  fxn.verifySessID(req.body.eventDetail, event, callback);
+  fxn.verifySessID(req.body.eventDetail, event).then(function(response) {
+    res.send(response);
+  });
 })
     
 app.use(router); 
