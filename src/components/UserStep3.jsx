@@ -36,7 +36,7 @@ export default () => {
     return (
         <div className='justify-content-center text-center align-items-center'>
             <Form className='d-inline-block flex-column p-2 ' onSubmit={handleSubmit(onSubmit)}>
-                <Form.Label column='lg' className='font-weight-bold' style={{fontSize:'150%'}}>When is the approximate date of the event?</Form.Label>
+                <Form.Label column='lg' className='font-weight-bold' style={{fontSize:'150%'}}>What is your preferred budget?</Form.Label>
                 <Form.Control required name="eventStartDate" type="hidden" value={userDateRange.startDate !== undefined ? userDateRange.startDate : DateRange.startDate} ref={register()} />
                 <Form.Control required name="eventEndDate" type="hidden" value={userDateRange.endDate !== undefined ? userDateRange.endDate : DateRange.endDate} ref={register()} />
                 <DateRangePicker required onEvent={handleEvent} onCallback={handleChangeDate}  initialSettings={dateRange}>

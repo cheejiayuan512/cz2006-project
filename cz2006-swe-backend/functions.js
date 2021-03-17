@@ -6,13 +6,8 @@ const key = process.env.GOOGLE_API_KEY
 // generate a unique code for each session
 function codeGeneration(event) {
     //console.log("in codeGeneration fxn");
-    while (true) {
-        var code = Math.random().toString(36).substring(7);
-        if (event.find({eventCode: code}).count() === 0) {
-            break;
-        }
-    }
-    return code;
+
+    return Math.random().toString(36).substring(2,10).toUpperCase();
 }
 
 // create event and store in DB

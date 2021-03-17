@@ -91,9 +91,7 @@ router.post('/getEndDate', async (req, res, next) => {
     res.send(response);
   });
 })
-function callback(response) {
-  console.log(response);
-}
+
 // verify session ID
 router.post('/verifySessID', async (req, res, next) => {
   const event = app.locals.event;
