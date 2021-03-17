@@ -6,7 +6,7 @@ import { updateUserAction } from "./updateAction";
 import {Button, Form} from "react-bootstrap";
 import {TimeRange} from "./TimeRange";
 import {Timetable} from "./Timetable";
-
+// may have to conver to class component to run constructor method to get start and end date from lixians api
 const UserStep2 = (props) => {
     const { state, actions } = useStateMachine({ updateUserAction });
     const [players, setPlayers] = useState([]);
@@ -21,7 +21,7 @@ const UserStep2 = (props) => {
     };
     const handleTimetable = (value) =>{
         setPlayers(value);
-        alert(value);
+        // alert(value);
     };
     return (
         <div className='justify-content-center text-center align-items-center'>

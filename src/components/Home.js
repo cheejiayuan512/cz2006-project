@@ -1,41 +1,36 @@
 import React, {Component, useState} from "react";
 import {Button, Form, FormControl,Container,Row,Col} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import axios from "axios";
 
 const Home = () => {
-    const [validated, setValidated] = useState(false);
     const [eventCode , setEventCode] = useState();
+    const [errorMsg, setErrorMsg] = useState();
+    const { push } = useHistory();
 
-    const handleSubmit = (event) => {
-
-        const form = event.currentTarget;
+    const clickSubmit = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
         console.log(eventCode.value);
-        if (form.checkValidity() === false || checkCode(eventCode.value)) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-
-        setValidated(true);
-
-    };
-    const checkCode = (data) => {
-        return axios
-            .post("http://localhost:9000/verifySessID", { eventDetail: data })
+        axios .post("http://localhost:9000/verifySessID", {eventDetail:eventCode.value})
             .then((res) => {
+                console.log('object' ,res);
                 console.log(res.data);
-                console.log('function called')
-                return res.data;
+                const eventValidityPromise = res.data;
+                if (!eventValidityPromise) {
+                    setErrorMsg('Please enter a valid event code!')
 
+                }
+                else{ setErrorMsg('Well done la!')
+                    push("/user/userStep1");
+                }
             })
             .catch((err) => {
                 console.log(err);
-            }).then(result => {
-                console.log(result)
-
-            });
+            })
 
     }
+
 
         return (
             <div className="w-responsive text-center">
@@ -48,12 +43,16 @@ const Home = () => {
                         <Col>
                             <p className="text-center font-weight-bold">Have a code?</p>
                             <div className="d-flex justify-content-center">
-                            <Form inline className='justify-content-center' noValidate validated={validated} onClick={handleSubmit}>
+                            <Form inline className='justify-content-center' required >
+                                <Row>
+                                    <Col>
                             <Form.Control required type="text" placeholder="Your Event Code"   name="eventCodeField" ref={code => (setEventCode(code))}/>
-                            <Form.Control.Feedback type="invalid">
-                                    Please enter a valid event code.
-                                </Form.Control.Feedback>
-                            <button type={"submit"} className="btn btn-primary btn-lg m-3 ">Join Event</button>
+                            <h6>{errorMsg}</h6>
+                                    </Col>
+                                    <Col>
+                            <button onClick={clickSubmit}  className="btn btn-primary btn-lg m-3 ">Join Event</button>
+                                    </Col>
+                                </Row>
                             </Form>
                             </div>
                         </Col>
