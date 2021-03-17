@@ -1,9 +1,43 @@
-import React, { Component } from "react";
+import React, {Component, useState} from "react";
 import {Button, Form, FormControl,Container,Row,Col} from "react-bootstrap";
 import {Link} from "react-router-dom";
+import axios from "axios";
 
-class Home extends Component {
-    render() {
+const Home = () => {
+    const [validated, setValidated] = useState(false);
+    const [eventCode , setEventCode] = useState();
+
+    const handleSubmit = (event) => {
+
+        const form = event.currentTarget;
+        console.log(eventCode.value);
+        if (form.checkValidity() === false || checkCode(eventCode.value)) {
+            console.log(checkCode(eventCode.value))
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        setValidated(true);
+
+    };
+    const checkCode = (data) => {
+        return axios
+            .post("http://localhost:9000/verifySessID", { eventDetail: data })
+            .then((res) => {
+                console.log(res.data);
+                console.log('function called')
+                return res.data;
+
+            })
+            .catch((err) => {
+                console.log(err);
+            }).then(result => {
+                console.log(result)
+
+            });
+
+    }
+
         return (
             <div className="w-responsive text-center">
                 <h2 >Who are we?</h2>
@@ -15,18 +49,19 @@ class Home extends Component {
                         <Col>
                             <p className="text-center font-weight-bold">Have a code?</p>
                             <div className="d-flex justify-content-center">
-                            <Form inline className='justify-content-center'>
-                            <FormControl type="text" placeholder="Your Event Code" />
-                            <Link exact to="/user/userStep1">
-                                <button type="button" className="btn btn-primary btn-lg m-3 ">Join Event</button>
-                            </Link>
+                            <Form inline className='justify-content-center' noValidate validated={validated} onClick={handleSubmit}>
+                            <Form.Control required type="text" placeholder="Your Event Code"   name="eventCodeField" ref={code => (setEventCode(code))}/>
+                            <Form.Control.Feedback type="invalid">
+                                    Please enter a valid event code.
+                                </Form.Control.Feedback>
+                            <button type={"submit"} className="btn btn-primary btn-lg m-3 ">Join Event</button>
                             </Form>
                             </div>
                         </Col>
                         <Col>
                             <p className="text-center font-weight-bold">Want to create an event? </p>
                             <Link exact to="/organiser/organiserStep1">
-                                <button type="button" className="btn btn-secondary btn-lg m-3">Create New Event</button>
+                                <Button type="button" className="btn btn-secondary btn-lg m-3">Create New Event</Button>
                             </Link>
                         </Col>
                     </Row>
@@ -35,7 +70,7 @@ class Home extends Component {
             </div>
 
         );
-    }
+
 }
 
 export default Home;

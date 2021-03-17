@@ -19,15 +19,7 @@ const OrganiserStep5 = (props) => {
     console.log(state.eventDetails);
     var event = state.eventDetails;
     console.log(event);
-    axios
-      .post("http://localhost:9000/eventCreation", { eventDetail: event })
-      .then((res) => {
-        console.log(res);
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
   };
 
   return (
