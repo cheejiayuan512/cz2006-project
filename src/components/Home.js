@@ -12,7 +12,6 @@ const Home = () => {
         const form = event.currentTarget;
         console.log(eventCode.value);
         if (form.checkValidity() === false || checkCode(eventCode.value)) {
-            console.log(checkCode(eventCode.value))
             event.preventDefault();
             event.stopPropagation();
         }

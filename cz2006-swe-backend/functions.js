@@ -82,6 +82,7 @@ function sendEmail(eventCode, resultList) {
 
 // verify session ID aka room code
 function verifySessID(sessID, event, callback) {
+    console.log(sessID);
     var cursor = event.find({eventCode: sessID});
     cursor.count(function (err, num) {
         if(err) {
