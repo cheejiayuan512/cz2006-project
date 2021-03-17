@@ -19,7 +19,6 @@ const OrganiserStep5 = (props) => {
     console.log(state.eventDetails);
     var event = state.eventDetails;
     console.log(event);
-
   };
 
   return (

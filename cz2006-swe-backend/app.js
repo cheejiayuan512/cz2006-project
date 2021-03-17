@@ -20,16 +20,22 @@ MongoClient.connect(url)
   const db = client.db('makanwhere');
   const event = db.collection('event');
   const session = db.collection("session");
-  app.locals.event = event;
+  app.locals.event = event;``
   app.locals.session = session;
   app.listen(PORT, function(err){ 
     if (err) console.log(err); 
     console.log("Server listening on PORT", PORT);
-
+    
     // my test dump LOL 
     /*fxn.getStartDate("LZ9PWEL0", event).then(function(response) {
       console.log(response);
     });
+    fxn.codeGeneration(event).then(function(response){
+      console.log(response);
+    })
+    fxn.verifySessID("LZ9PWEL0", event, session).then(function(response){
+      console.log(response);
+    }); 
     fxn.verifySessID("LZ9PWEL0", event).then(function(response) {
       console.log(response);
     });
@@ -60,6 +66,7 @@ MongoClient.connect(url)
 // create event
 router.post('/eventCreation', (req, res) => {
   const event = app.locals.event;
+  const session = app.locals.session;
   //console.log("req: ", req.body.eventDetail);
   var code = fxn.createEvent(req.body.eventDetail, event);
   res.send(code);
@@ -97,7 +104,9 @@ function callback(response) {
 // verify session ID
 router.post('/verifySessID', async (req, res, next) => {
   const event = app.locals.event;
-  fxn.verifySessID(req.body.eventDetail, event).then(function(response) {
+  const session = app.locals.session;
+  fxn.verifySessID(req.body.eventDetail, event, session).then(function(response) {
+    console.log(response);
     res.send(response);
   });
 })

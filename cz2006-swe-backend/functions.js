@@ -4,21 +4,23 @@ const key = process.env.GOOGLE_API_KEY
 
 
 // generate a unique code for each session
-function codeGeneration(event) {
+async function codeGeneration(event) {
     //console.log("in codeGeneration fxn");
-    while (true) {
-        var code = Math.random().toString(36).substring(7);
-        if (event.find({eventCode: code}).count() === 0) {
-            break;
+    while(true) {
+        var code = Math.random().toString(36).substring(2,10).toUpperCase();
+        if (await event.find({eventCode: code}).count() === 0) {
+            return code;
         }
     }
-    return code;
 }
 
 // create event and store in DB
 function createEvent(data, event) {
     //console.log("in createEvent function");
-    var code = codeGeneration(event);
+    var code;
+    codeGeneration(event).then(function(response) {
+        code = response;
+    });
     console.log(code);
     console.log(data);
     data["eventCode"] = code;
@@ -82,19 +84,36 @@ function sendEmail(eventCode, resultList) {
 }
 
 // verify session ID aka room code
-function verifySessID(sessID, event) {
+function verifySessID(sessID, event, session) {
     return new Promise(function(resolve, reject) {
-        event.find({eventCode: sessID}).count((err, num) => {
-            if (err) throw err;
-            else {
-                if (num >= 1) {
-                    resolve(true);
-                }
+        event.find({eventCode: sessID}).toArray((err, event) => {
+            session.find({eventCode: sessID}).count((err, num) => {
+                if (err) throw err;
                 else {
-                    resolve(false);
+                    if (num < parseInt(event[0].headCount)) {
+                        resolve(true);
+                    }
+                    else {
+                        resolve(false);
+                    }
                 }
+            });
+        });
+    })
+}
+
+// get event name
+function getEventName(sessID, event) {
+    return new Promise(function(resolve, reject) {
+        event.find({eventCode: sessID}).toArray((err, event) => {
+            if (!err) {
+                //console.log(startDate[0].eventStartDate);
+                resolve(event[0].eventName);
             }
-        })
+            else {
+                console.log("ERROR: ", err);
+            }
+        });
     })
 }
 
