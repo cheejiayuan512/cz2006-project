@@ -20,6 +20,7 @@ MongoClient.connect(url)
   const db = client.db('makanwhere');
   const event = db.collection('event');
   const session = db.collection("session");
+
   app.locals.event = event;
   app.locals.session = session;
   app.listen(PORT, function(err){ 
@@ -58,11 +59,14 @@ router.get('/getEndDate', async (req, res, next) => {
   const event = app.locals.event;
   fxn.getEndDate(req.body.eventDetail, event);
 })
+const callback = function (response) {
+  console.log(response);
+  return response;
+};
 
 // verify session ID
-router.get('/verifySessID', async (req, res, next) => {
+router.post('/verifySessID', async (req, res, next) => {
   const event = app.locals.event;
-  fxn.verifySessID(req.body.eventDetail, event);
+  fxn.verifySessID(req.body.eventDetail, event, callback );
 })
-    
 app.use(router); 
