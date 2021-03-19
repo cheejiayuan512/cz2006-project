@@ -4,7 +4,7 @@ import { updateOrganiserAction } from "./updateAction";
 import {Link} from "react-router-dom";
 import {Button} from "react-bootstrap";
 import { useList } from "react-firebase-hooks/database";
-import MakanService from '../services/MakanService';
+// import MakanService from '../services/MakanService';
 import axios from "axios";
 
 const OrganiserResult = props => {

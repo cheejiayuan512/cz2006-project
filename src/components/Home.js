@@ -61,6 +61,9 @@ const Home = () => {
                             <Link exact to="/organiser/organiserStep1">
                                 <Button type="button" className="btn btn-secondary btn-lg m-3">Create New Event</Button>
                             </Link>
+                            <Link exact to="/testing">
+                                <Button type="button" className="btn btn-secondary btn-lg m-3">Testing</Button>
+                            </Link>
                         </Col>
                     </Row>
 

@@ -5,28 +5,16 @@ import {
     NavLink,
 } from "react-router-dom";
 import MakanGoWhereLogo from '../../src/assets/MakanGoWhereLogo.jsx';
-import firebase from "firebase";
 
 
 class MainNavbar extends Component {
     render() {
         return (
 
-            <Navbar bg="light" expand="lg">
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
+            <Navbar  bg="light" expand="lg">
                     <Nav className="nav-justified ml-auto mr-auto align-items-center">
                         <Navbar.Brand as={NavLink} exact to="/"><MakanGoWhereLogo></MakanGoWhereLogo></Navbar.Brand>
-                        <Button type='button'
-                                onClick={() => {
-                                    firebase
-                                        .app()
-                                        .auth()
-                                        .signOut();
-                                }}
-                        >
-                            Sign out
-                        </Button>
+
                         {/*<NavDropdown title="Dropdown" id="basic-nav-dropdown">*/}
                         {/*    <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>*/}
                         {/*    <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>*/}
@@ -36,7 +24,6 @@ class MainNavbar extends Component {
                         {/*</NavDropdown>*/}
                     </Nav>
 
-                </Navbar.Collapse>
             </Navbar>
         );
     }

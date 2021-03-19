@@ -14,7 +14,7 @@ const UserStep2 = (props) => {
         defaultValues: state.userDetails
     });
     const { push } = useHistory();
-    const onSubmit = data => {
+    const onSubmit = (data) => {
         actions.updateUserAction(data);
         console.log(players)
         push("/user/userStep3");

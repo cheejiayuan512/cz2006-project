@@ -7,7 +7,7 @@ import {Button, Form, Col} from "react-bootstrap";
 import 'bootstrap-daterangepicker/daterangepicker.css';
 import DateRangePicker from 'react-bootstrap-daterangepicker';
 import {GetEventDetails} from "../Main";
-// const DateRange = {startDate: '01/01/2020', endDate: '01/12/2020'};
+    // const DateRange = {startDate: '01/01/2020', endDate: '01/12/2020'};
 export default () => {
     const { state, actions } = useStateMachine({ updateOrganiserAction });
     const { handleSubmit, errors, register, control } = useForm({
