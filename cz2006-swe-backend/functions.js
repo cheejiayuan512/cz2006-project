@@ -86,18 +86,23 @@ function sendEmail(eventCode, resultList) {
 // verify session ID aka room code
 function verifySessID(sessID, event, session) {
     return new Promise(function(resolve, reject) {
-        event.find({eventCode: sessID}).toArray((err, event) => {
-            session.find({eventCode: sessID}).count((err, num) => {
-                if (err) throw err;
-                else {
-                    if (num < parseInt(event[0].headCount)) {
-                        resolve(true);
-                    }
+        event.find({eventCode: sessID}).toArray((err, result) => {
+            if (result) {
+                session.find({eventCode: sessID}).count((err, num) => {
+                    if (err) throw err;
                     else {
-                        resolve(false);
+                        if (num < parseInt(result[0].headCount)) {
+                            resolve(true);
+                        }
+                        else {
+                            resolve(false);
+                        }
                     }
-                }
-            });
+                });
+            }
+            else {
+                console.log("Empty array returned!")
+            }
         });
     })
 }
@@ -169,5 +174,5 @@ module.exports = {
     verifySessID:verifySessID,
     getStartDate: getStartDate,
     getEndDate: getEndDate,
-    getNearbyRestaurants: getNearbyRestaurants
+    getEventName: getEventName
 }
