@@ -12,14 +12,13 @@ const Home = () => {
         event.preventDefault();
         event.stopPropagation();
         console.log(eventCode.value);
-        axios .post("http://localhost:9000/verifySessID", {eventDetail:eventCode.value})
+        axios.post("http://localhost:9000/verifySessID", {eventDetail:eventCode.value})
             .then((res) => {
                 console.log('object' ,res);
                 console.log(res.data);
                 const eventValidityPromise = res.data;
                 if (!eventValidityPromise) {
                     setErrorMsg('Please enter a valid event code!')
-
                 }
                 else{ setErrorMsg('Well done la!')
                     push("/user/userStep1");
@@ -46,11 +45,11 @@ const Home = () => {
                             <Form inline className='justify-content-center' required >
                                 <Row>
                                     <Col>
-                            <Form.Control required type="text" placeholder="Your Event Code"   name="eventCodeField" ref={code => (setEventCode(code))}/>
+                            <Form.Control required type="text" placeholder="Your Event Code"  className='m-3' name="eventCodeField" ref={code => (setEventCode(code))}/>
                             <h6>{errorMsg}</h6>
                                     </Col>
                                     <Col>
-                            <button onClick={clickSubmit}  className="btn btn-primary btn-lg m-3 ">Join Event</button>
+                            <button onClick={clickSubmit}  className="btn btn-primary btn-lg m-3">Join Event</button>
                                     </Col>
                                 </Row>
                             </Form>

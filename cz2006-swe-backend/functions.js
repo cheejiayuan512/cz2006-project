@@ -87,8 +87,8 @@ function sendEmail(eventCode, resultList) {
 function verifySessID(sessID, event, session) {
     return new Promise(function(resolve, reject) {
         event.find({eventCode: sessID}).toArray((err, result) => {
-            if(!result) {
-                session.find({eventCode: sessID}).count((err, num, result) => {
+            if (result) {
+                session.find({eventCode: sessID}).count((err, num) => {
                     if (err) throw err;
                     else {
                         if (num < parseInt(result[0].headCount)) {
@@ -174,5 +174,5 @@ module.exports = {
     verifySessID:verifySessID,
     getStartDate: getStartDate,
     getEndDate: getEndDate,
-    getNearbyRestaurants: getNearbyRestaurants
+    getEventName: getEventName
 }
