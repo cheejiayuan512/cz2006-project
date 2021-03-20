@@ -48,9 +48,9 @@ class Timetable extends React.Component {
         </div>;
 
     handleChange = cells => {
-        this.setState({ cells });
+        this.setState({ cells },this.props.onCallback(cells));
         console.log(cells);
-        this.props.onCallback(cells);
+
     };
 
     handleClick = () => {

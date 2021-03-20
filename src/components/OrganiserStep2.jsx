@@ -58,7 +58,7 @@ const OrganiserStep2 = props => {
                 <Button variant="secondary" type="button" onClick={handleResetLocation}>Reset Location!</Button>
                 {/*<label>Latitude:</label><input name='latitude' type='text' value={location.lat}  disabled/>*/}
                 {/* i hid the input fields cos ugly as hell*/}
-                <Form.Control required name="latitude" type="hidden" value={location.lat} ref={register()} />
+                <Form.Control required name="latitude" type="hidden" value={location.lat} ref={register()}  />
                 <Form.Control required name="longitude" type="hidden" value={location.lng} ref={register()} />
                 {/* Disabled <input> elements in a form will not be submitted!*/}
                 {/*<label>Longitude:</label><input name='longitude' type='text' value={location.lng}  disabled/>*/}

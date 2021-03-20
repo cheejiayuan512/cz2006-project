@@ -5,49 +5,48 @@ import Stepper from 'bs-stepper'
 import {Button, Form} from "react-bootstrap";
 import MapPicker from "react-google-map-picker";
 import DateRangePicker from "react-bootstrap-daterangepicker";
+import OrgStep2 from "./OrgStep2";
 
 class TestingForm extends Component {
     constructor() {
         super();
         this.state = {
             name: 'React',
-            defaultLocation: { lat: 1.35, lng: 103.8198},
-            defaultZoom: 11,
             location: { lat: 1.35, lng: 103.8198},
-            zoom : 11,
             eventName: '',
             startDate: '',
             endDate: '',
             headCount:0,
-            organiserEmail: ''
+            organiserEmail: '',
 
         };
+
+        this.MapData= this.MapData.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
-        this.handleChangeLocation = this.handleChangeLocation.bind(this);
-        this.handleChangeZoom = this.handleChangeZoom.bind(this);
-        this.handleResetLocation = this.handleResetLocation.bind(this);
         this.handleChangeDate = this.handleChangeDate.bind(this);
         this.handleChangeHeadCount = this.handleChangeHeadCount.bind(this);
         this.decrementPax= this.decrementPax.bind(this);
         this.incrementPax = this.incrementPax.bind(this);
-    }
+        this.onSubmit = this.onSubmit.bind(this);
+;    }
 
     componentDidMount() {
         this.stepper = new Stepper(document.querySelector('#stepper1'), {
-            linear: false,
+            linear: true,
             animation: true
         })
     }
 
     onSubmit(e) {
-        e.preventDefault()
+        alert('submitted!')
+        console.log('yo')
     }
 
     render() {
 
         return (
-            <div>
-                <div id="stepper1" className="bs-stepper">
+            <div className='d-flex justify-content-center text-center align-items-center align-content-center'>
+                <div id="stepper1" className="bs-stepper  ">
                     <div className="bs-stepper-header">
                         <div className="step" data-target="#test-l-1">
                             <button className="step-trigger">
@@ -55,28 +54,24 @@ class TestingForm extends Component {
                                 <span className="bs-stepper-label">Event Name</span>
                             </button>
                         </div>
-                        <div className="bs-stepper-line"/>
                         <div className="step" data-target="#test-l-2">
                             <button className="step-trigger">
                                 <span className="bs-stepper-circle">2</span>
                                 <span className="bs-stepper-label">Location</span>
                             </button>
                         </div>
-                        <div className="bs-stepper-line"/>
                         <div className="step" data-target="#test-l-3">
                             <button className="step-trigger">
                                 <span className="bs-stepper-circle">3</span>
                                 <span className="bs-stepper-label">Date</span>
                             </button>
                         </div>
-                        <div className="bs-stepper-line"/>
                         <div className="step" data-target="#test-l-4">
                             <button className="step-trigger">
                                 <span className="bs-stepper-circle">4</span>
                                 <span className="bs-stepper-label">Group Size</span>
                             </button>
                         </div>
-                        <div className="bs-stepper-line"/>
 
                         <div className="step" data-target="#test-l-5">
                             <button className="step-trigger">
@@ -84,7 +79,6 @@ class TestingForm extends Component {
                                 <span className="bs-stepper-label">Email</span>
                             </button>
                         </div>
-                        <div className="bs-stepper-line"/>
                         <div className="step" data-target="#test-l-6">
                             <button className="step-trigger">
                                 <span className="bs-stepper-circle">6</span>
@@ -93,7 +87,7 @@ class TestingForm extends Component {
                         </div>
                     </div>
                     <div className="bs-stepper-content">
-                        <form onSubmit={this.onSubmit}>
+                        <Form onSubmit={this.onSubmit}>
                             <div id="test-l-1" className="content">
                                 <Form.Group>
                                     <Form.Label column='lg' className='font-weight-bold' style={{fontSize:'150%'}}>Let's get started! What is your event name?</Form.Label>
@@ -102,28 +96,10 @@ class TestingForm extends Component {
                                         Choose something fun!
                                     </Form.Text>
                                 </Form.Group>
-                                <button className="btn btn-primary" onClick={() => this.stepper.next()}>Next</button>
+                                {this.state.eventName===''?<h6>An event name is required!</h6>: <button className="btn btn-primary" onClick={() => this.stepper.next()}>Next</button>}
                             </div>
                             <div id="test-l-2" className="content">
-                                <Form.Group>
-                                    <Form.Label column='lg' className='font-weight-bold' style={{fontSize:'150%'}}>Where is your group going to meet?</Form.Label>
-                                    <Form.Text className="text-muted" style={{fontSize:'100%'}}>
-                                        Tip: Choose somewhere further away from you so you have an excuse to be late!
-                                    </Form.Text>
-
-                                </Form.Group>
-                                <Form.Group>
-                                    {/*need to add type="button" to prevent html auto thinking its a submit button lmao*/}
-                                    <Button variant="secondary" type="button" onClick={this.handleResetLocation}>Reset Location!</Button>
-                                    <div className='m-2'> <MapPicker defaultLocation={this.state.defaultLocation}
-                                                                     zoom={this.state.defaultZoom}
-                                                                     style={{height:'45vh'}}
-                                                                     onChangeLocation={this.handleChangeLocation}
-                                                                     onChangeZoom={this.handleChangeZoom}
-                                        //NEED MONEY ONE DONT PLAY PLAY apiKey='AIzaSyCHxrGY8RvdkGbYv83_OZqEZ7g6YWH2hes'
-                                                                     apiKey='AIzaSyCHxrGY8RvdkGbYv83_OZqEZ7g6YWH2hes'/> </div>
-
-                                </Form.Group>
+                                <OrgStep2 sendDataToParent={this.MapData}/>
                                 <Button className='m-2' onClick={() => this.stepper.previous()}>Back</Button>
                                 <Button className='m-2' onClick={() => this.stepper.next()}>Next</Button>
                             </div>
@@ -165,41 +141,33 @@ class TestingForm extends Component {
                                         name="organiserEmail"
                                         type="email"
                                         placeholder="Enter an email here!"
-
                                     />
                                     <Form.Text className="text-muted">
                                         Please use a real email to prove that you are a real person with
                                         real friends!
                                     </Form.Text>
                                 </Form.Group>
-                                <button type="submit" className="btn btn-primary mt-5">Submitag22ain</button>
                                 <Button className='m-2' onClick={() => this.stepper.previous()}>Back</Button>
                                 <Button className='m-2' onClick={() => this.stepper.next()}>Next</Button>
                             </div>
-                            <div id="test-l-6" className="content text-center">
-                                <button type="submit" className="btn btn-primary mt-5">Validate</button>
+                            <div id="test-l-6" className="content text-center ">
+                                <Form.Group>
+                                <Button type="submit" className="btn btn-primary mt-5">Validate</Button>
+                                </Form.Group>
+                                <Button className='m-2' onClick={() => this.stepper.previous()}>Back</Button>
+
                             </div>
-                        </form>
+                        </Form>
                     </div>
                 </div>
             </div>
         );
     }
-
-    handleChangeZoom(zoom) {
-        this.setState({zoom: zoom });
+    MapData(data){
+        console.log(data);
+        this.setState({location:data}, console.log(this.state))
     }
 
-    handleResetLocation() {
-        this.setState({location : this.state.defaultLocation , zoom : this.state.defaultZoom});
-        this.setState({location : this.state.defaultLocation , zoom : this.state.defaultZoom});
-        this.setState({defaultLocation : this.state.defaultLocation , defaultZoom : this.state.defaultZoom});
-        console.log(this.state)
-    }
-
-    handleChangeLocation (latitude, longitude){
-        this.setState({location: {lat: latitude, lng: longitude}});
-    }
 
     handleEmailChange(event) {
         this.setState({eventName: event.target.value});
