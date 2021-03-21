@@ -12,7 +12,7 @@ import {config} from './secret.js'
 import {RestaurantSlider} from "./services/GoogleAPIService";
 import MakanGoWhereLogo from "./assets/MakanGoWhereLogo";
 import {createStore, useStateMachine} from "little-state-machine";
-
+import{UserTesting} from './components/UserTesting'
 let today = new Date();
 const year = today.getFullYear();
 const month = today.getMonth();
@@ -77,6 +77,7 @@ function HomePage() {
                         <Route path="/user" component={UserForm}/>
                         <Route path="/organiser" component={OrganiserForm}/>
                         <Route path='/testing' component={TestingForm}/>
+                        <Route path='/usertesting' component={UserTesting}/>
                     </div>
 
                 </div>

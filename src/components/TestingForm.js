@@ -18,6 +18,7 @@ class TestingForm extends Component {
             endDate: '',
             headCount: 1,
             organiserEmail: '',
+            eventCode: '',
 
         };
 
@@ -53,7 +54,7 @@ class TestingForm extends Component {
                 console.log(err);
             }).then(result => {
             console.log(result)
-            this.setState({eventCode:result})
+            this.setState({eventCode: result})
             });
     }
 
