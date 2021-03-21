@@ -3,14 +3,14 @@ import MapPicker from 'react-google-map-picker';
 import {Button, Form} from "react-bootstrap";
 const DefaultLocation = { lat: 1.35, lng: 103.8198};
 const DefaultZoom = 11;
-const OrgStep2 = props => {
+const OrgStep2 = ({sendDataToParent}) => {
     const [defaultLocation, setDefaultLocation] = useState(DefaultLocation);
 
     const [location, setLocation] = useState(defaultLocation);
     const [zoom, setZoom] = useState(DefaultZoom);
 
     function handleChangeLocation (latitude, longitude){
-        props.sendDataToParent({lat:latitude, lng:longitude});
+        sendDataToParent({lat:latitude, lng:longitude});
     }
 
     function handleChangeZoom (newZoom){
@@ -20,7 +20,7 @@ const OrgStep2 = props => {
     function handleResetLocation(){
         setDefaultLocation({ ...DefaultLocation});
         setZoom(DefaultZoom);
-        props.sendDataToParent({ lat: 1.35, lng: 103.8198});
+        sendDataToParent({ lat: 1.35, lng: 103.8198});
     }
 
     return (

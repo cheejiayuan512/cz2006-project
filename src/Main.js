@@ -7,13 +7,11 @@ import UserForm from "./components/UserForm";
 import OrganiserForm from "./components/OrganiserForm";
 import TestingForm from "./components/TestingForm";
 import MainNavbar from "./components/MainNavbar";
-import { StateMachineProvider, createStore, useStateMachine } from "little-state-machine";
-
-import { DevTool } from "little-state-machine-devtools";
 import {Button} from "react-bootstrap";
 import {config} from './secret.js'
 import {RestaurantSlider} from "./services/GoogleAPIService";
 import MakanGoWhereLogo from "./assets/MakanGoWhereLogo";
+import {createStore, useStateMachine} from "little-state-machine";
 
 let today = new Date();
 const year = today.getFullYear();
@@ -63,9 +61,7 @@ function Main() {
 }
 
 function HomePage() {
-    return(<StateMachineProvider>
-        <DevTool />
-        {/*    disabled scroll and set background to white*/}
+    return(
         <div className='App' style={{ height: "100vh", background: "#ffffff" ,margin: 0, overflow: 'hidden'}} >
             <MemoryRouter>
                 <div><MainNavbar></MainNavbar></div>
@@ -84,9 +80,6 @@ function HomePage() {
                     </div>
 
                 </div>
-            </MemoryRouter>
-
-        </div>
-    </StateMachineProvider>)
+            </MemoryRouter></div>)
 }
 export default Main;
