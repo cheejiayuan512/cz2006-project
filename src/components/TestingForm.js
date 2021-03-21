@@ -15,7 +15,7 @@ class TestingForm extends Component {
             eventName: '',
             startDate: '',
             endDate: '',
-            headCount:0,
+            headCount: 1,
             organiserEmail: '',
 
         };
