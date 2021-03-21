@@ -6,7 +6,8 @@ import {Button, Form} from "react-bootstrap";
 import DateRangePicker from "react-bootstrap-daterangepicker";
 import OrgStep2 from "./OrgStep2";
 import axios from "axios";
-import {weekdays} from "moment";
+
+import UserPrice from './UserPrice';
 
 class TestingForm extends Component {
     constructor() {
@@ -18,10 +19,11 @@ class TestingForm extends Component {
             endDate: '',
             headCount: 1,
             organiserEmail: '',
-
+            test: {min: 0, max:5}
         };
 
         this.MapData= this.MapData.bind(this);
+        this.PriceRange = this.PriceRange.bind(this);
         this.handleEventNameChange = this.handleEventNameChange.bind(this);
         this.handleChangeDate = this.handleChangeDate.bind(this);
         this.handleChangeHeadCount = this.handleChangeHeadCount.bind(this);
@@ -58,7 +60,6 @@ class TestingForm extends Component {
     }
 
     render() {
-
         return (
             <div className='d-flex justify-content-center text-center align-items-center align-content-center'>
                 <div id="stepper1" className="bs-stepper  ">
@@ -174,11 +175,12 @@ class TestingForm extends Component {
                                         real friends!
                                     </Form.Text>
                                 </Form.Group>
-                                { (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(this.state.organiserEmail)) === false?
+                                { (/^[a-zA-Z0-9._]+@[a-zA-Z0-9_]+\.[A-Za-z0-9.]+$/.test(this.state.organiserEmail)) === false?
                                     <h6>Please check your email!</h6>:
                                     <div>
                                         <Button className='m-2' onClick={() => this.stepper.previous()}>Back</Button>
                                         <Button className='m-2' onClick={() => this.stepper.next()}>Next</Button></div>}
+                                <UserPrice sendDataToParent={this.PriceRange}></UserPrice>
                             </div>
                             <div id="test-l-6" className="content text-center ">
                                 <Form.Group>
@@ -203,6 +205,11 @@ class TestingForm extends Component {
     MapData(data){
         console.log(data);
         this.setState({location:data}, console.log(this.state))
+    }
+
+    PriceRange(data){
+        console.log(data);
+        this.setState({test:data}, console.log(this.state))
     }
 
 

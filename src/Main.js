@@ -12,6 +12,7 @@ import {config} from './secret.js'
 import {RestaurantSlider} from "./services/GoogleAPIService";
 import MakanGoWhereLogo from "./assets/MakanGoWhereLogo";
 import {createStore, useStateMachine} from "little-state-machine";
+import {Helmet} from "react-helmet";
 
 let today = new Date();
 const year = today.getFullYear();
@@ -62,7 +63,8 @@ function Main() {
 
 function HomePage() {
     return(
-        <div className='App' style={{ height: "100vh", background: "#ffffff" ,margin: 0, overflow: 'hidden'}} >
+
+        <div className='App' style={{ height: "100vh", background: "#ffffff" ,margin: 0, overflow: 'hidden'}}  >
             <MemoryRouter>
                 <div><MainNavbar></MainNavbar></div>
                 <div style={{
