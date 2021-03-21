@@ -6,7 +6,6 @@ import {Button, Form} from "react-bootstrap";
 import DateRangePicker from "react-bootstrap-daterangepicker";
 import OrgStep2 from "./OrgStep2";
 import axios from "axios";
-import {weekdays} from "moment";
 
 class TestingForm extends Component {
     constructor() {
@@ -31,7 +30,7 @@ class TestingForm extends Component {
         this.onSubmit = this.onSubmit.bind(this);
         this.validateEmail = this.validateEmail.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
-;    }
+    }
 
     componentDidMount() {
         this.stepper = new Stepper(document.querySelector('#stepper1'), {
@@ -210,11 +209,6 @@ class TestingForm extends Component {
     handleEventNameChange(event) {
         this.setState({eventName: event.target.value});
         console.log(event.target.value);
-    }
-    validateEmail(email)
-    {
-        const re = /\S+@\S+\.\S+/;
-        return re.test(email);
     }
     handleChangeDate(startDate, endDate, label) {
         console.log(startDate, endDate, label)

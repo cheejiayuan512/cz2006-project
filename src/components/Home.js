@@ -2,26 +2,35 @@ import React, {Component, useState} from "react";
 import {Button, Form, FormControl,Container,Row,Col} from "react-bootstrap";
 import {Link, useHistory} from "react-router-dom";
 import axios from "axios";
+import EventCodeContext from "./EventCodeContext";
+import { withRouter } from "react-router";
 
-const Home = () => {
-    const [eventCode , setEventCode] = useState();
-    const [errorMsg, setErrorMsg] = useState();
-    const { push } = useHistory();
+class Home extends Component {
 
-    const clickSubmit = (event) => {
+    constructor() {
+        super();
+        this.state = { eventCode:'',
+            errorMsg:''
+        }
+        this.handleEventCode = this.handleEventCode.bind(this)
+    }
+
+
+    clickSubmit = (event) => {
         event.preventDefault();
         event.stopPropagation();
-        console.log(eventCode.value);
-        axios.post("http://localhost:9000/verifySessID", {eventDetail:eventCode.value})
+        console.log(this.state.eventCode);
+        axios.post("http://localhost:9000/verifySessID", {eventDetail:this.state.eventCode})
             .then((res) => {
                 console.log('object' ,res);
                 console.log(res.data);
                 const eventValidityPromise = res.data;
                 if (!eventValidityPromise) {
-                    setErrorMsg('Please enter a valid event code!')
+                    this.setState({errorMsg:'Please enter a valid event code!'})
                 }
-                else{ setErrorMsg('Well done la!')
-                    push("/user/userStep1");
+                else{
+                    this.setState({errorMsg:'Well done!'})
+                    this.props.history.push("/usertesting");
                 }
             })
             .catch((err) => {
@@ -30,8 +39,10 @@ const Home = () => {
 
     }
 
+    render() {
 
-        return (
+
+    return (
             <div className="w-responsive text-center">
                 <h2 >Who are we?</h2>
                 <p className='w-50 d-inline-flex'>We are a team of NTU students who are constantly frustrated at the amount of work we have to put
@@ -45,11 +56,11 @@ const Home = () => {
                             <Form inline className='justify-content-center' required >
                                 <Row>
                                     <Col>
-                            <Form.Control required type="text" placeholder="Your Event Code"  className='m-3' name="eventCodeField" ref={code => (setEventCode(code))}/>
-                            <h6>{errorMsg}</h6>
+                            <Form.Control required type="text" placeholder="Your Event Code"  className='m-3' name="eventCodeField" onChange={this.handleEventCode}/>
+                            <h6>{this.state.errorMsg}</h6>
                                     </Col>
                                     <Col>
-                            <button onClick={clickSubmit}  className="btn btn-primary btn-lg m-3">Join Event</button>
+                            <button onClick={this.clickSubmit}  className="btn btn-primary btn-lg m-3">Join Event</button>
                                     </Col>
                                 </Row>
                             </Form>
@@ -74,6 +85,11 @@ const Home = () => {
 
         );
 
+    }
+
+    handleEventCode(event) {
+        this.setState({eventCode:event.target.value})
+    }
 }
 
-export default Home;
+export default withRouter(Home);

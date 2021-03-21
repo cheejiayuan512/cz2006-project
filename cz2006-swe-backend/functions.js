@@ -94,10 +94,14 @@ function verifySessID(sessID, event, session) {
     return new Promise(function(resolve, reject) {
         event.find({eventCode: sessID}).toArray((err, result) => {
             if (result) {
-                session.find({eventCode: sessID}).count((err, num) => {
+                session.find    ({eventCode: sessID}).count((err, num) => {
                     if (err) throw err;
+
                     else {
-                        if (num < parseInt(result[0].headCount)) {
+                        if (result.length === 0){
+                            resolve(false);
+                        }
+                        else if (num < parseInt(result[0].headCount)) {
                             resolve(true);
                         }
                         else {

@@ -16,25 +16,37 @@ class UserTesting extends Component {
             "userName": "",
             "userTiming": "",
             "userBudget": "",
-            "userCuisine": "",}
+            "userCuisine": "",
+        "eventName":'test'}
         this.handleTimetable = this.handleTimetable.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleBudgetChange = this.handleBudgetChange.bind(this);
         this.handleCuisineChange = this.handleCuisineChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-
+        this.getEventName().then(result => this.setState({eventName: result}))
     }
     componentDidMount() {
         this.stepper = new Stepper(document.querySelector('#stepper1'), {
             linear: false,
             animation: true
         })
-    }
 
+    }
+    getEventName() {
+        // replace with whatever your api logic is.
+        return axios
+            .post("http://localhost:9000/getEventName", { eventDetail: 'DFZOTKT6' })
+            .then((res) => {
+                return res.data;
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
     onSubmit(e) {
         e.preventDefault();
         axios
-            .post("http://localhost:9000/eventCreation", { eventDetail: this.state })
+            .post("http://localhost:9000/userDetail", { eventDetail: this.state })
             .then((res) => {
                 console.log(res.data);
                 console.log('function called')
@@ -55,6 +67,7 @@ class UserTesting extends Component {
 
         return (
             <div className='d-flex justify-content-center text-center align-items-center align-content-center'>
+                <h1>You are responding to {this.state.eventName}</h1>
                 <div id="stepper1" className="bs-stepper  ">
                     <div className="bs-stepper-header">
                         <div className="step" data-target="#test-l-1">

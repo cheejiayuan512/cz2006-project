@@ -22,7 +22,7 @@ const OrganiserResult = props => {
     const saveRoom = () => {
         const data = state.eventDetails;
         axios
-            .post("http://localhost:9000/eventCreation", { eventDetail: data })
+            .post("http://localhost:9000/eventCreation", { userDetail: data })
             .then((res) => {
                 console.log(res.data);
                 console.log('function called')
