@@ -1,4 +1,5 @@
 const e = require('express');
+const { resolveContent } = require('nodemailer/lib/shared');
 var mail = require('./email');
 const key = process.env.GOOGLE_API_KEY
 
@@ -30,7 +31,7 @@ function createEvent(data, event) {
                 if (err) throw err;
                 console.log("Document inserted successfully into Event!");
             })
-            return code;
+            resolve(code);
         })
     });
 }

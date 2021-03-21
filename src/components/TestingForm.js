@@ -45,7 +45,7 @@ class TestingForm extends Component {
             .post("http://localhost:9000/eventCreation", { eventDetail: this.state })
             .then((res) => {
                 console.log(res.data);
-                console.log('function called')
+                console.log('function called');
                 return res.data;
 
             })

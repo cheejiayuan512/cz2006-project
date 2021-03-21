@@ -68,8 +68,10 @@ router.post('/eventCreation', (req, res) => {
   const event = app.locals.event;
   const session = app.locals.session;
   //console.log("req: ", req.body.eventDetail);
-  var code = fxn.createEvent(req.body.eventDetail, event);
-  res.send(code);
+  fxn.createEvent(req.body.eventDetail, event).then(function(response) {
+    res.send(response);
+  });
+  
 });
 
 // update participant
