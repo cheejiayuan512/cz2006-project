@@ -6,6 +6,7 @@ import {Button, Form} from "react-bootstrap";
 import DateRangePicker from "react-bootstrap-daterangepicker";
 import OrgStep2 from "./OrgStep2";
 import axios from "axios";
+import {weekdays} from "moment";
 
 class TestingForm extends Component {
     constructor() {
@@ -124,7 +125,7 @@ class TestingForm extends Component {
                             </div>
                             <div id="test-l-3" className="content text-center">
                                 <Form.Label column='lg' className='font-weight-bold' style={{fontSize:'150%'}}>When is the approximate date of the event?</Form.Label>
-                                <DateRangePicker required onCallback={this.handleChangeDate}  format='dd/mm/yyyy'>
+                                <DateRangePicker required onCallback={this.handleChangeDate}  format='dd/mm/yyyy' initialSettings={{maxSpan: {"days": 14}}}>
                                     <input required type="text" className="form-control"/>
                                 </DateRangePicker>
                                 <Form.Text className="text-muted">Tip: Don't be a dick.</Form.Text>
@@ -237,6 +238,8 @@ class TestingForm extends Component {
     handleEmailChange(event) {
         this.setState({organiserEmail: event.target.value});
     }
+
+
 }
 
 export default TestingForm;

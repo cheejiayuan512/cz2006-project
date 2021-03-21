@@ -5,7 +5,7 @@ import {
 import Home from "./components/Home";
 import UserForm from "./components/UserForm";
 import OrganiserForm from "./components/OrganiserForm";
-import TestingForm from "./components/TestingForm";
+import TestingForm from "./components/TestingForm.js";
 import MainNavbar from "./components/MainNavbar";
 import {Button} from "react-bootstrap";
 import {config} from './secret.js'
