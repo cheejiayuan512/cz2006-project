@@ -17,7 +17,7 @@ async function codeGeneration(event) {
 // create event and store in DB
 function createEvent(data, event) {
     //console.log("in createEvent function");
-    var code;
+    let code;
     codeGeneration(event).then(function(response) {
         code = response;
     });
