@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bs-stepper/dist/css/bs-stepper.min.css';
 import Stepper from 'bs-stepper'
@@ -10,7 +10,7 @@ class TestingForm extends Component {
     constructor() {
         super();
         this.state = {
-            name: 'React',
+            name: '',
             defaultLocation: { lat: 1.35, lng: 103.8198},
             defaultZoom: 11,
             location: { lat: 1.35, lng: 103.8198},
@@ -18,11 +18,12 @@ class TestingForm extends Component {
             eventName: '',
             startDate: '',
             endDate: '',
-            headCount:0,
+            headCount: 1,
             organiserEmail: ''
 
         };
         this.handleEmailChange = this.handleEmailChange.bind(this);
+        this.handleEventNameChange = this.handleEventNameChange.bind(this)
         this.handleChangeLocation = this.handleChangeLocation.bind(this);
         this.handleChangeZoom = this.handleChangeZoom.bind(this);
         this.handleResetLocation = this.handleResetLocation.bind(this);
@@ -38,6 +39,7 @@ class TestingForm extends Component {
             animation: true
         })
     }
+
 
     onSubmit(e) {
         e.preventDefault()
@@ -97,12 +99,13 @@ class TestingForm extends Component {
                             <div id="test-l-1" className="content">
                                 <Form.Group>
                                     <Form.Label column='lg' className='font-weight-bold' style={{fontSize:'150%'}}>Let's get started! What is your event name?</Form.Label>
-                                    <Form.Control required name="eventName" type="text" placeholder="Finals Bojio??!"  value={this.state.eventName} onChange={this.handleEmailChange} />
+                                    <Form.Control required name="eventName" type="text" placeholder="Finals Bojio??!"   onChange={this.handleEventNameChange} />
                                     <Form.Text className="text-muted">
                                         Choose something fun!
                                     </Form.Text>
                                 </Form.Group>
-                                <button className="btn btn-primary" onClick={() => this.stepper.next()}>Next</button>
+                                {(this.state.eventName!='')?<button type='submit' className="btn btn-primary" onClick={() => this.stepper.next()}>Next</button>:<div/>}
+
                             </div>
                             <div id="test-l-2" className="content">
                                 <Form.Group>
@@ -188,12 +191,11 @@ class TestingForm extends Component {
 
     handleChangeZoom(zoom) {
         this.setState({zoom: zoom });
+        console.log(this.state.zoom)
     }
 
     handleResetLocation() {
         this.setState({location : this.state.defaultLocation , zoom : this.state.defaultZoom});
-        this.setState({location : this.state.defaultLocation , zoom : this.state.defaultZoom});
-        this.setState({defaultLocation : this.state.defaultLocation , defaultZoom : this.state.defaultZoom});
         console.log(this.state)
     }
 
@@ -202,9 +204,15 @@ class TestingForm extends Component {
     }
 
     handleEmailChange(event) {
-        this.setState({eventName: event.target.value});
-        console.log(event.target.value);
+        this.setState({organiserEmail: event.target.value}, ()=>
+            console.log(event.target.value));
     }
+
+    handleEventNameChange(event) {
+        this.setState({eventName:event.target.value})
+        console.log(this.state.eventName);
+    }
+
 
     handleChangeDate(startDate, endDate, label) {
         console.log(startDate, endDate, label)
@@ -225,6 +233,7 @@ class TestingForm extends Component {
     handleChangeHeadCount(event) {
         this.setState({headCount: event.target.value});
     }
+
 }
 
 export default TestingForm;
