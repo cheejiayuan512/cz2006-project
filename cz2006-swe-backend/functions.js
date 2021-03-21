@@ -1,14 +1,16 @@
 const e = require('express');
+const { resolveContent } = require('nodemailer/lib/shared');
 var mail = require('./email');
 const key = process.env.GOOGLE_API_KEY
 
 
 // generate a unique code for each session
 async function codeGeneration(event) {
-    //console.log("in codeGeneration fxn");
+    console.log("in codeGeneration fxn");
     while(true) {
         var code = Math.random().toString(36).substring(2,10).toUpperCase();
         if (await event.find({eventCode: code}).count() === 0) {
+            console.log("code in codeGeneration: ", code);
             return code;
         }
     }
@@ -16,19 +18,22 @@ async function codeGeneration(event) {
 
 // create event and store in DB
 function createEvent(data, event) {
-    //console.log("in createEvent function");
-    let code;
-    codeGeneration(event).then(function(response) {
-        code = response;
+    return new Promise(function(resolve, reject) {
+        console.log("in createEvent function");
+        let code;
+        codeGeneration(event).then((response) => {
+            code = response;
+            console.log("code: ", code);
+            console.log(code);
+            data["eventCode"] = code;
+            console.log(data);
+            event.insertOne(data, function(err, res) {
+                if (err) throw err;
+                console.log("Document inserted successfully into Event!");
+            })
+            resolve(code);
+        })
     });
-    console.log(code);
-    console.log(data);
-    data["eventCode"] = code;
-    event.insertOne(data, function(err, res) {
-        if (err) throw err;
-        console.log("Document inserted successfully into Event!");
-    })
-    return code;
 }
 
 // insert participant details into DB, check if currentPax >= maxPax
@@ -84,6 +89,7 @@ function sendEmail(eventCode, resultList) {
 }
 
 // verify session ID aka room code
+// separate into 2 fxns, one is to check validity of evenctcode, the other to check if numPax >= headCount
 function verifySessID(sessID, event, session) {
     return new Promise(function(resolve, reject) {
         event.find({eventCode: sessID}).toArray((err, result) => {
@@ -101,7 +107,8 @@ function verifySessID(sessID, event, session) {
                 });
             }
             else {
-                console.log("Empty array returned!")
+                resolve(false);
+                console.log("Empty array returned!");
             }
         });
     })

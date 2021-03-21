@@ -55,7 +55,7 @@ class TestingForm extends Component {
                 console.log(err);
             }).then(result => {
             console.log(result)
-            this.setState({eventCode:result})
+            this.setState({eventCode: result})
             });
     }
 

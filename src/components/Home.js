@@ -63,6 +63,9 @@ const Home = () => {
                             <Link exact to="/testing">
                                 <Button type="button" className="btn btn-secondary btn-lg m-3">Testing</Button>
                             </Link>
+                            <Link exact to="/usertesting">
+                                <Button type="button" className="btn btn-secondary btn-lg m-3">User Testing</Button>
+                            </Link>
                         </Col>
                     </Row>
 

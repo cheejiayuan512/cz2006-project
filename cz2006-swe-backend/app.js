@@ -68,8 +68,10 @@ router.post('/eventCreation', (req, res) => {
   const event = app.locals.event;
   const session = app.locals.session;
   //console.log("req: ", req.body.eventDetail);
-  var code = fxn.createEvent(req.body.eventDetail, event);
-  res.send(code);
+  fxn.createEvent(req.body.eventDetail, event).then(function(response) {
+    res.send(response);
+  });
+  
 });
 
 // update participant
@@ -95,6 +97,14 @@ router.post('/getStartDate', async (req, res, next) => {
 router.post('/getEndDate', async (req, res, next) => {
   const event = app.locals.event;
   fxn.getEndDate(req.body.eventDetail, event).then(function(response) {
+    res.send(response);
+  });
+})
+
+// get event name
+router.post('/getEventName', async (req, res, next) => {
+  const event = app.locals.event;
+  fxn.getEventName(req.body.eventDetail, event).then(function(response) {
     res.send(response);
   });
 })
