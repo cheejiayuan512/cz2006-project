@@ -101,6 +101,14 @@ router.post('/getEndDate', async (req, res, next) => {
   });
 })
 
+// get event name
+router.post('/getEventName', async (req, res, next) => {
+  const event = app.locals.event;
+  fxn.getEventName(req.body.eventDetail, event).then(function(response) {
+    res.send(response);
+  });
+})
+
 // verify session ID
 router.post('/verifySessID', async (req, res, next) => {
   const event = app.locals.event;
