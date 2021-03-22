@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component, useState} from "react";
 import {
     Route, MemoryRouter
 } from "react-router-dom";
@@ -53,7 +53,7 @@ export function GetUserDetails () {
     return state.userDetails;
 }
 
-function Main() {
+const Main =() => {
 
     return (<div>
             <HomePage />
@@ -62,6 +62,7 @@ function Main() {
 }
 
 function HomePage() {
+    const [eventCode , setEventCode] = useState('testtest')
     return(
 
         <div className='App' style={{ height: "100vh", background: "#ffffff" ,margin: 0, overflow: 'hidden'}}  >
@@ -75,11 +76,13 @@ function HomePage() {
                     backgroundImage: `url("https://www.smartnation.gov.sg/images/default-source/module/home-base-item/cb0c06c1-cfc1-48a9-84ae-7909e93cf716.jpg" )`
                 }}>
                     <div className="content">
-                        <Route exact path="/" component={Home}/>
+                        <Route exact path="/" render={(props) => (
+                            <Home {...props} setEventCode={setEventCode} />
+                        )}/>
                         <Route path="/user" component={UserForm}/>
                         <Route path="/organiser" component={OrganiserForm}/>
                         <Route path='/testing' component={TestingForm}/>
-                        <Route path='/usertesting' component={UserTesting}/>
+                        <Route path='/usertesting' render={(props) => (<UserTesting {...props} eventCode={eventCode} />)}/>
 
                     </div>
 

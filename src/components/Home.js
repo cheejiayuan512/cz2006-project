@@ -1,9 +1,9 @@
-import React, {Component, useState} from "react";
+import React, {Component} from "react";
 import {Button, Form, FormControl,Container,Row,Col} from "react-bootstrap";
-import {Link, useHistory} from "react-router-dom";
+import {Link, Route} from "react-router-dom";
 import axios from "axios";
-import EventCodeContext from "./EventCodeContext";
 import { withRouter } from "react-router";
+import {UserTesting} from "./UserTesting";
 
 class Home extends Component {
 
@@ -43,7 +43,7 @@ class Home extends Component {
 
 
     return (
-            <div className="w-responsive text-center">
+        <div className="w-responsive text-center">
                 <h2 >Who are we?</h2>
                 <p className='w-50 d-inline-flex'>We are a team of NTU students who are constantly frustrated at the amount of work we have to put
                 in order to get together for a meal with friends. So, we decided to make this webapp which aims to
@@ -74,14 +74,13 @@ class Home extends Component {
                             <Link exact to="/testing">
                                 <Button type="button" className="btn btn-secondary btn-lg m-3">Testing</Button>
                             </Link>
-                            <Link exact to="/usertesting">
-                                <Button type="button" className="btn btn-secondary btn-lg m-3">User Testing</Button>
-                            </Link>
+
                         </Col>
                     </Row>
 
                 </Container>
-            </div>
+
+        </div>
 
         );
 
@@ -89,6 +88,7 @@ class Home extends Component {
 
     handleEventCode(event) {
         this.setState({eventCode:event.target.value})
+        this.props.setEventCode(event.target.value)
     }
 }
 

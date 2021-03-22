@@ -48,4 +48,4 @@ const OrgStep2 = ({sendDataToParent}) => {
     );
 };
 
-export default OrgStep2;
+export {OrgStep2};
