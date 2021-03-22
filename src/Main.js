@@ -2,17 +2,17 @@ import React, {Component, useState} from "react";
 import {
     Route, MemoryRouter
 } from "react-router-dom";
-import Home from "./components/Home";
-import UserForm from "./components/UserForm";
-import OrganiserForm from "./components/OrganiserForm";
-import OrgForm from "./components/OrgForm.js";
+import Home from "./pages/Home";
+import UserForm from "./components/UserFormComponents/UserForm";
+import OrgForm from "./pages/OrgForm.js";
 import MainNavbar from "./components/MainNavbar";
 import {Button} from "react-bootstrap";
-import {config} from './secret.js'
+import {config} from './configurations/secret.js'
 import {RestaurantSlider} from "./services/GoogleAPIService";
 import MakanGoWhereLogo from "./assets/MakanGoWhereLogo";
 import {createStore, useStateMachine} from "little-state-machine";
-import {UserTesting} from "./components/UserTesting";
+import {ResponseForm} from "./pages/ResponseForm";
+import {RouterConfig} from "./navigation/RouterConfig";
 
 let today = new Date();
 const year = today.getFullYear();
@@ -61,11 +61,13 @@ const Main =() => {
     );
 }
 
+
+
 function HomePage() {
-    const [eventCode , setEventCode] = useState('testtest')
+    const [eventCode , setEventCode] = useState()
     return(
 
-        <div className='App' style={{ height: "100vh", background: "#ffffff" ,margin: 0, overflow: 'hidden'}}  >
+        <div className='App' style={{height: "100vh", background: "#ffffff", margin: 0, overflow: 'hidden'}}>
             <MemoryRouter>
                 <div><MainNavbar></MainNavbar></div>
                 <div style={{
@@ -75,16 +77,9 @@ function HomePage() {
                     backgroundRepeat: 'no-repeat',
                     backgroundImage: `url("https://www.smartnation.gov.sg/images/default-source/module/home-base-item/cb0c06c1-cfc1-48a9-84ae-7909e93cf716.jpg" )`
                 }}>
-                    <div className="content">
-                        <Route exact path="/" render={(props) => (
-                            <Home {...props} setEventCode={setEventCode} />
-                        )}/>
-                        <Route path="/user" component={UserForm}/>
-                        <Route path="/organiser" component={OrganiserForm}/>
-                        <Route path='/testing' component={OrgForm}/>
-                        <Route path='/usertesting' render={(props) => (<UserTesting {...props} eventCode={eventCode} />)}/>
-
-                    </div>
+                    <RouterConfig render={(props) => (
+                        <Home {...props} setEventCode={setEventCode}/>
+                    )} render1={(props) => (<ResponseForm {...props} eventCode={eventCode}/>)}/>
 
                 </div>
             </MemoryRouter></div>)

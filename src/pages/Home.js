@@ -3,7 +3,7 @@ import {Button, Form, FormControl,Container,Row,Col} from "react-bootstrap";
 import {Link, Route} from "react-router-dom";
 import axios from "axios";
 import { withRouter } from "react-router";
-import {UserTesting} from "./UserTesting";
+import {ResponseForm} from "./ResponseForm";
 
 class Home extends Component {
 
@@ -68,13 +68,9 @@ class Home extends Component {
                         </Col>
                         <Col>
                             <p className="text-center font-weight-bold">Want to create an event? </p>
-                            <Link exact to="/organiser/organiserStep1">
+                            <Link exact to="/testing">
                                 <Button type="button" className="btn btn-secondary btn-lg m-3">Create New Event</Button>
                             </Link>
-                            <Link exact to="/testing">
-                                <Button type="button" className="btn btn-secondary btn-lg m-3">Testing</Button>
-                            </Link>
-
                         </Col>
                     </Row>
 

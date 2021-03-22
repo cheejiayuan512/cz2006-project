@@ -48,7 +48,7 @@ function updateParticipant(data, session) {
         })
     }
     else {
-        // logic to find suitable time slots and suitable cuisine for them **not done**
+        // controllers to find suitable time slots and suitable cuisine for them **not done**
         // call gooogle places API to get a list of restaurants
         try {
             const area = data.area;

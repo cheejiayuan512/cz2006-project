@@ -1,6 +1,6 @@
 import React from "react";
 import { useStateMachine } from "little-state-machine";
-import { updateUserAction } from "./updateAction";
+import { updateUserAction } from "../../controllers/updateAction";
 import {Link} from "react-router-dom";
 import {Button} from "react-bootstrap";
 import { useList } from "react-firebase-hooks/database";

@@ -4,12 +4,13 @@ import 'bs-stepper/dist/css/bs-stepper.min.css';
 import Stepper from 'bs-stepper'
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import DateRangePicker from "react-bootstrap-daterangepicker";
-import OrgStep2 from "./OrgStep2";
+import OrgStep2 from "../components/OrganiserFormComponents/OrgStep2";
 import axios from "axios";
-import {Timetable} from "./Timetable";
+import {Timetable} from "../components/OrganiserFormComponents/Timetable";
+import UserPrice from "../components/UserFormComponents/UserPrice";
 
 
-class UserTesting extends Component {
+class ResponseForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,10 +22,11 @@ class UserTesting extends Component {
         "eventName":'test'}
         this.handleTimetable = this.handleTimetable.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
-        this.handleBudgetChange = this.handleBudgetChange.bind(this);
+        this.handleBudgetChange = UserPrice.bind(this);
         this.handleCuisineChange = this.handleCuisineChange.bind(this);
-                this.onSubmit = this.onSubmit.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
         this.getEventName().then(result => this.setState({eventName: result}))
+
     }
     componentDidMount() {
         this.stepper = new Stepper(document.querySelector('#stepper1'), {
@@ -34,7 +36,7 @@ class UserTesting extends Component {
 
     }
     getEventName() {
-        // replace with whatever your api logic is.
+        // replace with whatever your api controllers is.
         return axios
             .post("http://localhost:9000/getEventName", { eventDetail: this.props.eventCode })
             .then((res) => {
@@ -151,9 +153,7 @@ class UserTesting extends Component {
                                     <div id="test-l-3" className="content text-center">
                                         <Form.Label column='lg' className='font-weight-bold' style={{fontSize: '150%'}}>What
                                             is your budget?</Form.Label>
-                                        <Form.Control required onChange={this.handleBudgetChange} type="radio"
-                                                      format='dd/mm/yyyy'>
-                                        </Form.Control>
+                                        <UserPrice sendDataToParent={this.handleBudgetChange}/>
                                         <Form.Text className="text-muted">Tip: Just get your friends to treat
                                             you.</Form.Text>
                                         {!this.state.userBudget === '' ?
@@ -243,6 +243,8 @@ class UserTesting extends Component {
     handleCuisineChange(event){
         this.setState({userCuisine: event.target.value })
     }
+
+
 }
 
-export  {UserTesting};
+export  {ResponseForm};

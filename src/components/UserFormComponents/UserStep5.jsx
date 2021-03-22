@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import {Link, useHistory} from "react-router-dom";
 import { useStateMachine } from "little-state-machine";
-import { updateUserAction } from "./updateAction";
+import { updateUserAction } from "../../controllers/updateAction";
 import {Button, Form} from "react-bootstrap";
 const UserStep5 = props => {
     const { state, actions } = useStateMachine({ updateUserAction });

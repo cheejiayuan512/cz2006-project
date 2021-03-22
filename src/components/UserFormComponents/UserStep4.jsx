@@ -2,21 +2,21 @@ import React, {useState} from "react";
 import { useForm } from "react-hook-form";
 import {Link, useHistory} from "react-router-dom";
 import { useStateMachine } from "little-state-machine";
-import { updateOrganiserAction } from "./updateAction";
+import { updateUserAction } from "../../controllers/updateAction";
 import {Button, Form} from "react-bootstrap";
-import { GetEventDetails } from "../Main";
+import { GetEventDetails } from "../../Main";
 
-const OrganiserStep4 = props => {
+const UserStep4 = props => {
     let x = parseInt(GetEventDetails().headCount, 10);
     const [numPax, setCount] = useState(x);
-    const { state, actions } = useStateMachine({ updateOrganiserAction });
+    const { state, actions } = useStateMachine({ updateUserAction });
     const { handleSubmit, errors, register } = useForm({
-        defaultValues: state.eventDetails
+        defaultValues: state.userDetails
     });
     const { push } = useHistory();
     const onSubmit = data => {
-        actions.updateOrganiserAction(data);
-        push("/organiser/organiserStep5");
+        actions.updateUserAction(data);
+        push("/user/userStep5");
     };
     const incrementPax = () =>{
         if (numPax<25) {
@@ -43,11 +43,11 @@ const OrganiserStep4 = props => {
                     </Form.Text>
                 </Form.Group>
 
-                <Button variant="secondary m-2" type="button" as={Link} to='/organiser/organiserStep3' >Back!</Button>
+                <Button variant="secondary m-2" type="button" as={Link} to='/user/userStep3' >Back!</Button>
                 <Button variant="primary" type="submit">Next!</Button>
             </Form>
         </div>
     );
 };
 
-export default OrganiserStep4;
+export default UserStep4;

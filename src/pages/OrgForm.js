@@ -5,14 +5,14 @@ import Stepper from 'bs-stepper'
 import {Button, Container, Form} from "react-bootstrap";
 import axios from "axios";
 
-import UserPrice from './UserPrice';
-import {OrgStep1} from "./OrgStep1";
-import {OrgStep2} from "./OrgStep2";
-import {OrgStep3} from "./OrgStep3";
-import {OrgStep4} from "./OrgStep4";
-import {OrgStep5} from "./OrgStep5";
-import {OrgResult} from "./OrgResult";
-import {handleChange, decrementPax, incrementPax, handleChangeDate, MapData, onSubmit} from "./OrgFormController";
+import UserPrice from '../components/UserFormComponents/UserPrice';
+import {OrgStep1} from "../components/OrganiserFormComponents/OrgStep1";
+import {OrgStep2} from "../components/OrganiserFormComponents/OrgStep2";
+import {OrgStep3} from "../components/OrganiserFormComponents/OrgStep3";
+import {OrgStep4} from "../components/OrganiserFormComponents/OrgStep4";
+import {OrgStep5} from "../components/OrganiserFormComponents/OrgStep5";
+import {OrgResult} from "../components/OrganiserFormComponents/OrgResult";
+import {handleChange, decrementPax, incrementPax, handleChangeDate, MapData, onSubmit} from "../controllers/OrgFormController";
 
 
 const FormStep = (props) => {
@@ -40,7 +40,6 @@ class OrgForm extends Component {
         };
 
         this.handleLocationChange= MapData.bind(this);
-        this.PriceRange = this.PriceRange.bind(this);
         this.handleChangeDate = handleChangeDate.bind(this);
         this.decrementPax= decrementPax.bind(this);
         this.incrementPax = incrementPax.bind(this);
@@ -114,7 +113,6 @@ class OrgForm extends Component {
                                     <div>
                                         <Button className='m-2' onClick={() => this.stepper.previous()}>Back</Button>
                                         <Button className='m-2' onClick={() => this.stepper.next()}>Next</Button></div>}
-                                <UserPrice sendDataToParent={this.PriceRange}/>
                             </div>
                             <div id="test-l-6" className="content text-center ">
                                 <OrgResult eventName={this.state.eventName} location={this.state.location}
@@ -132,10 +130,6 @@ class OrgForm extends Component {
     }
 
 
-    PriceRange(data){
-        console.log(data);
-        this.setState({test:data}, console.log(this.state))
-    }
 
 }
 

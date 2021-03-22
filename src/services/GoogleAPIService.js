@@ -1,4 +1,4 @@
-import {GoogleApiKey, CORSProxy} from "../secret";
+import {GoogleApiKey, CORSProxy} from "../configurations/secret";
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import {Component} from "react";
 import ErrorImage from '../assets/img.png';

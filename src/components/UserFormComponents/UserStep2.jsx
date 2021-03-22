@@ -2,10 +2,9 @@ import React, {useState} from "react";
 import { useForm } from "react-hook-form";
 import {Link, useHistory} from "react-router-dom";
 import { useStateMachine } from "little-state-machine";
-import { updateUserAction } from "./updateAction";
+import { updateUserAction } from "../../controllers/updateAction";
 import {Button, Form} from "react-bootstrap";
-import {TimeRange} from "./TimeRange";
-import {Timetable} from "./Timetable";
+import {Timetable} from "../OrganiserFormComponents/Timetable";
 // may have to conver to class component to run constructor method to get start and end date from lixians api
 const UserStep2 = (props) => {
     const { state, actions } = useStateMachine({ updateUserAction });
