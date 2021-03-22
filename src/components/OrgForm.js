@@ -15,6 +15,15 @@ import {OrgResult} from "./OrgResult";
 import {handleChange, decrementPax, incrementPax, handleChangeDate, MapData} from "./OrgFormController";
 
 
+const FormStep = (props) => {
+    return <div className="step" data-target={props.dataTarget}>
+        <button className="step-trigger">
+            <span className="bs-stepper-circle">{props.step}</span>
+            <span className="bs-stepper-label">{props.title}</span>
+        </button>
+    </div>;
+}
+
 class OrgForm extends Component {
     constructor() {
         super();
@@ -69,48 +78,18 @@ class OrgForm extends Component {
             <Container className=' text-center align-items-center align-content-center'>
                 <div id="stepper1" className="bs-stepper  ">
                     <div className="bs-stepper-header">
-                        <div className="step" data-target="#test-l-1">
-                            <button className="step-trigger">
-                                <span className="bs-stepper-circle">1</span>
-                                <span className="bs-stepper-label">Event Name</span>
-                            </button>
-                        </div>
-                        <div className="step" data-target="#test-l-2">
-                            <button className="step-trigger">
-                                <span className="bs-stepper-circle">2</span>
-                                <span className="bs-stepper-label">Location</span>
-                            </button>
-                        </div>
-                        <div className="step" data-target="#test-l-3">
-                            <button className="step-trigger">
-                                <span className="bs-stepper-circle">3</span>
-                                <span className="bs-stepper-label">Date</span>
-                            </button>
-                        </div>
-                        <div className="step" data-target="#test-l-4">
-                            <button className="step-trigger">
-                                <span className="bs-stepper-circle">4</span>
-                                <span className="bs-stepper-label">Group Size</span>
-                            </button>
-                        </div>
-
-                        <div className="step" data-target="#test-l-5">
-                            <button className="step-trigger">
-                                <span className="bs-stepper-circle">5</span>
-                                <span className="bs-stepper-label">Email</span>
-                            </button>
-                        </div>
-                        <div className="step" data-target="#test-l-6">
-                            <button className="step-trigger">
-                                <span className="bs-stepper-circle">6</span>
-                                <span className="bs-stepper-label">Validate Details</span>
-                            </button>
-                        </div>
+                        <FormStep title='Event Name' step='1' dataTarget='#test-l-1'/>
+                        <FormStep title='Location' step='2' dataTarget='#test-l-2'/>
+                        <FormStep title='Date' step='3' dataTarget='#test-l-3'/>
+                        <FormStep title='Group Size' step='4' dataTarget='#test-l-4'/>
+                        <FormStep title='Email' step='5' dataTarget='#test-l-5'/>
+                        <FormStep title='Validate' step='6' dataTarget='#test-l-6'/>
                     </div>
                     <div className="bs-stepper-content">
                         <Form onSubmit={this.onSubmit}>
                             <div id="test-l-1" className="content">
-                                <OrgStep1 value={this.state.eventName} onChange={(e) => this.handleChange(e, 'eventName')}/>
+                                <OrgStep1 value={this.state.eventName}
+                                          onChange={(e) => this.handleChange(e, 'eventName')}/>
                                 {this.state.eventName === '' ?
                                     <h6>An event name is required!</h6>
                                     : <Button className="btn-primary" onClick={() => this.stepper.next()}>Next</Button>}
@@ -124,7 +103,8 @@ class OrgForm extends Component {
                                         <Button className='m-2' onClick={() => this.stepper.next()}>Next</Button></div>}
                             </div>
                             <div id="test-l-3" className="content text-center">
-                                <OrgStep3 onCallback={(startDate, endDate, label) => this.handleChangeDate(startDate, endDate, label)}/>
+                                <OrgStep3
+                                    onCallback={(startDate, endDate, label) => this.handleChangeDate(startDate, endDate, label)}/>
                                 {this.state.startDate === '' ?
                                     <h6>A date range is required!</h6> :
                                     <div>
@@ -133,8 +113,10 @@ class OrgForm extends Component {
 
                             </div>
                             <div id="test-l-4" className="content text-center">
-                                <OrgStep4 onClick={() => this.decrementPax(this.state.headCount)} value={this.state.headCount}
-                                          onChange={(e) => this.handleChange(e, 'headCount')} onClick1={() => this.incrementPax(this.state.headCount)}/>
+                                <OrgStep4 onClick={() => this.decrementPax(this.state.headCount)}
+                                          value={this.state.headCount}
+                                          onChange={(e) => this.handleChange(e, 'headCount')}
+                                          onClick1={() => this.incrementPax(this.state.headCount)}/>
                                 {this.state.headCount === 0 ?
                                     <h6>You need more friends!</h6> :
                                     <div>
