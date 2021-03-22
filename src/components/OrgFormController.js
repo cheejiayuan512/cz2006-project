@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export function handleChange(event , name) {
     this.setState({[name]: event.target.value});
     console.log(event.target.value, [name])
@@ -19,4 +21,21 @@ export function handleChangeDate(startDate, endDate, label) {
 
 export function MapData(data){
     this.setState({location:data});
+}
+export function onSubmit(e) {
+    e.preventDefault();
+    axios
+        .post("http://localhost:9000/eventCreation", { eventDetail: this.state })
+        .then((res) => {
+            console.log(res.data);
+            console.log('function called')
+            return res.data;
+
+        })
+        .catch((err) => {
+            console.log(err);
+        }).then(result => {
+        console.log(result)
+        this.setState({eventCode: result})
+    });
 }

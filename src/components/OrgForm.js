@@ -12,7 +12,7 @@ import {OrgStep3} from "./OrgStep3";
 import {OrgStep4} from "./OrgStep4";
 import {OrgStep5} from "./OrgStep5";
 import {OrgResult} from "./OrgResult";
-import {handleChange, decrementPax, incrementPax, handleChangeDate, MapData} from "./OrgFormController";
+import {handleChange, decrementPax, incrementPax, handleChangeDate, MapData, onSubmit} from "./OrgFormController";
 
 
 const FormStep = (props) => {
@@ -44,7 +44,7 @@ class OrgForm extends Component {
         this.handleChangeDate = handleChangeDate.bind(this);
         this.decrementPax= decrementPax.bind(this);
         this.incrementPax = incrementPax.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
+        this.onSubmit = onSubmit.bind(this);
         this.handleChange = handleChange.bind(this);
     }
 
@@ -55,23 +55,7 @@ class OrgForm extends Component {
         })
     }
 
-    onSubmit(e) {
-        e.preventDefault();
-        axios
-            .post("http://localhost:9000/eventCreation", { eventDetail: this.state })
-            .then((res) => {
-                console.log(res.data);
-                console.log('function called')
-                return res.data;
 
-            })
-            .catch((err) => {
-                console.log(err);
-            }).then(result => {
-            console.log(result)
-            this.setState({eventCode: result})
-            });
-    }
 
     render() {
         return (
@@ -152,12 +136,6 @@ class OrgForm extends Component {
         console.log(data);
         this.setState({test:data}, console.log(this.state))
     }
-
-
-
-
-
-
 
 }
 
