@@ -7,9 +7,15 @@ import {Button, Form} from "react-bootstrap";
 import ReactLoading from 'react-loading';
 
 class RestaurantSlider extends Component  {
-    state = {
-        restaurants: []
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            restaurants: []
+        };
+
+    }
+
+
     componentDidMount() {
         fetch(CORSProxy +'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key='+ GoogleApiKey + '&location='+this.props.lat+','+this.props.long+'&radius='+this.props.radius+'&keyword='+this.props.keyWord)
             .then(res => res.json())
@@ -29,7 +35,7 @@ class RestaurantSlider extends Component  {
     const jsonQuery = require('json-query');
     return(<div >
         <h5>message: {this.props.text}, lat: {this.props.lat}, long: {this.props.long}, radius: {this.props.radius}, keyword: {this.props.keyWord}</h5>
-        <div className="container-fluid py-2"  >
+        <div className="container-fluid py-2"  ><Form>
             <div className="d-flex flex-row flex-nowrap scroll" style={{  overflow:'auto' }}>
             {this.state.restaurants['results'].map((anObjectMapped, index)=>
                 <div className='card' style={{minHeight:'300px', minWidth: '300px', width:'300px', marginRight: '5px'}} id={index} key={`${anObjectMapped.name}`}>
@@ -51,7 +57,7 @@ class RestaurantSlider extends Component  {
 
 
                 </div>)}
-            </div>
+            </div></Form>
         </div>
     </div>)}
 }
