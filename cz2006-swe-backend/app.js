@@ -109,6 +109,22 @@ router.post('/getEventName', async (req, res, next) => {
   });
 })
 
+// get current headcount
+router.post('/getCurrentHeadcount', async (req, res, next) => {
+  const session = app.locals.session;
+  fxn.getCurrentHeadcount(req.body.eventDetail, session).then(function(response) {
+    res.send(response);
+  });
+})
+
+// get max headcount
+router.post('/getMaxHeadcount', async (req, res, next) => {
+  const event = app.locals.event;
+  fxn.getMaxHeadcount(req.body.eventDetail, event).then(function(response) {
+    res.send(response);
+  });
+})
+
 // verify session ID
 router.post('/verifySessID', async (req, res, next) => {
   const event = app.locals.event;
