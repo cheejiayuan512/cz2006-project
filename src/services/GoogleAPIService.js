@@ -6,13 +6,12 @@ import {Button, Form} from "react-bootstrap";
 
 import ReactLoading from 'react-loading';
 
-const cuisineList = ['chinese', 'japanese','mexican', 'malay', 'indian', 'dessert', 'cafe', 'korean', 'western', 'peranakan', 'nyonya', 'hawker', 'italian', 'german', 'french', 'spanish', 'thai', 'vietnamese', 'fast+food','bakery','']
 class RestaurantSlider extends Component  {
     state = {
         restaurants: []
     };
     componentDidMount() {
-        fetch(CORSProxy +'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key='+ GoogleApiKey + '&location='+this.props.locationdetails.lat+','+this.props.locationdetails.long+'&radius='+this.props.locationdetails.radius+'&keyword=food')
+        fetch(CORSProxy +'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key='+ GoogleApiKey + '&location='+this.props.lat+','+this.props.long+'&radius='+this.props.radius+'&keyword='+this.props.keyWord)
             .then(res => res.json())
             .then((data) => {
                 this.setState({ restaurants: data });
@@ -29,7 +28,7 @@ class RestaurantSlider extends Component  {
     }
     const jsonQuery = require('json-query');
     return(<div >
-        <h5>message: {this.props.locationdetails.text}, lat: {this.props.locationdetails.lat}, long: {this.props.locationdetails.long}, radius: {this.props.locationdetails.radius}</h5>
+        <h5>message: {this.props.text}, lat: {this.props.lat}, long: {this.props.long}, radius: {this.props.radius}, keyword: {this.props.keyWord}</h5>
         <div className="container-fluid py-2"  >
             <div className="d-flex flex-row flex-nowrap scroll" style={{  overflow:'auto' }}>
             {this.state.restaurants['results'].map((anObjectMapped, index)=>
@@ -46,7 +45,8 @@ class RestaurantSlider extends Component  {
                         type="switch"
                         label="I would like to eat here!"
                         id={anObjectMapped.name.replace(/\./g, '').replace(/ /g,"_")}
-                        name={anObjectMapped.name.replace(/\./g, '').replace(/ /g,"-")} ref={this.props.locationdetails.register}
+                        name={anObjectMapped.name.replace(/\./g, '').replace(/ /g,"-")}
+                        onChange={this.props.onChange}
                     />
 
 

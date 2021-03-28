@@ -3,7 +3,6 @@ import {
     Route, MemoryRouter
 } from "react-router-dom";
 import Home from "./pages/Home";
-import UserForm from "./components/UserFormComponents/UserForm";
 import OrgForm from "./pages/OrgForm.js";
 import MainNavbar from "./components/MainNavbar";
 import {Button} from "react-bootstrap";
@@ -11,7 +10,7 @@ import {config} from './configurations/secret.js'
 import {RestaurantSlider} from "./services/GoogleAPIService";
 import MakanGoWhereLogo from "./assets/MakanGoWhereLogo";
 import {createStore, useStateMachine} from "little-state-machine";
-import {ResponseForm} from "./pages/ResponseForm";
+import {UserForm} from "./pages/UserForm";
 import {RouterConfig} from "./navigation/RouterConfig";
 
 let today = new Date();
@@ -79,7 +78,7 @@ function HomePage() {
                 }}>
                     <RouterConfig render={(props) => (
                         <Home {...props} setEventCode={setEventCode}/>
-                    )} render1={(props) => (<ResponseForm {...props} eventCode={eventCode}/>)}/>
+                    )} render1={(props) => (<UserForm {...props} eventCode={eventCode}/>)}/>
 
                 </div>
             </MemoryRouter></div>)

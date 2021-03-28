@@ -108,7 +108,7 @@ class OrgForm extends Component {
                             </div>
                             <div id="test-l-5" className="content text-center">
                                 <OrgStep5 onChange={(e) => this.handleChange(e, 'organiserEmail')}/>
-                                {(/^[a-zA-Z0-9._]+@[a-zA-Z0-9_]+\.[A-Za-z0-9.]+$/.test(this.state.organiserEmail)) === false ?
+                                {(/^[a-zA-Z0-9._]+@[a-zA-Z0-9_]+\.[A-Za-z0-9._]+$/.test(this.state.organiserEmail)) === false ?
                                     <h6>Please check your email!</h6> :
                                     <div>
                                         <Button className='m-2' onClick={() => this.stepper.previous()}>Back</Button>
