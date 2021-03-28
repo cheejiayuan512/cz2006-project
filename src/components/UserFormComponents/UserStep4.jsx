@@ -5,9 +5,28 @@ import { useStateMachine } from "little-state-machine";
 import { updateUserAction } from "../../controllers/updateAction";
 import {Button, Form} from "react-bootstrap";
 import { GetEventDetails } from "../../Main";
+import ReactWordcloud from 'react-wordcloud';
 
 const UserStep4 = props => {
     let x = parseInt(GetEventDetails().headCount, 10);
+    const cuisineList = ['chinese', 'japanese','mexican', 'malay', 'indian', 'dessert', 'cafe',
+        'korean', 'western', 'peranakan', 'nyonya', 'hawker', 'italian', 'german', 'french',
+        'spanish', 'thai', 'vietnamese', 'fast+food','bakery','']
+    const options = {
+        colors: ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b"],
+        enableTooltip: true,
+        deterministic: false,
+        fontFamily: "impact",
+        fontSizes: [5, 60],
+        fontStyle: "normal",
+        fontWeight: "normal",
+        padding: 1,
+        rotations: 3,
+        rotationAngles: [0, 90],
+        scale: "sqrt",
+        spiral: "archimedean",
+        transitionDuration: 1000
+    };
     const [numPax, setCount] = useState(x);
     const { state, actions } = useStateMachine({ updateUserAction });
     const { handleSubmit, errors, register } = useForm({
@@ -34,6 +53,7 @@ const UserStep4 = props => {
             <Form className='d-inline-block flex-column p-2 ' onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group>
                     <Form.Label column='lg' className='font-weight-bold' style={{fontSize:'150%'}}>How many pax will be attending?</Form.Label>
+                    <ReactWordcloud options={options} words={}/>
                     <Button type='button' style={{width: '50px',height: '50px',textAlign:'center', fontSize:'x-large',backgroundColor:'#D33434',borderColor:'#D33434'}} onClick={decrementPax}>-</Button>
                     <Form.Control required name="headCount" value={numPax} placeholder='1'
                                   style={{margin:'20px', width: '160px',height: '160px',display: 'inline-block', fontSize:100,textAlign:'center'}} ref={register()} readOnly />
