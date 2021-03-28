@@ -8,7 +8,7 @@ const UserPrice = ({sendDataToParent}) => {
     const [values, setValues] = React.useState([0,4]);
     function handleChangePriceRange (userValues){
         setValues(userValues);
-        sendDataToParent({userValues})
+        sendDataToParent(userValues)
     }
     function toDollarFormat (values, index) {
         if (values[index]===0){

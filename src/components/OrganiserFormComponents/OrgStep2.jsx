@@ -34,7 +34,7 @@ const OrgStep2 = ({sendDataToParent}) => {
             <Form.Group>
                 <Button variant="secondary" type="button" onClick={handleResetLocation}>Reset Location!</Button>
                 <Form.Control required name="latitude" type="hidden" value={[location.lat , location.lng] }  />
-                <div className='m-2'> <MapPicker defaultLocation={defaultLocation}
+                <div className='m-2'> <MapPicker id='google-map-picker' defaultLocation={defaultLocation}
                                  zoom={zoom}
                                  style={{height:'45vh'}}
                                  onChangeLocation={handleChangeLocation}

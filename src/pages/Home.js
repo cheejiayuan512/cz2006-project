@@ -3,16 +3,19 @@ import {Button, Form, FormControl,Container,Row,Col} from "react-bootstrap";
 import {Link, Route} from "react-router-dom";
 import axios from "axios";
 import { withRouter } from "react-router";
-import {ResponseForm} from "./ResponseForm";
+import {UserForm} from "./UserForm";
+import {RestaurantSlider} from "../services/GoogleAPIService";
 
 class Home extends Component {
 
     constructor() {
         super();
         this.state = { eventCode:'',
-            errorMsg:''
+            errorMsg:'',
+            restaurants:'',
         }
         this.handleEventCode = this.handleEventCode.bind(this)
+        this.handleRestaurants = this.handleRestaurants.bind(this)
     }
 
 
@@ -73,7 +76,7 @@ class Home extends Component {
                             </Link>
                         </Col>
                     </Row>
-
+                    <RestaurantSlider lat={1.35} long={103.8198} radius={5000} text={'hello'} keyWord={'food'} onChange={this.handleRestaurants}/>
                 </Container>
 
         </div>
@@ -85,6 +88,9 @@ class Home extends Component {
     handleEventCode(event) {
         this.setState({eventCode:event.target.value})
         this.props.setEventCode(event.target.value)
+    }
+    handleRestaurants(data) {
+        this.setState({restaurants: data.target.value}, console.log(this.state))
     }
 }
 
