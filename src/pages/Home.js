@@ -89,8 +89,8 @@ class Home extends Component {
         this.setState({eventCode:event.target.value})
         this.props.setEventCode(event.target.value)
     }
-    handleRestaurants(data) {
-        this.setState({restaurants: data.target.value}, console.log(this.state))
+    handleRestaurants(event) {
+        this.setState({restaurants: event.currentTarget.id}, console.log(this.state))
     }
 }
 

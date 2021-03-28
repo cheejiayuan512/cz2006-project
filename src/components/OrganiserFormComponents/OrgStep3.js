@@ -1,6 +1,9 @@
 import {Form} from "react-bootstrap";
 import DateRangePicker from "react-bootstrap-daterangepicker";
 import React from "react";
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-daterangepicker/daterangepicker.css';
+
 
 function OrgStep3(props) {
     return <>
@@ -8,7 +11,7 @@ function OrgStep3(props) {
             the approximate date of the event?</Form.Label>
         <DateRangePicker required onCallback={props.onCallback} format='dd/mm/yyyy'
                          initialSettings={{maxSpan: {"days": 14}}}>
-            <input required type="text" className="form-control"/>
+            <Form.Control required type="text" />
         </DateRangePicker>
         <Form.Text className="text-muted">Tip: Don't be a dick.</Form.Text>
     </>;
