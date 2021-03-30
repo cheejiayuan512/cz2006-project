@@ -38,35 +38,15 @@ function createEvent(data, event) {
 
 // insert participant details into DB, check if currentPax >= maxPax
 function updateParticipant(data, session) {
-    if (session.aggregate([
-        {$project: {ab: {$cmp: ['$currentPax', '$maxPax']}}},
-        {$match: {ab: {$gt: 0}}}
-    ]).count() === 0) {
+    return new Promise(function(resolve, reject) {
         session.insertOne(data, function(err, res) {
-            if (err) throw err;
+            if (err) throw errl
             console.log("Document inserted successfully into Session!");
         })
-    }
-    else {
-        // controllers to find suitable time slots and suitable cuisine for them **not done**
-        // call gooogle places API to get a list of restaurants
-        try {
-            const area = data.area;
-            const cuisine = data.cuisine;
-            const budget = data.budget;
-            const numOfPax = data.numOfPax;
-            const {data} = axios.get(
-              `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${area}+${cuisine}+${budget}+${numOfPax}&type=restaurant&key=${key}`
-            );
-            return data;
-          } 
-          catch (err) {
-            next(err)
-          }
-        // display result list **not done**
-        // send email to organiser to notify him/her that result is ready
-        SendEmail(eventCode, resultList);
-    }
+
+        resolve("Submitted!");
+    })
+    
 }
 
 // send email to organiser
