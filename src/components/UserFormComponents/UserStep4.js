@@ -50,7 +50,6 @@ export function UserStep4(props) {
             <CuisineCard parentFoodArray={cuisineList} parentSetFunction={setCuisineList} id={'malay'} img={malay} title={'Malay'} flavourText={'Nasi Goreng, Rendang, Mee Siam and Satay'}/>
             <CuisineCard parentFoodArray={cuisineList} parentSetFunction={setCuisineList} id={'thai'} img={thai} title={'Thai'} flavourText={'Mookata, , Pad Thai, Tom Yum and Mango Salad'}/>
             <CuisineCard parentFoodArray={cuisineList} parentSetFunction={setCuisineList} id={'dessert'} img={dessert} title={'Dessert'} flavourText={'Bingsu, Ice Cream, Confectionaries and Cakes'}/>
-
         </CardGroup>
     </Form>
 }

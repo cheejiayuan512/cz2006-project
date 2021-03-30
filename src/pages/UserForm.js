@@ -6,9 +6,13 @@ import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import DateRangePicker from "react-bootstrap-daterangepicker";
 import axios from "axios";
 import {Timetable} from "../components/OrganiserFormComponents/Timetable";
-    import {handleChange} from "../controllers/UserFormController";
+    import {
+    handleBudgetChange,
+    handleChange,
+    handleCuisineChange,
+        handleTimetable
+    } from "../controllers/UserFormController";
 
-import UserPrice from "../components/UserFormComponents/UserPrice";
 import {UserStep1} from "../components/UserFormComponents/UserStep1";
 import {UserStep2} from "../components/UserFormComponents/UserStep2";
 import {UserStep3} from "../components/UserFormComponents/UserStep3";
@@ -36,10 +40,10 @@ class UserForm extends Component {
             "userBudget": [0,4],
             "userCuisine": [],
             "eventName":'test'}
-        this.handleTimetable = this.handleTimetable.bind(this);
+        this.handleTimetable = handleTimetable.bind(this);
         this.handleChange  = handleChange.bind(this);
-        this.handleBudgetChange = this.handleBudgetChange.bind(this);
-        this.handleCuisineChange = this.handleCuisineChange.bind(this);
+        this.handleBudgetChange = handleBudgetChange.bind(this);
+        this.handleCuisineChange = handleCuisineChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.getEventName().then(result => this.setState({eventName: result}))
 
@@ -75,9 +79,7 @@ class UserForm extends Component {
             .catch((err) => {
                 console.log(err);
             }).then(result => {
-            console.log(result)
-            this.setState({eventCode:result})
-        });
+            console.log(result)});
 
 
     }
@@ -147,6 +149,8 @@ class UserForm extends Component {
                                         <UserResult userName={this.state.userName} userTiming={this.state.userTiming}
                                                     userBudget={this.state.userBudget}
                                                     userCuisine={this.state.userCuisine}/>
+                                        <Button onClick={this.onSubmit} className="btn btn-primary mt-5">Submit</Button>
+
                                         <Button className='m-2' onClick={() => this.stepper.previous()}>Back</Button>
 
                                     </div>
@@ -159,20 +163,9 @@ class UserForm extends Component {
 
         );
     }
-    handleTimetable(value){
-        this.setState({userTiming: value})
-    }
-    handleNameChange(event){
-        this.setState({userName: event.target.value })
-    }
-    handleBudgetChange(event){
-        this.setState({userBudget: event })
-    }
-    handleCuisineChange(data){
-        console.log(data)
-        this.setState({userCuisine: data })
 
-    }
+
+
 
 
 }

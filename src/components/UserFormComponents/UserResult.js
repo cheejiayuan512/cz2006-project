@@ -9,6 +9,5 @@ export const UserResult = (props) =>{    return <Form.Group>
         <h4>Preferred Timings: {props.userTiming}</h4>
         <h4>Preferred Budget: {props.userBudget.toString()} </h4>
         <h4>Preferred Cuisine(s): {props.userCuisine.toString()}</h4>
-        <Button type="submit" className="btn btn-primary mt-5">Submit</Button>
     </Form.Group>;
 }
