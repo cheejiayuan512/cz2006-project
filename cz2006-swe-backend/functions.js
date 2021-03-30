@@ -94,7 +94,7 @@ function verifySessID(sessID, event, session) {
     return new Promise(function(resolve, reject) {
         event.find({eventCode: sessID}).toArray((err, result) => {
             if (result) {
-                session.find    ({eventCode: sessID}).count((err, num) => {
+                session.find({eventCode: sessID}).count((err, num) => {
                     if (err) throw err;
 
                     else {
@@ -163,6 +163,36 @@ function getEndDate(sessID, event) {
     })
 }
 
+// get current headcount of event
+function getCurrentHeadcount(sessID, session) {
+    return new Promise(function(resolve, reject) {
+        session.find({eventCode: sessID}).count((err, currHeadcount) => {
+            if (!err) {
+                //console.log(startDate[0].eventStartDate);
+                resolve(currHeadcount);
+            }
+            else {
+                console.log("ERROR: ", err);
+            }
+        });
+    })
+}
+
+// get maximum headcount of event
+function getMaxHeadcount(sessID, event) {
+    return new Promise(function(resolve, reject) {
+        event.find({eventCode: sessID}).toArray((err, result) => {
+            if (!err) {
+                //console.log(startDate[0].eventStartDate);
+                resolve(result[0].headCount);
+            }
+            else {
+                console.log("ERROR: ", err);
+            }
+        });
+    })
+}
+
 // function to get nearby restaurants
 function getNearbyRestaurants(data) {
     var lat = data.lat;
@@ -185,5 +215,7 @@ module.exports = {
     verifySessID:verifySessID,
     getStartDate: getStartDate,
     getEndDate: getEndDate,
-    getEventName: getEventName
+    getEventName: getEventName,
+    getCurrentHeadcount: getCurrentHeadcount,
+    getMaxHeadcount: getMaxHeadcount
 }
