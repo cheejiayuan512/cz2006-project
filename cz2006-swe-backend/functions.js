@@ -38,35 +38,15 @@ function createEvent(data, event) {
 
 // insert participant details into DB, check if currentPax >= maxPax
 function updateParticipant(data, session) {
-    if (session.aggregate([
-        {$project: {ab: {$cmp: ['$currentPax', '$maxPax']}}},
-        {$match: {ab: {$gt: 0}}}
-    ]).count() === 0) {
+    return new Promise(function(resolve, reject) {
         session.insertOne(data, function(err, res) {
-            if (err) throw err;
+            if (err) throw errl
             console.log("Document inserted successfully into Session!");
         })
-    }
-    else {
-        // controllers to find suitable time slots and suitable cuisine for them **not done**
-        // call gooogle places API to get a list of restaurants
-        try {
-            const area = data.area;
-            const cuisine = data.cuisine;
-            const budget = data.budget;
-            const numOfPax = data.numOfPax;
-            const {data} = axios.get(
-              `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${area}+${cuisine}+${budget}+${numOfPax}&type=restaurant&key=${key}`
-            );
-            return data;
-          } 
-          catch (err) {
-            next(err)
-          }
-        // display result list **not done**
-        // send email to organiser to notify him/her that result is ready
-        SendEmail(eventCode, resultList);
-    }
+
+        resolve("Submitted!");
+    })
+    
 }
 
 // send email to organiser
@@ -94,7 +74,7 @@ function verifySessID(sessID, event, session) {
     return new Promise(function(resolve, reject) {
         event.find({eventCode: sessID}).toArray((err, result) => {
             if (result) {
-                session.find    ({eventCode: sessID}).count((err, num) => {
+                session.find({eventCode: sessID}).count((err, num) => {
                     if (err) throw err;
 
                     else {
@@ -163,6 +143,36 @@ function getEndDate(sessID, event) {
     })
 }
 
+// get current headcount of event
+function getCurrentHeadcount(sessID, session) {
+    return new Promise(function(resolve, reject) {
+        session.find({eventCode: sessID}).count((err, currHeadcount) => {
+            if (!err) {
+                //console.log(startDate[0].eventStartDate);
+                resolve(currHeadcount);
+            }
+            else {
+                console.log("ERROR: ", err);
+            }
+        });
+    })
+}
+
+// get maximum headcount of event
+function getMaxHeadcount(sessID, event) {
+    return new Promise(function(resolve, reject) {
+        event.find({eventCode: sessID}).toArray((err, result) => {
+            if (!err) {
+                //console.log(startDate[0].eventStartDate);
+                resolve(result[0].headCount);
+            }
+            else {
+                console.log("ERROR: ", err);
+            }
+        });
+    })
+}
+
 // function to get nearby restaurants
 function getNearbyRestaurants(data) {
     var lat = data.lat;
@@ -185,5 +195,7 @@ module.exports = {
     verifySessID:verifySessID,
     getStartDate: getStartDate,
     getEndDate: getEndDate,
-    getEventName: getEventName
+    getEventName: getEventName,
+    getCurrentHeadcount: getCurrentHeadcount,
+    getMaxHeadcount: getMaxHeadcount
 }

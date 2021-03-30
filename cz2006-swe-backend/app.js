@@ -66,7 +66,6 @@ MongoClient.connect(url)
 // create event
 router.post('/eventCreation', (req, res) => {
   const event = app.locals.event;
-  const session = app.locals.session;
   //console.log("req: ", req.body.eventDetail);
   fxn.createEvent(req.body.eventDetail, event).then(function(response) {
     res.send(response);
@@ -77,7 +76,9 @@ router.post('/eventCreation', (req, res) => {
 // update participant
 router.post('/userDetail', async(req, res, next) => {
   const session = app.locals.session;
-  fxn.updateParticipant(req.body.userDetail, session);
+  fxn.updateParticipant(req.body.userDetail, session).then(function(response) {
+    res.send(response);
+  });
 });
 
 // get nearby restaurant
@@ -105,6 +106,22 @@ router.post('/getEndDate', async (req, res, next) => {
 router.post('/getEventName', async (req, res, next) => {
   const event = app.locals.event;
   fxn.getEventName(req.body.eventDetail, event).then(function(response) {
+    res.send(response);
+  });
+})
+
+// get current headcount
+router.post('/getCurrentHeadcount', async (req, res, next) => {
+  const session = app.locals.session;
+  fxn.getCurrentHeadcount(req.body.eventDetail, session).then(function(response) {
+    res.send(response);
+  });
+})
+
+// get max headcount
+router.post('/getMaxHeadcount', async (req, res, next) => {
+  const event = app.locals.event;
+  fxn.getMaxHeadcount(req.body.eventDetail, event).then(function(response) {
     res.send(response);
   });
 })

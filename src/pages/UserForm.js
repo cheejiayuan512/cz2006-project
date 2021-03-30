@@ -6,12 +6,17 @@ import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import DateRangePicker from "react-bootstrap-daterangepicker";
 import axios from "axios";
 import {Timetable} from "../components/OrganiserFormComponents/Timetable";
-    import {handleChange} from "../controllers/UserFormController";
+    import {
+    handleBudgetChange,
+    handleChange,
+    handleCuisineChange,
+        handleTimetable
+    } from "../controllers/UserFormController";
 
-import UserPrice from "../components/UserFormComponents/UserPrice";
 import {UserStep1} from "../components/UserFormComponents/UserStep1";
 import {UserStep2} from "../components/UserFormComponents/UserStep2";
 import {UserStep3} from "../components/UserFormComponents/UserStep3";
+import {UserStep4} from "../components/UserFormComponents/UserStep4";
 import {UserResult} from "../components/UserFormComponents/UserResult";
 
 const FormStep = (props) => {
@@ -33,12 +38,12 @@ class UserForm extends Component {
             "userName": "",
             "userTiming": "",
             "userBudget": [0,4],
-            "userCuisine": "",
-        "eventName":'test'}
-        this.handleTimetable = this.handleTimetable.bind(this);
+            "userCuisine": [],
+            "eventName":'test'}
+        this.handleTimetable = handleTimetable.bind(this);
         this.handleChange  = handleChange.bind(this);
-        this.handleBudgetChange = this.handleBudgetChange.bind(this);
-        this.handleCuisineChange = this.handleCuisineChange.bind(this);
+        this.handleBudgetChange = handleBudgetChange.bind(this);
+        this.handleCuisineChange = handleCuisineChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.getEventName().then(result => this.setState({eventName: result}))
 
@@ -74,9 +79,7 @@ class UserForm extends Component {
             .catch((err) => {
                 console.log(err);
             }).then(result => {
-            console.log(result)
-            this.setState({eventCode:result})
-        });
+            console.log(result)});
 
 
     }
@@ -132,41 +135,9 @@ class UserForm extends Component {
 
                                     </div>
                                     <div id="test-l-4" className="content text-center">
-                                        <Form.Group>
-                                            <Form.Label column='lg' className='font-weight-bold'
-                                                        style={{fontSize: '150%'}}>What is your preferred
-                                                cuisine?</Form.Label>
-                                            <Button type='button' style={{
-                                                width: '50px',
-                                                height: '50px',
-                                                textAlign: 'center',
-                                                fontSize: 'x-large',
-                                                backgroundColor: '#D33434',
-                                                borderColor: '#d33434'
-                                            }} onClick={this.decrementPax}>-</Button>
-                                            <Form.Control required name="headCount" value={this.state.headCount}
-                                                          placeholder='1'
-                                                          style={{
-                                                              margin: '20px',
-                                                              width: '160px',
-                                                              height: '160px',
-                                                              display: 'inline-block',
-                                                              fontSize: 100,
-                                                              textAlign: 'center'
-                                                          }} onChange={this.handleChangeHeadCount} readOnly/>
-                                            <Button type='button' style={{
-                                                width: '50px',
-                                                height: '50px',
-                                                textAlign: 'center',
-                                                fontSize: 'x-large',
-                                                backgroundColor: '#d33434',
-                                                borderColor: '#d33434'
-                                            }} onClick={this.incrementPax}>+</Button>
-                                            <Form.Text className="text-muted">
-                                                I like KBBQ.
-                                            </Form.Text>
-                                        </Form.Group>
-                                        {this.state.userCuisine === '' ?
+                                        <UserStep4  sendDataToParent={this.handleCuisineChange}
+                                                      />
+                                        {this.state.userCuisine === [] ?
                                             <h6>You need to choose at least one cuisine!</h6> :
                                             <div>
                                                 <Button className='m-2'
@@ -178,6 +149,8 @@ class UserForm extends Component {
                                         <UserResult userName={this.state.userName} userTiming={this.state.userTiming}
                                                     userBudget={this.state.userBudget}
                                                     userCuisine={this.state.userCuisine}/>
+                                        <Button onClick={this.onSubmit} className="btn btn-primary mt-5">Submit</Button>
+
                                         <Button className='m-2' onClick={() => this.stepper.previous()}>Back</Button>
 
                                     </div>
@@ -190,18 +163,9 @@ class UserForm extends Component {
 
         );
     }
-    handleTimetable(value){
-        this.setState({userTiming: value})
-    }
-    handleNameChange(event){
-        this.setState({userName: event.target.value })
-    }
-    handleBudgetChange(event){
-        this.setState({userBudget: event })
-    }
-    handleCuisineChange(event){
-        this.setState({userCuisine: event.target.value })
-    }
+
+
+
 
 
 }
