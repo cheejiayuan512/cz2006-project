@@ -12,6 +12,7 @@ import UserPrice from "../components/UserFormComponents/UserPrice";
 import {UserStep1} from "../components/UserFormComponents/UserStep1";
 import {UserStep2} from "../components/UserFormComponents/UserStep2";
 import {UserStep3} from "../components/UserFormComponents/UserStep3";
+import {UserStep4} from "../components/UserFormComponents/UserStep4";
 import {UserResult} from "../components/UserFormComponents/UserResult";
 
 const FormStep = (props) => {
@@ -132,40 +133,9 @@ class UserForm extends Component {
 
                                     </div>
                                     <div id="test-l-4" className="content text-center">
-                                        <Form.Group>
-                                            <Form.Label column='lg' className='font-weight-bold'
-                                                        style={{fontSize: '150%'}}>What is your preferred
-                                                cuisine?</Form.Label>
-                                            <Button type='button' style={{
-                                                width: '50px',
-                                                height: '50px',
-                                                textAlign: 'center',
-                                                fontSize: 'x-large',
-                                                backgroundColor: '#D33434',
-                                                borderColor: '#d33434'
-                                            }} onClick={this.decrementPax}>-</Button>
-                                            <Form.Control required name="headCount" value={this.state.headCount}
-                                                          placeholder='1'
-                                                          style={{
-                                                              margin: '20px',
-                                                              width: '160px',
-                                                              height: '160px',
-                                                              display: 'inline-block',
-                                                              fontSize: 100,
-                                                              textAlign: 'center'
-                                                          }} onChange={this.handleChangeHeadCount} readOnly/>
-                                            <Button type='button' style={{
-                                                width: '50px',
-                                                height: '50px',
-                                                textAlign: 'center',
-                                                fontSize: 'x-large',
-                                                backgroundColor: '#d33434',
-                                                borderColor: '#d33434'
-                                            }} onClick={this.incrementPax}>+</Button>
-                                            <Form.Text className="text-muted">
-                                                I like KBBQ.
-                                            </Form.Text>
-                                        </Form.Group>
+                                        <UserStep4 onClick={this.decrementPax} value={this.state.headCount}
+                                                      onChange={this.handleChangeHeadCount}
+                                                      onClick1={this.incrementPax}/>
                                         {this.state.userCuisine === '' ?
                                             <h6>You need to choose at least one cuisine!</h6> :
                                             <div>

@@ -76,7 +76,7 @@ class Home extends Component {
                             </Link>
                         </Col>
                     </Row>
-                    <RestaurantSlider lat={1.35} long={103.8198} radius={5000} text={'hello'} keyWord={'food'} onChange={this.handleRestaurants}/>
+                    <RestaurantSlider lat={1.35} long={103.8198} radius={5000} text={'hello'} keyWord={'fast+food'} onChange={this.handleRestaurants}/>
                 </Container>
 
         </div>
@@ -90,7 +90,7 @@ class Home extends Component {
         this.props.setEventCode(event.target.value)
     }
     handleRestaurants(event) {
-        this.setState({restaurants: event.currentTarget.id}, console.log(this.state))
+        this.setState({restaurants: event.currentTarget.id  }, console.log(this.state))
     }
 }
 
