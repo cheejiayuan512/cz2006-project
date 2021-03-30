@@ -34,8 +34,8 @@ class UserForm extends Component {
             "userName": "",
             "userTiming": "",
             "userBudget": [0,4],
-            "userCuisine": "",
-        "eventName":'test'}
+            "userCuisine": [],
+            "eventName":'test'}
         this.handleTimetable = this.handleTimetable.bind(this);
         this.handleChange  = handleChange.bind(this);
         this.handleBudgetChange = this.handleBudgetChange.bind(this);
@@ -133,10 +133,9 @@ class UserForm extends Component {
 
                                     </div>
                                     <div id="test-l-4" className="content text-center">
-                                        <UserStep4 onClick={this.decrementPax} value={this.state.headCount}
-                                                      onChange={this.handleChangeHeadCount}
-                                                      onClick1={this.incrementPax}/>
-                                        {this.state.userCuisine === '' ?
+                                        <UserStep4  sendDataToParent={this.handleCuisineChange}
+                                                      />
+                                        {this.state.userCuisine === [] ?
                                             <h6>You need to choose at least one cuisine!</h6> :
                                             <div>
                                                 <Button className='m-2'
@@ -169,8 +168,10 @@ class UserForm extends Component {
     handleBudgetChange(event){
         this.setState({userBudget: event })
     }
-    handleCuisineChange(event){
-        this.setState({userCuisine: event.target.value })
+    handleCuisineChange(data){
+        console.log(data)
+        this.setState({userCuisine: data })
+
     }
 
 
