@@ -52,7 +52,6 @@ class UserForm extends Component {
         axios.post("http://localhost:9000/getCurrentHeadcount", {eventDetail:this.state.roomID})
             .then((res) => {
                 console.log('object' ,res);
-                console.log('funcation called')
                 console.log(res.data);
                 this.setState({currentHeadCount:res.data})
             })
@@ -62,8 +61,6 @@ class UserForm extends Component {
         axios.post("http://localhost:9000/getMaxHeadcount", {eventDetail:this.state.roomID})
             .then((res) => {
                 console.log('object' ,res);
-                console.log('funcation called')
-
                 console.log(res.data);
                 this.setState({maxHeadCount:res.data})
             })
