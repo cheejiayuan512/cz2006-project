@@ -147,7 +147,7 @@ function getEndDate(sessID, event) {
 function getCurrentHeadcount(sessID, session) {
     //console.log("in getCurrentHeadcount fxn");
     return new Promise(function(resolve, reject) {
-        session.find({eventCode: sessID}).count((err, currHeadcount) => {
+        session.find({roomID: sessID}).count((err, currHeadcount) => {
             if (!err) {
                 //console.log(currHeadcount);
                 let hc = currHeadcount.toString();
@@ -166,7 +166,7 @@ function getMaxHeadcount(sessID, event) {
         event.find({eventCode: sessID}).toArray((err, result) => {
             if (!err) {
                 //console.log(startDate[0].eventStartDate);
-                resolve(result[0].headCount);
+                resolve(result[0].headCount.toString());
             }
             else {
                 console.log("ERROR: ", err);
@@ -175,8 +175,8 @@ function getMaxHeadcount(sessID, event) {
     })
 }
 
-// function to get nearby restaurants
-function getNearbyRestaurants(data) {
+// function to get common timeslot
+function getCommonSlot(data) {
     var lat = data.lat;
     var long = data.long;
     var radius = data.radius;
