@@ -1,3 +1,4 @@
+const { default: axios } = require('axios');
 const e = require('express');
 const { resolveContent } = require('nodemailer/lib/shared');
 var mail = require('./email');
@@ -46,26 +47,127 @@ function updateParticipant(data, session) {
 
         resolve("Submitted!");
     })
-    
+}
+
+// get preferred cuisine
+function getCuisine(sessID, session) {
+    return new Promise(function(resolve, reject) {
+        getAllParticipants(sessID, session).then((result) => {
+            var i = 0;
+            var j = 0;
+            var cuisineList = []
+            for(i = 0; i < result.length; i++) {
+                for(j = 0; j < result[i].userCuisine.length; j++) {
+                    if (cuisineList.includes(result[i].userCuisine[j])) {
+                        continue;
+                    }
+                    else {
+                        cuisineList.push(result[i].userCuisine[j]);
+                    }
+                }
+            }
+            console.log(cuisineList);
+            resolve(cuisineList);
+        })
+    })
+}
+
+// get preferred budget
+function getBudget(sessID, session) {
+    return new Promise(function(resolve, reject) {
+        getAllParticipants(sessID, session).then((result) => {
+            var i = 0;
+            var j = 0;
+            var budgetList = []
+            for(i = 0; i < result.length; i++) {
+                for(j = 0; j < result[i].userBudget.length; j++) {
+                    if (budgetList.includes(result[i].userBudget[j])) {
+                        continue;
+                    }
+                    else {
+                        budgetList.push(result[i].userCuisine[j]);
+                    }
+                }
+            }
+            console.log(budgetList);
+            resolve(budgetList);
+        })
+    })
+}
+
+// get latitude
+function getLatitude(sessID, event) {
+    return new Promise(function(resolve, reject) {
+        event.find({eventCode: sessID}).toArray((err, result) => {
+            if (!err) {
+                //console.log(result);
+                resolve(result[0].latitude);
+            }
+            else {
+                console.log("ERROR:", err);
+            }
+            
+        })
+    })
+}
+
+// get longitude
+function getLongitude(sessID, event) {
+    return new Promise(function(resolve, reject) {
+        event.find({eventCode: sessID}).toArray((err, result) => {
+            if (!err) {
+                //console.log(result);
+                resolve(result[0].longitude);
+            }
+            else {
+                console.log("ERROR:", err);
+            }
+            
+        })
+    })
+}
+
+// get list of restaurants 
+function getRestaurants(sessID, event, session) {
+    return new Promise(function(resolve, reject) {
+        getCuisine(sessID, session).then((cuisineList) => {
+            var cuisine = cuisineList.join();
+            cuisine = cuisine.replace(", ", "+");
+                getLatitude(sessID, event).then((latitude) => {
+                    getLongitude(sessID, event).then((longitude) => {
+                        axios.post("https://maps.googleapis.com/maps/api/place/textsearch/json?query=food" + cuisine + "&sensor=true&location=" + latitude + "," + longitude + "&key=AIzaSyCxfAAGnMO0FO5UMouqUomiQTd0VXvz5zs")
+                        .then((res) => {
+                            console.log(res.data)
+                            resolve(res.data);
+                        })
+                    })
+                })
+        })
+    })
 }
 
 // send email to organiser
-function sendEmail(eventCode, resultList) {
-    var destEmail = db.collection("event").find({eventCode: eventCode}, {organiserEmail: 1})
-    var mailOptions = {
-        from: 'makanwhere@gmail.com',
-        to: destEmail,
-        subject: 'Here is a list of restaurant for you & your friends!',
-        text: resultList
-      };
-      
-    mail.transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
+function sendEmail(sessID, event) {
+    return new Promise(function(resolve, reject) {
+        event.find({eventCode: sessID}).toArray((response) => {
+            var destEmail = response[0].organiserEmail;
+        }).then((res) => {
+            var mailOptions = {
+                from: 'makanwhere@gmail.com',
+                to: res,
+                subject: 'Here is a list of restaurant for you & your friends!',
+                text: resultList
+              };
+              
+            mail.transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email sent: ' + info.response);
+                }
+            });
+        })
+    })
 }
 
 // verify session ID aka room code
@@ -98,15 +200,14 @@ function verifySessID(sessID, event, session) {
 // get event name
 function getEventName(sessID, event) {
     return new Promise(function(resolve, reject) {
-        event.find({eventCode: sessID}).toArray((err, event) => {
+        event.find({eventCode: sessID}).toArray((err, result) => {
             if (!err) {
-                //console.log(startDate[0].eventStartDate);
-                resolve(event[0].eventName);
+                resolve(result[0].eventName);
             }
             else {
                 console.log("ERROR: ", err);
             }
-        });
+        })
     })
 }
 
@@ -203,35 +304,6 @@ function getSelectedSlot(userTiming) {
     return indexes;
 }
 
-// function to get all the time slots. have yet to find a way to get common time slot
-function getCommonSlot2(sessID, session) {
-    console.log("in getCommonSlot fxn");
-    return new Promise(function(resolve, reject) {
-        getAllParticipants(sessID, session).then((resultList) => {
-            console.log(resultList)
-            var i = 0;
-            var j = 0;
-            var allIndexes = [];
-            console.log("resultList.length = ", resultList.length);
-            console.log("resultList.userTiming.length = ", resultList[0].userTiming.length);
-            for(i = 0; i < resultList.length; i++) {
-                console.log("in first for loop", i);
-                var dayIndexes = [];
-                var userIndexes = [];
-                // console.log("resultList.userTiming.TEST = ", resultList[0].userTiming)
-                for(j = 0; j < resultList[i].userTiming.length; j++) {
-                    console.log("in second for loop: ", j);
-                    dayIndexes = getSelectedSlot(resultList[i].userTiming[j]);
-                    userIndexes.push(dayIndexes);
-                }
-                allIndexes.push(userIndexes);
-            }
-            console.log(allIndexes);
-            resolve(allIndexes);
-        })
-    })
-}
-
 function getCommonSlot(sessID, session) {
     return new Promise(function(resolve, reject) {
         getAllParticipants(sessID, session).then((resultList) => {
@@ -277,5 +349,10 @@ module.exports = {
     getMaxHeadcount: getMaxHeadcount,
     getAllParticipants: getAllParticipants,
     getSelectedSlot: getSelectedSlot,
-    getCommonSlot: getCommonSlot
+    getCommonSlot: getCommonSlot,
+    getCuisine: getCuisine,
+    getBudget: getBudget,
+    getLatitude: getLatitude,
+    getLongitude: getLongitude,
+    getRestaurants: getRestaurants
 }

@@ -27,9 +27,9 @@ MongoClient.connect(url)
     console.log("Server listening on PORT", PORT);
     
     // my test dump LOL 
-    fxn.getCommonSlot("9NHU30ZL", session).then(function(response) {
+    /*fxn.getRestaurants("QX6HTKIN", event, session).then(function(response) {
       console.log("done");
-    });
+    });*/
     
   })
 }).catch(error => console.error(error));
@@ -110,6 +110,15 @@ router.post('/verifySessID', async (req, res, next) => {
     console.log(response);
     res.send(response);
   });
+})
+
+// get restaurant
+router.post('/getRestaurants', async(req, res, next) => {
+  const event = app.locals.event;
+  const session = app.locals.session;
+  fxn.getRestaurants(req.body.eventDetail, event, session).then(function(respponse) {
+    res.send(response);
+  })
 })
     
 app.use(router); 
