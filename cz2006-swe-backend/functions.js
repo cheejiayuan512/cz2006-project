@@ -80,13 +80,13 @@ function verifySessID(sessID, event, session) {
                     else {
                         console.log("num = ", num);
                         if (result.length === 0){
-                            resolve(false);
+                            resolve("Invalid event code.");
                         }
                         else if (num < parseInt(result[0].headCount)) {
-                            resolve(true);
+                            resolve("Valid.");
                         }
                         else {
-                            resolve(false);
+                            resolve("Room is full.");
                         }
                     }
                 });
