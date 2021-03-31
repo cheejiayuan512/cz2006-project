@@ -73,11 +73,12 @@ function sendEmail(eventCode, resultList) {
 function verifySessID(sessID, event, session) {
     return new Promise(function(resolve, reject) {
         event.find({eventCode: sessID}).toArray((err, result) => {
+            console.log("result[0].headCount] = ", result[0].headCount);
             if (result) {
-                session.find({eventCode: sessID}).count((err, num) => {
+                session.find({roomID: sessID}).count((err, num) => {
                     if (err) throw err;
-
                     else {
+                        console.log("num = ", num);
                         if (result.length === 0){
                             resolve(false);
                         }
@@ -175,18 +176,94 @@ function getMaxHeadcount(sessID, event) {
     })
 }
 
-// function to get common timeslot
-function getCommonSlot(data) {
-    var lat = data.lat;
-    var long = data.long;
-    var radius = data.radius;
-    try {
-        const {result} = axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?key='+ key + '&location='+ lat +','+ long +'&radius='+radius+'&keyword=food')
+// function to get all participants of an event
+function getAllParticipants(sessID, session) {
+    console.log("In getAllParticipants fxn");
+    return new Promise(function(resolve, reject) {
+        session.find({roomID: sessID}).toArray((err, result) => {
+            if (!err) {
+                //console.log(result);
+                resolve(result);
+            }
+            else {
+                console.log("ERROR: ", err);
+            }
+        })
+    })
+}
+
+// function to get user selected slot for each day
+function getSelectedSlot(userTiming) {
+    console.log("in getSelectedSlot fxn");
+    var i = 0;
+    var indexes = [];
+    console.log(userTiming.length)
+    for(i=0; i<=userTiming.length; i++) {
+        if (userTiming[i] == true) {
+            indexes.push(i);
+        }
     }
-    catch (err){
-        next(err);
-    }
-    return result;
+    console.log(indexes)
+    return indexes;
+}
+
+// function to get all the time slots. have yet to find a way to get common time slot
+function getCommonSlot2(sessID, session) {
+    console.log("in getCommonSlot fxn");
+    return new Promise(function(resolve, reject) {
+        getAllParticipants(sessID, session).then((resultList) => {
+            console.log(resultList)
+            var i = 0;
+            var j = 0;
+            var allIndexes = [];
+            console.log("resultList.length = ", resultList.length);
+            console.log("resultList.userTiming.length = ", resultList[0].userTiming.length);
+            for(i = 0; i < resultList.length; i++) {
+                console.log("in first for loop", i);
+                var dayIndexes = [];
+                var userIndexes = [];
+                // console.log("resultList.userTiming.TEST = ", resultList[0].userTiming)
+                for(j = 0; j < resultList[i].userTiming.length; j++) {
+                    console.log("in second for loop: ", j);
+                    dayIndexes = getSelectedSlot(resultList[i].userTiming[j]);
+                    userIndexes.push(dayIndexes);
+                }
+                allIndexes.push(userIndexes);
+            }
+            console.log(allIndexes);
+            resolve(allIndexes);
+        })
+    })
+}
+
+function getCommonSlot(sessID, session) {
+    // console.log("in getCommonSlot fxn");
+    return new Promise(function(resolve, reject) {
+        getAllParticipants(sessID, session).then((resultList) => {
+            var i = 0;
+            var j = 0;
+            var k = 0;
+            var totalPax = resultList.length; //might not even need this now, supposed to check whether any value in
+            // timetable is equal to maxPax
+            var finalList =  resultList[0].userTiming
+            for (j = 0; j< resultList[0].userTiming.length; j++){
+                for(k = 0; k < resultList[0].userTiming[0].length; k++) {
+                    finalList[j][k] = 0;
+                }
+            }
+            for (i = 0; i< resultList.length; i++){
+                for (j = 0; j< resultList[0].userTiming.length; j++){
+                    for(k = 0; k < resultList[0].userTiming[0].length; k++) {
+                        if (resultList[i].userTiming[j][k] === true){
+                            finalList[j][k] += 1;
+                        };
+                    }
+                }
+            }
+            console.log('finalList:\n',finalList);
+            resolve(finalList);
+        })
+    })
 }
 
 module.exports = {
@@ -199,5 +276,8 @@ module.exports = {
     getEndDate: getEndDate,
     getEventName: getEventName,
     getCurrentHeadcount: getCurrentHeadcount,
-    getMaxHeadcount: getMaxHeadcount
+    getMaxHeadcount: getMaxHeadcount,
+    getAllParticipants: getAllParticipants,
+    getSelectedSlot: getSelectedSlot,
+    getCommonSlot: getCommonSlot
 }
