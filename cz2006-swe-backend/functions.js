@@ -69,7 +69,6 @@ function sendEmail(eventCode, resultList) {
 }
 
 // verify session ID aka room code
-// separate into 2 fxns, one is to check validity of evenctcode, the other to check if numPax >= headCount
 function verifySessID(sessID, event, session) {
     return new Promise(function(resolve, reject) {
         event.find({eventCode: sessID}).toArray((err, result) => {
@@ -242,15 +241,17 @@ function getCommonSlot(sessID, session) {
             var totalPax = resultList.length;   // might not even need this now, supposed to check whether any value in
                                                 // timetable is equal to maxPax
             var finalList =  JSON.parse(JSON.stringify(resultList[0].userTiming));
+            //console.log("hehe: ", finalList);
             for (j = 0; j< resultList[0].userTiming.length; j++){
                 for(k = 0; k < resultList[0].userTiming[0].length; k++) {
                     finalList[j][k] = 0;
                 }
             }
+            console.log("hehe2: ", finalList);
             for (i = 0; i< resultList.length; i++){
                 for (j = 0; j< resultList[0].userTiming.length; j++){
                     for(k = 0; k < resultList[0].userTiming[0].length; k++) {
-                        console.log(resultList[i].userTiming[j][k])
+                        //console.log(resultList[i].userTiming[j][k])
                         if (resultList[i].userTiming[j][k] === true){
                             finalList[j][k] += 1;
                         };
