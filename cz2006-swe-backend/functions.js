@@ -73,16 +73,17 @@ function sendEmail(eventCode, resultList) {
 function verifySessID(sessID, event, session) {
     return new Promise(function(resolve, reject) {
         event.find({eventCode: sessID}).toArray((err, result) => {
-            console.log("result[0].headCount] = ", result[0].headCount);
-            if (result) {
+            //console.log("result[0].headCount] = ", result[0].headCount);
+            if (result === undefined || result.length == 0) {
+                resolve("Invalid event code.");
+                console.log("Empty array returned!");
+            }
+            else {
                 session.find({roomID: sessID}).count((err, num) => {
                     if (err) throw err;
                     else {
                         console.log("num = ", num);
-                        if (result.length === 0){
-                            resolve("Invalid event code.");
-                        }
-                        else if (num < parseInt(result[0].headCount)) {
+                        if (num < parseInt(result[0].headCount)) {
                             resolve("Valid.");
                         }
                         else {
@@ -90,10 +91,6 @@ function verifySessID(sessID, event, session) {
                         }
                     }
                 });
-            }
-            else {
-                resolve(false);
-                console.log("Empty array returned!");
             }
         });
     })
