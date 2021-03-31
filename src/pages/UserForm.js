@@ -91,7 +91,7 @@ class UserForm extends Component {
         e.preventDefault();
         axios
             .post("http://localhost:9000/userDetail", { userDetail: {
-                    "roomID": this.state.eventCode,
+                    "roomID": this.props.eventCode,
                     "userName": this.state.userName,
                     "userTiming": this.state.userTiming,
                     "userBudget": this.state.userBudget,
