@@ -113,8 +113,10 @@ router.post('/getEventName', async (req, res, next) => {
 // get current headcount
 router.post('/getCurrentHeadcount', async (req, res, next) => {
   const session = app.locals.session;
+  //console.log("In the route for getCurrentHeadcount");
   fxn.getCurrentHeadcount(req.body.eventDetail, session).then(function(response) {
     res.send(response);
+    //console.log("currentHeacount: ", response);
   });
 })
 

@@ -52,6 +52,7 @@ class UserForm extends Component {
         axios.post("http://localhost:9000/getCurrentHeadcount", {eventDetail:this.state.roomID})
             .then((res) => {
                 console.log('object' ,res);
+                console.log("Getting current headcount...");
                 console.log(res.data);
                 this.setState({currentHeadCount:res.data})
             })

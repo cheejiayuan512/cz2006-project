@@ -145,11 +145,13 @@ function getEndDate(sessID, event) {
 
 // get current headcount of event
 function getCurrentHeadcount(sessID, session) {
+    //console.log("in getCurrentHeadcount fxn");
     return new Promise(function(resolve, reject) {
         session.find({eventCode: sessID}).count((err, currHeadcount) => {
             if (!err) {
-                //console.log(startDate[0].eventStartDate);
-                resolve(currHeadcount);
+                //console.log(currHeadcount);
+                let hc = currHeadcount.toString();
+                resolve(hc);
             }
             else {
                 console.log("ERROR: ", err);
