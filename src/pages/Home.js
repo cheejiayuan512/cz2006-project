@@ -76,7 +76,7 @@ class Home extends Component {
                             </Link>
                         </Col>
                     </Row>
-                    <RestaurantSlider lat={1.35} long={103.8198} radius={5000} text={'hello'} keyWord={'fast+food'} onChange={this.handleRestaurants}/>
+                    {/*<RestaurantSlider lat={1.35} long={103.8198} radius={5000} text={'hello'} keyWord={'fast+food'} onChange={this.handleRestaurants}/>*/}
                 </Container>
 
         </div>

@@ -34,18 +34,42 @@ class UserForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            "roomID": "",
+            "roomID": this.props.eventCode,
             "userName": "",
             "userTiming": "",
             "userBudget": [0,4],
             "userCuisine": [],
-            "eventName":'test'}
+            "eventName":'test',
+            'userCode':'',
+            'headCount':'',
+            'currentHeadCount':''}
         this.handleTimetable = handleTimetable.bind(this);
         this.handleChange  = handleChange.bind(this);
         this.handleBudgetChange = handleBudgetChange.bind(this);
         this.handleCuisineChange = handleCuisineChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.getEventName().then(result => this.setState({eventName: result}))
+        axios.post("http://localhost:9000/getCurrentHeadcount", {eventDetail:this.state.roomID})
+            .then((res) => {
+                console.log('object' ,res);
+                console.log('funcation called')
+                console.log(res.data);
+                this.setState({currentHeadCount:res.data})
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+        axios.post("http://localhost:9000/getMaxHeadcount", {eventDetail:this.state.roomID})
+            .then((res) => {
+                console.log('object' ,res);
+                console.log('funcation called')
+
+                console.log(res.data);
+                this.setState({maxHeadCount:res.data})
+            })
+            .catch((err) => {
+                console.log(err);
+            })
 
     }
     componentDidMount() {
@@ -69,7 +93,14 @@ class UserForm extends Component {
     onSubmit(e) {
         e.preventDefault();
         axios
-            .post("http://localhost:9000/userDetail", { eventDetail: this.state })
+            .post("http://localhost:9000/userDetail", { userDetail: {
+                    "roomID": this.state.eventCode,
+                    "userName": this.state.userName,
+                    "userTiming": this.state.userTiming,
+                    "userBudget": this.state.userBudget,
+                    "userCuisine": this.state.userCuisine,
+                    "eventName":this.state.eventName,
+                    'userCode':this.state.userCode} })
             .then((res) => {
                 console.log(res.data);
                 console.log('function called')
@@ -79,7 +110,10 @@ class UserForm extends Component {
             .catch((err) => {
                 console.log(err);
             }).then(result => {
-            console.log(result)});
+            console.log(result)
+            this.setState({userCode: result})
+        });
+
 
 
     }
@@ -90,9 +124,8 @@ class UserForm extends Component {
 
             <Container className=' justify-content-center text-center align-items-center align-content-center'>
                 <Row>
-                    <Col><h6 className={'text-center'}>You are responding to {this.state.eventName} with event
-                        code: {this.props.eventCode}</h6></Col>
-                    <Col><h6>Number of respondents: currentHeadCount/maxHeadCount</h6></Col>
+                    <Col><h6>You are responding to {this.state.eventName}</h6></Col>
+                    <Col><h6>{this.state.currentHeadCount}/{this.state.maxHeadCount} responded!</h6></Col>
                 </Row>
                 <Row>
 
@@ -148,7 +181,7 @@ class UserForm extends Component {
                                     <div id="test-l-5" className="content text-center">
                                         <UserResult userName={this.state.userName} userTiming={this.state.userTiming}
                                                     userBudget={this.state.userBudget}
-                                                    userCuisine={this.state.userCuisine}/>
+                                                    userCuisine={this.state.userCuisine} userMessage={this.state.userCode}/>
                                         <Button onClick={this.onSubmit} className="btn btn-primary mt-5">Submit</Button>
 
                                         <Button className='m-2' onClick={() => this.stepper.previous()}>Back</Button>
