@@ -193,30 +193,35 @@ function getAllParticipants(sessID, session) {
 
 // function to get user selected slot for each day
 function getSelectedSlot(userTiming) {
-    //console.log("in getSelectedSlot fxn");
+    console.log("in getSelectedSlot fxn");
     var i = 0;
     var indexes = [];
-    for(i=0; i<userTiming.length; i++) {
+    console.log(userTiming.length)
+    for(i=0; i<=userTiming.length; i++) {
         if (userTiming[i] == true) {
             indexes.push(i);
         }
     }
+    console.log(indexes)
     return indexes;
 }
+
 // function to get all the time slots. have yet to find a way to get common time slot
-function getCommonSlot(sessID, session) {
+function getCommonSlot2(sessID, session) {
     console.log("in getCommonSlot fxn");
     return new Promise(function(resolve, reject) {
         getAllParticipants(sessID, session).then((resultList) => {
+            console.log(resultList)
             var i = 0;
             var j = 0;
             var allIndexes = [];
             console.log("resultList.length = ", resultList.length);
             console.log("resultList.userTiming.length = ", resultList[0].userTiming.length);
             for(i = 0; i < resultList.length; i++) {
-                console.log("in first for loop");
+                console.log("in first for loop", i);
                 var dayIndexes = [];
                 var userIndexes = [];
+                // console.log("resultList.userTiming.TEST = ", resultList[0].userTiming)
                 for(j = 0; j < resultList[i].userTiming.length; j++) {
                     console.log("in second for loop: ", j);
                     dayIndexes = getSelectedSlot(resultList[i].userTiming[j]);
@@ -226,6 +231,36 @@ function getCommonSlot(sessID, session) {
             }
             console.log(allIndexes);
             resolve(allIndexes);
+        })
+    })
+}
+
+function getCommonSlot(sessID, session) {
+    // console.log("in getCommonSlot fxn");
+    return new Promise(function(resolve, reject) {
+        getAllParticipants(sessID, session).then((resultList) => {
+            var i = 0;
+            var j = 0;
+            var k = 0;
+            var totalPax = resultList.length; //might not even need this now, supposed to check whether any value in
+            // timetable is equal to maxPax
+            var finalList =  resultList[0].userTiming
+            for (j = 0; j< resultList[0].userTiming.length; j++){
+                for(k = 0; k < resultList[0].userTiming[0].length; k++) {
+                    finalList[j][k] = 0;
+                }
+            }
+            for (i = 0; i< resultList.length; i++){
+                for (j = 0; j< resultList[0].userTiming.length; j++){
+                    for(k = 0; k < resultList[0].userTiming[0].length; k++) {
+                        if (resultList[i].userTiming[j][k] === true){
+                            finalList[j][k] += 1;
+                        };
+                    }
+                }
+            }
+            console.log('finalList:\n',finalList);
+            resolve(finalList);
         })
     })
 }

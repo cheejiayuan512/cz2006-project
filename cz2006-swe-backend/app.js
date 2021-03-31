@@ -27,9 +27,9 @@ MongoClient.connect(url)
     console.log("Server listening on PORT", PORT);
     
     // my test dump LOL 
-    /*fxn.getCommonSlot("9NHU30ZL", session).then(function(response) {
+    fxn.getCommonSlot("9NHU30ZL", session).then(function(response) {
       console.log("done");
-    });*/
+    });
     
   })
 }).catch(error => console.error(error));
