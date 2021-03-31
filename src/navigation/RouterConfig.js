@@ -7,6 +7,8 @@ function RouterConfig(props) {
         <Route exact path="/" render={props.render}/>
         <Route path='/testing' component={OrgForm}/>
         <Route path='/usertesting' render={props.render1}/>
+        <Route path='/result' render={props.render2}/>
+
 
     </div>;
 }

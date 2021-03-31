@@ -7,11 +7,12 @@ import DateRangePicker from "react-bootstrap-daterangepicker";
 import axios from "axios";
 import {Timetable} from "../components/OrganiserFormComponents/Timetable";
     import {
-    handleBudgetChange,
+        getEventName,
+        handleBudgetChange,
     handleChange,
     handleCuisineChange,
-        handleTimetable
-    } from "../controllers/UserFormController";
+    handleTimetable
+} from "../controllers/UserFormController";
 
 import {UserStep1} from "../components/UserFormComponents/UserStep1";
 import {UserStep2} from "../components/UserFormComponents/UserStep2";
@@ -48,6 +49,7 @@ class UserForm extends Component {
         this.handleBudgetChange = handleBudgetChange.bind(this);
         this.handleCuisineChange = handleCuisineChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.getEventName = getEventName.bind(this);
         this.getEventName().then(result => this.setState({eventName: result}))
         axios.post("http://localhost:9000/getCurrentHeadcount", {eventDetail:this.state.roomID})
             .then((res) => {
@@ -77,17 +79,7 @@ class UserForm extends Component {
         })
 
     }
-    getEventName() {
-        // replace with whatever your api controllers is.
-        return axios
-            .post("http://localhost:9000/getEventName", { eventDetail: this.props.eventCode })
-            .then((res) => {
-                return res.data;
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-    }
+
     onSubmit(e) {
         e.preventDefault();
         axios

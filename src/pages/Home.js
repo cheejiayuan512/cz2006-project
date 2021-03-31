@@ -28,12 +28,22 @@ class Home extends Component {
                 console.log('object' ,res);
                 console.log(res.data);
                 const eventValidityPromise = res.data;
-                if (!eventValidityPromise) {
-                    this.setState({errorMsg:'Please enter a valid event code!'})
+                if (eventValidityPromise === 'Room is full.') {
+                    this.setState({errorMsg:'The room is full!'})
+                    this.props.history.push("/result");
+
                 }
-                else{
+                else if (eventValidityPromise === 'Invalid event code.'){
+                    this.setState({errorMsg:'The event code is invalid/misspelled!'})
+
+
+                }
+                else if (eventValidityPromise === 'Valid.'){
                     this.setState({errorMsg:'Well done!'})
                     this.props.history.push("/usertesting");
+                }
+                else {
+                    this.setState({errorMsg:'Uhoh, something went wrong!'})
                 }
             })
             .catch((err) => {

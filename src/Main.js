@@ -5,13 +5,12 @@ import {
 import Home from "./pages/Home";
 import OrgForm from "./pages/OrgForm.js";
 import MainNavbar from "./components/MainNavbar";
-import {Button} from "react-bootstrap";
 import {config} from './configurations/secret.js'
 import {RestaurantSlider} from "./services/GoogleAPIService";
-import MakanGoWhereLogo from "./assets/MakanGoWhereLogo";
 import {createStore, useStateMachine} from "little-state-machine";
 import {UserForm} from "./pages/UserForm";
 import {RouterConfig} from "./navigation/RouterConfig";
+import FinalResult from "./pages/FinalResult";
 
 let today = new Date();
 const year = today.getFullYear();
@@ -78,7 +77,7 @@ function HomePage() {
                 }}>
                     <RouterConfig render={(props) => (
                         <Home {...props} setEventCode={setEventCode}/>
-                    )} render1={(props) => (<UserForm {...props} eventCode={eventCode}/>)}/>
+                    )} render1={(props) => (<UserForm {...props} eventCode={eventCode}/>)} render2={(props) => (<FinalResult {...props} eventCode={eventCode}/>)}/>
 
                 </div>
             </MemoryRouter></div>)

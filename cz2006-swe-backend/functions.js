@@ -73,7 +73,6 @@ function sendEmail(eventCode, resultList) {
 function verifySessID(sessID, event, session) {
     return new Promise(function(resolve, reject) {
         event.find({eventCode: sessID}).toArray((err, result) => {
-            console.log("result[0].headCount] = ", result[0].headCount);
             if (result) {
                 session.find({roomID: sessID}).count((err, num) => {
                     if (err) throw err;
