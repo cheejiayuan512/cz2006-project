@@ -122,8 +122,7 @@ class UserForm extends Component {
 
             <Container className=' justify-content-center text-center align-items-center align-content-center'>
                 <Row>
-                    <Col><h6>You are responding to {this.state.eventName}</h6></Col>
-                    <Col><h6>{this.state.currentHeadCount}/{this.state.maxHeadCount} responded!</h6></Col>
+                    <Col><h6>{this.state.currentHeadCount}/{this.state.maxHeadCount} responded to event:{this.state.eventName}!</h6></Col>
                 </Row>
                 <Row>
 
@@ -177,10 +176,10 @@ class UserForm extends Component {
                                                         onClick={() => this.stepper.next()}>Next</Button></div>}
                                     </div>
                                     <div id="test-l-5" className="content text-center">
-                                        <UserResult userName={this.state.userName} userTiming={this.state.userTiming}
+                                        <div><UserResult userName={this.state.userName} userTiming={this.state.userTiming}
                                                     userBudget={this.state.userBudget}
                                                     userCuisine={this.state.userCuisine} userMessage={this.state.userCode}/>
-                                        <Button onClick={this.onSubmit} className="btn btn-primary mt-5">Submit</Button>
+                                        <Button onClick={this.onSubmit} className="btn btn-warning">Submit your response!</Button></div>
 
                                         <Button className='m-2' onClick={() => this.stepper.previous()}>Back</Button>
 
