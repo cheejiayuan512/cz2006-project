@@ -22,6 +22,8 @@ class FinalResult extends Component {
         render() {
         return (
             <div className={'w-responsive text-center'}>
+                <h2>Everyone has responded to {this.state.eventName}</h2>
+
                 <h2>Event Summary for {this.state.eventName}</h2>
                 <h4>{this.state.roomID}</h4>
                 <h5> Who responded? {this.state.respondents}</h5>
