@@ -27,39 +27,10 @@ MongoClient.connect(url)
     console.log("Server listening on PORT", PORT);
     
     // my test dump LOL 
-    /*fxn.getStartDate("LZ9PWEL0", event).then(function(response) {
-      console.log(response);
-    });
-    fxn.codeGeneration(event).then(function(response){
-      console.log(response);
-    })
-    fxn.verifySessID("LZ9PWEL0", event, session).then(function(response){
-      console.log(response);
-    }); 
-    fxn.verifySessID("LZ9PWEL0", event).then(function(response) {
-      console.log(response);
-    });
-    fxn.verifySessID("LZ9PWEL0", event).then(function(response) {
-      console.log(response);
-    });
-    fxn.verifySessID("LZ9PWEL0", event).then(function(response) {
-      console.log(response);
-    });
-    fxn.verifySessID("LZ9PWEL0", event).then(function(response) {
-      console.log(response);
-    });
-    fxn.verifySessID("LZ9PWEL0", event).then(function(response) {
-      console.log(response);
-    });
-    fxn.verifySessID("LZ9PWEL0", event).then(function(response) {
-      console.log(response);
-    });
-    fxn.verifySessID("LZ9PWEL0", event).then(function(response) {
-      console.log(response);
-    });
-    fxn.verifySessID("LZ9PWEL0", event).then(function(response) {
-      console.log(response);
+    /*fxn.getCommonSlot("9NHU30ZL", session).then(function(response) {
+      console.log("done");
     });*/
+    
   })
 }).catch(error => console.error(error));
 
@@ -81,9 +52,12 @@ router.post('/userDetail', async(req, res, next) => {
   });
 });
 
-// get nearby restaurant
-router.get('/getNearbyRestaurant', async(req, res, next) => {
-  fxn.getNearbyRestaurants(req.body.locationDetail);
+// get common time slot but rn it is not done yet. it can only return all the indicated time slots
+router.get('/getCommonSlot', async(req, res, next) => {
+  const session = app.locals.session;
+  fxn.getCommonSlot(req.body.eventDetail, session).then(function(response) {
+    res.send(response);
+  })
 })
 
 // get event start date

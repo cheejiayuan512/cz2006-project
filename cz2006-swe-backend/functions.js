@@ -175,18 +175,59 @@ function getMaxHeadcount(sessID, event) {
     })
 }
 
-// function to get common timeslot
-function getCommonSlot(data) {
-    var lat = data.lat;
-    var long = data.long;
-    var radius = data.radius;
-    try {
-        const {result} = axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?key='+ key + '&location='+ lat +','+ long +'&radius='+radius+'&keyword=food')
+// function to get all participants of an event
+function getAllParticipants(sessID, session) {
+    console.log("In getAllParticipants fxn");
+    return new Promise(function(resolve, reject) {
+        session.find({roomID: sessID}).toArray((err, result) => {
+            if (!err) {
+                //console.log(result);
+                resolve(result);
+            }
+            else {
+                console.log("ERROR: ", err);
+            }
+        })
+    })
+}
+
+// function to get user selected slot for each day
+function getSelectedSlot(userTiming) {
+    //console.log("in getSelectedSlot fxn");
+    var i = 0;
+    var indexes = [];
+    for(i=0; i<userTiming.length; i++) {
+        if (userTiming[i] == true) {
+            indexes.push(i);
+        }
     }
-    catch (err){
-        next(err);
-    }
-    return result;
+    return indexes;
+}
+// function to get all the time slots. have yet to find a way to get common time slot
+function getCommonSlot(sessID, session) {
+    console.log("in getCommonSlot fxn");
+    return new Promise(function(resolve, reject) {
+        getAllParticipants(sessID, session).then((resultList) => {
+            var i = 0;
+            var j = 0;
+            var allIndexes = [];
+            console.log("resultList.length = ", resultList.length);
+            console.log("resultList.userTiming.length = ", resultList[0].userTiming.length);
+            for(i = 0; i < resultList.length; i++) {
+                console.log("in first for loop");
+                var dayIndexes = [];
+                var userIndexes = [];
+                for(j = 0; j < resultList[i].userTiming.length; j++) {
+                    console.log("in second for loop: ", j);
+                    dayIndexes = getSelectedSlot(resultList[i].userTiming[j]);
+                    userIndexes.push(dayIndexes);
+                }
+                allIndexes.push(userIndexes);
+            }
+            console.log(allIndexes);
+            resolve(allIndexes);
+        })
+    })
 }
 
 module.exports = {
@@ -199,5 +240,8 @@ module.exports = {
     getEndDate: getEndDate,
     getEventName: getEventName,
     getCurrentHeadcount: getCurrentHeadcount,
-    getMaxHeadcount: getMaxHeadcount
+    getMaxHeadcount: getMaxHeadcount,
+    getAllParticipants: getAllParticipants,
+    getSelectedSlot: getSelectedSlot,
+    getCommonSlot: getCommonSlot
 }
