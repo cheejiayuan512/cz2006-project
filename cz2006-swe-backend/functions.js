@@ -237,15 +237,14 @@ function getCommonSlot2(sessID, session) {
 }
 
 function getCommonSlot(sessID, session) {
-    // console.log("in getCommonSlot fxn");
     return new Promise(function(resolve, reject) {
         getAllParticipants(sessID, session).then((resultList) => {
             var i = 0;
             var j = 0;
             var k = 0;
-            var totalPax = resultList.length; //might not even need this now, supposed to check whether any value in
-            // timetable is equal to maxPax
-            var finalList =  resultList[0].userTiming
+            var totalPax = resultList.length;   // might not even need this now, supposed to check whether any value in
+                                                // timetable is equal to maxPax
+            var finalList =  JSON.parse(JSON.stringify(resultList[0].userTiming));
             for (j = 0; j< resultList[0].userTiming.length; j++){
                 for(k = 0; k < resultList[0].userTiming[0].length; k++) {
                     finalList[j][k] = 0;
@@ -254,6 +253,7 @@ function getCommonSlot(sessID, session) {
             for (i = 0; i< resultList.length; i++){
                 for (j = 0; j< resultList[0].userTiming.length; j++){
                     for(k = 0; k < resultList[0].userTiming[0].length; k++) {
+                        console.log(resultList[i].userTiming[j][k])
                         if (resultList[i].userTiming[j][k] === true){
                             finalList[j][k] += 1;
                         };
