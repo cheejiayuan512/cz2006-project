@@ -43,7 +43,9 @@ class UserForm extends Component {
             "eventName":'test',
             'userCode':'',
             'headCount':'',
-            'currentHeadCount':''}
+            'currentHeadCount':'',
+            'startDate':'',
+            'endData':'',}
         this.handleTimetable = handleTimetable.bind(this);
         this.handleChange  = handleChange.bind(this);
         this.handleBudgetChange = handleBudgetChange.bind(this);
@@ -66,6 +68,24 @@ class UserForm extends Component {
                 console.log('object' ,res);
                 console.log(res.data);
                 this.setState({maxHeadCount:res.data})
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+        axios.post("http://localhost:9000/getStartDate", {eventDetail:this.state.roomID})
+            .then((res) => {
+                console.log('object' ,res);
+                console.log(res.data);
+                this.setState({startDate:res.data})
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+        axios.post("http://localhost:9000/getEndDate", {eventDetail:this.state.roomID})
+            .then((res) => {
+                console.log('object' ,res);
+                console.log(res.data);
+                this.setState({endDate:res.data})
             })
             .catch((err) => {
                 console.log(err);
