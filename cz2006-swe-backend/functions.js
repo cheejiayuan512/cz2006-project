@@ -36,11 +36,11 @@ function createEvent(data, event) {
     });
 }
 
-// insert participant details into DB, check if currentPax >= maxPax
+// insert participant details into DB
 function updateParticipant(data, session) {
     return new Promise(function(resolve, reject) {
         session.insertOne(data, function(err, res) {
-            if (err) throw err
+            if (err) throw err;
             console.log("Document inserted successfully into Session!");
         })
 
