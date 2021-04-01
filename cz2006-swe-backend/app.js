@@ -27,9 +27,9 @@ MongoClient.connect(url)
     console.log("Server listening on PORT", PORT);
     
     // my test dump LOL 
-    fxn.sendEmail("QX6HTKIN", event, session).then(function(response) {
+    /*fxn.sendEmail("QX6HTKIN", event, session).then(function(response) {
       console.log("done");
-    });
+    });*/
     
   })
 }).catch(error => console.error(error));
