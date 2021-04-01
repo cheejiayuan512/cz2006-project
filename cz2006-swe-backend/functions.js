@@ -2,7 +2,9 @@ const { default: axios } = require('axios');
 const e = require('express');
 const { resolveContent } = require('nodemailer/lib/shared');
 var mail = require('./email');
-const key = process.env.GOOGLE_API_KEY
+var fs = require('fs');
+
+const Email = require('email-templates');
 
 
 // generate a unique code for each session
@@ -146,26 +148,16 @@ function getRestaurants(sessID, event, session) {
     })
 }
 
-// send email to organiser
-function sendEmail(sessID, event) {
+// get organiser email
+function getOrganiserEmail(sessID, event) {
     return new Promise(function(resolve, reject) {
-        event.find({eventCode: sessID}).toArray((response) => {
-            var destEmail = response[0].organiserEmail;
-        }).then((res) => {
-            var mailOptions = {
-                from: 'makanwhere@gmail.com',
-                to: res,
-                subject: 'Here is a list of restaurant for you & your friends!',
-                text: resultList
-              };
-              
-            mail.transporter.sendMail(mailOptions, function(error, info){
-                if (error) {
-                    console.log(error);
-                } else {
-                    console.log('Email sent: ' + info.response);
-                }
-            });
+        event.find({eventCode: sessID}).toArray((err, result) => {
+            if (!err) {
+                resolve(result[0].organiserEmail);
+            }
+            else {
+                console.log("ERROR: ", err);
+            }
         })
     })
 }
@@ -216,7 +208,7 @@ function getStartDate(sessID, event) {
     return new Promise(function(resolve, reject) {
         event.find({eventCode: sessID}).toArray((err, startDate) => {
             if (!err) {
-                //console.log(startDate[0].eventStartDate);
+                console.log(startDate[0].eventStartDate);
                 resolve(startDate[0].eventStartDate);
             }
             else {
@@ -319,7 +311,7 @@ function getCommonSlot(sessID, session) {
                     finalList[j][k] = 0;
                 }
             }
-            console.log("hehe2: ", finalList);
+        
             for (i = 0; i< resultList.length; i++){
                 for (j = 0; j< resultList[0].userTiming.length; j++){
                     for(k = 0; k < resultList[0].userTiming[0].length; k++) {
@@ -332,6 +324,83 @@ function getCommonSlot(sessID, session) {
             }
             console.log('finalList:\n',finalList);
             resolve(finalList);
+        })
+    })
+}
+
+// function to create html table
+function createTableFromJSON(document, restaurants) {
+    // EXTRACT VALUE FOR HTML HEADER. 
+    var col = [];
+    for (var i = 0; i < restaurants.length; i++) {
+        for (var key in restaurants[i]) {
+            if (col.indexOf(key) === -1) {
+                col.push(key);
+            }
+        }
+    }
+
+    // CREATE DYNAMIC TABLE.
+    var table = document.createElement("table");
+
+    // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+
+    var tr = table.insertRow(-1);                   // TABLE ROW.
+
+    for (var i = 0; i < col.length; i++) {
+        var th = document.createElement("th");      // TABLE HEADER.
+        th.innerHTML = col[i];
+        tr.appendChild(th);
+    }
+
+    // ADD JSON DATA TO THE TABLE AS ROWS.
+    for (var i = 0; i < restaurants.length; i++) {
+
+        tr = table.insertRow(-1);
+
+        for (var j = 0; j < col.length; j++) {
+            var tabCell = tr.insertCell(-1);
+            tabCell.innerHTML = restaurants[i][col[j]];
+        }
+    }
+
+    // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+    var divContainer = document.getElementById("showData");
+    divContainer.innerHTML = "";
+    divContainer.appendChild(table);
+}
+
+// send email to organiser
+function sendEmail(sessID, event, session) {
+    return new Promise(function(resolve, reject) {
+        getRestaurants(sessID, event, session).then((restaurants)=> {
+            getOrganiserEmail(sessID, event).then((destEmail) => {
+                getEventName(sessID, event).then((eventName) => {
+                    const email = new Email({
+                        transport: mail.transporter,
+                        send: true,
+                        preview: false,
+                        views: {
+                          options: {
+                            extension: 'pug',
+                          },
+                          root: 'emails',
+                        },
+                      });
+    
+                    email.send({
+                        template: 'hello',
+                        message: {
+                          from: 'Makan Where makanwhere@gmail.com',
+                          to: "lixianchai@gmail.com", //destEmail
+                        },
+                        locals: {
+                          event: eventName
+                        },
+                    })
+                    resolve("Email sent!");
+                })
+            })
         })
     })
 }
