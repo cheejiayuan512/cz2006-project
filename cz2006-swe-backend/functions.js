@@ -302,6 +302,7 @@ function getCommonSlot(sessID, session, event) {
     return new Promise(function(resolve, reject) {
         getAllParticipants(sessID, session).then((resultList) => {
             console.log(resultList)
+            console.log(event)
             getStartDate(sessID, event).then((startDate) => {
             //console.log(resultList);
             console.log(startDate);
