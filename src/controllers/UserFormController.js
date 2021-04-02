@@ -16,6 +16,31 @@ export function getEventName() {
             console.log(err);
         })
 }
+
+export function getStartDate() {
+    return axios
+        .post("http://localhost:9000/getStartDate", { eventDetail: this.props.eventCode })
+        .then((res) => {
+            console.log(res.data);
+            return res.data;
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+}
+
+export function getEndDate() {
+    return axios
+        .post("http://localhost:9000/getEndDate", { eventDetail: this.props.eventCode })
+        .then((res) => {
+            console.log(res.data);
+            return res.data;
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+}
+
 export function handleChange(event , name) {
     this.setState({[name]: event.target.value});
     console.log(event.target.value, [name])
@@ -23,7 +48,6 @@ export function handleChange(event , name) {
 export function handleCuisineChange(data){
     console.log(data)
     this.setState({userCuisine: data })
-
 }
 
 export function handleBudgetChange(event){

@@ -45,7 +45,7 @@ class UserForm extends Component {
             'headCount':'',
             'currentHeadCount':'',
             'startDate':'',
-            'endData':'',}
+            'endDate':'',}
         this.handleTimetable = handleTimetable.bind(this);
         this.handleChange  = handleChange.bind(this);
         this.handleBudgetChange = handleBudgetChange.bind(this);

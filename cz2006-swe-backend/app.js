@@ -27,12 +27,21 @@ MongoClient.connect(url)
     console.log("Server listening on PORT", PORT);
     
     // my test dump LOL 
-    fxn.getCommonSlot("9NHU30ZL", session).then(function(response) {
+    fxn.getCommonSlot("BX6DX35O", session, event).then(function(response) {
       console.log("done");
     });
     
   })
 }).catch(error => console.error(error));
+
+// send email
+router.post('/sendEmail', (req, res) => {
+  const event = app.locals.event;
+  const session = app.locals.session;
+  fxn.sendEmail(req.body.eventDetail, event, session).then(function(response) {
+    res.send(response);
+  })
+})
 
 // create event
 router.post('/eventCreation', (req, res) => {
@@ -55,7 +64,8 @@ router.post('/userDetail', async(req, res, next) => {
 // get common time slot but rn it is not done yet. it can only return all the indicated time slots
 router.get('/getCommonSlot', async(req, res, next) => {
   const session = app.locals.session;
-  fxn.getCommonSlot(req.body.eventDetail, session).then(function(response) {
+  const event = app.locals.event;
+  fxn.getCommonSlot(req.body.eventDetail, session, event).then(function(response) {
     res.send(response);
   })
 })
@@ -110,6 +120,15 @@ router.post('/verifySessID', async (req, res, next) => {
     console.log(response);
     res.send(response);
   });
+})
+
+// get restaurant
+router.post('/getRestaurants', async(req, res, next) => {
+  const event = app.locals.event;
+  const session = app.locals.session;
+  fxn.getRestaurants(req.body.eventDetail, event, session).then(function(respponse) {
+    res.send(response);
+  })
 })
     
 app.use(router); 

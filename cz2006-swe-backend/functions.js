@@ -1,7 +1,10 @@
+const { default: axios } = require('axios');
 const e = require('express');
 const { resolveContent } = require('nodemailer/lib/shared');
 var mail = require('./email');
-const key = process.env.GOOGLE_API_KEY
+var fs = require('fs');
+
+const Email = require('email-templates');
 
 
 // generate a unique code for each session
@@ -46,26 +49,117 @@ function updateParticipant(data, session) {
 
         resolve("Submitted!");
     })
-    
 }
 
-// send email to organiser
-function sendEmail(eventCode, resultList) {
-    var destEmail = db.collection("event").find({eventCode: eventCode}, {organiserEmail: 1})
-    var mailOptions = {
-        from: 'makanwhere@gmail.com',
-        to: destEmail,
-        subject: 'Here is a list of restaurant for you & your friends!',
-        text: resultList
-      };
-      
-    mail.transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
+// get preferred cuisine
+function getCuisine(sessID, session) {
+    return new Promise(function(resolve, reject) {
+        getAllParticipants(sessID, session).then((result) => {
+            var i = 0;
+            var j = 0;
+            var cuisineList = []
+            for(i = 0; i < result.length; i++) {
+                for(j = 0; j < result[i].userCuisine.length; j++) {
+                    if (cuisineList.includes(result[i].userCuisine[j])) {
+                        continue;
+                    }
+                    else {
+                        cuisineList.push(result[i].userCuisine[j]);
+                    }
+                }
+            }
+            console.log(cuisineList);
+            resolve(cuisineList);
+        })
+    })
+}
+
+// get preferred budget
+function getBudget(sessID, session) {
+    return new Promise(function(resolve, reject) {
+        getAllParticipants(sessID, session).then((result) => {
+            var i = 0;
+            var j = 0;
+            var budgetList = []
+            for(i = 0; i < result.length; i++) {
+                for(j = 0; j < result[i].userBudget.length; j++) {
+                    if (budgetList.includes(result[i].userBudget[j])) {
+                        continue;
+                    }
+                    else {
+                        budgetList.push(result[i].userCuisine[j]);
+                    }
+                }
+            }
+            console.log(budgetList);
+            resolve(budgetList);
+        })
+    })
+}
+
+// get latitude
+function getLatitude(sessID, event) {
+    return new Promise(function(resolve, reject) {
+        event.find({eventCode: sessID}).toArray((err, result) => {
+            if (!err) {
+                //console.log(result);
+                resolve(result[0].latitude);
+            }
+            else {
+                console.log("ERROR:", err);
+            }
+            
+        })
+    })
+}
+
+// get longitude
+function getLongitude(sessID, event) {
+    return new Promise(function(resolve, reject) {
+        event.find({eventCode: sessID}).toArray((err, result) => {
+            if (!err) {
+                //console.log(result);
+                resolve(result[0].longitude);
+            }
+            else {
+                console.log("ERROR:", err);
+            }
+            
+        })
+    })
+}
+
+// get list of restaurants 
+function getRestaurants(sessID, event, session) {
+    return new Promise(function(resolve, reject) {
+        getCuisine(sessID, session).then((cuisineList) => {
+            var cuisine = cuisineList.join();
+            cuisine = cuisine.replace(", ", "+");
+                getLatitude(sessID, event).then((latitude) => {
+                    getLongitude(sessID, event).then((longitude) => {
+                        axios.post("https://maps.googleapis.com/maps/api/place/textsearch/json?query=food" + cuisine + "&sensor=true&location=" + latitude + "," + longitude + "&key=AIzaSyCxfAAGnMO0FO5UMouqUomiQTd0VXvz5zs")
+                        .then((res) => {
+                            console.log(res.data)
+                            resolve(res.data);
+                        })
+                    })
+                })
+        })
+    })
+}
+
+// get organiser email
+function getOrganiserEmail(sessID, event) {
+    return new Promise(function(resolve, reject) {
+        event.find({eventCode: sessID}).toArray((err, result) => {
+            if (!err) {
+                resolve(result[0].organiserEmail);
+            }
+            else {
+                console.log("ERROR: ", err);
+            }
+        })
+    })
 }
 
 // verify session ID aka room code
@@ -98,15 +192,14 @@ function verifySessID(sessID, event, session) {
 // get event name
 function getEventName(sessID, event) {
     return new Promise(function(resolve, reject) {
-        event.find({eventCode: sessID}).toArray((err, event) => {
+        event.find({eventCode: sessID}).toArray((err, result) => {
             if (!err) {
-                //console.log(startDate[0].eventStartDate);
-                resolve(event[0].eventName);
+                resolve(result[0].eventName);
             }
             else {
                 console.log("ERROR: ", err);
             }
-        });
+        })
     })
 }
 
@@ -115,7 +208,7 @@ function getStartDate(sessID, event) {
     return new Promise(function(resolve, reject) {
         event.find({eventCode: sessID}).toArray((err, startDate) => {
             if (!err) {
-                //console.log(startDate[0].eventStartDate);
+                console.log("startDate: ", startDate[0].startDate);
                 resolve(startDate[0].startDate);
             }
             else {
@@ -175,16 +268,18 @@ function getMaxHeadcount(sessID, event) {
 // function to get all participants of an event
 function getAllParticipants(sessID, session) {
     console.log("In getAllParticipants fxn");
+    console.log(sessID);
+    //console.log(session);
     return new Promise(function(resolve, reject) {
         session.find({roomID: sessID}).toArray((err, result) => {
             if (!err) {
-                //console.log(result);
+                console.log(result);
                 resolve(result);
             }
             else {
                 console.log("ERROR: ", err);
             }
-        });
+        })
     })
 }
 
@@ -195,7 +290,7 @@ function getSelectedSlot(userTiming) {
     var indexes = [];
     console.log(userTiming.length)
     for(i=0; i<=userTiming.length; i++) {
-        if (userTiming[i] === true) {
+        if (userTiming[i] == true) {
             indexes.push(i);
         }
     }
@@ -203,43 +298,22 @@ function getSelectedSlot(userTiming) {
     return indexes;
 }
 
-// function to get all the time slots. have yet to find a way to get common time slot
-function getCommonSlot2(sessID, session) {
-    console.log("in getCommonSlot fxn");
+function getCommonSlot(sessID, session, event) {
     return new Promise(function(resolve, reject) {
         getAllParticipants(sessID, session).then((resultList) => {
             console.log(resultList)
-            var i = 0;
-            var j = 0;
-            var allIndexes = [];
-            console.log("resultList.length = ", resultList.length);
-            console.log("resultList.userTiming.length = ", resultList[0].userTiming.length);
-            for(i = 0; i < resultList.length; i++) {
-                console.log("in first for loop", i);
-                var dayIndexes = [];
-                var userIndexes = [];
-                // console.log("resultList.userTiming.TEST = ", resultList[0].userTiming)
-                for(j = 0; j < resultList[i].userTiming.length; j++) {
-                    console.log("in second for loop: ", j);
-                    dayIndexes = getSelectedSlot(resultList[i].userTiming[j]);
-                    userIndexes.push(dayIndexes);
-                }
-                allIndexes.push(userIndexes);
-            }
-            console.log(allIndexes);
-            resolve(allIndexes);
-        })
-    })
-}
-
-function getCommonSlot(sessID, session) {
-    return new Promise(function(resolve, reject) {
-        getAllParticipants(sessID, session).then((resultList) => {
+            console.log(event)
+            getStartDate(sessID, event).then((startDate) => {
+            //console.log(resultList);
+            console.log(startDate);
             var i = 0;
             var j = 0;
             var k = 0;
             var totalPax = resultList.length;   // might not even need this now, supposed to check whether any value in
                                                 // timetable is equal to maxPax
+            console.log(totalPax)
+            var availableSlots = [];
+            var availablePeriods = [];
             var finalList =  JSON.parse(JSON.stringify(resultList[0].userTiming));
             //console.log("hehe: ", finalList);
             for (j = 0; j< resultList[0].userTiming.length; j++){
@@ -247,7 +321,7 @@ function getCommonSlot(sessID, session) {
                     finalList[j][k] = 0;
                 }
             }
-            console.log("hehe2: ", finalList);
+        
             for (i = 0; i< resultList.length; i++){
                 for (j = 0; j< resultList[0].userTiming.length; j++){
                     for(k = 0; k < resultList[0].userTiming[0].length; k++) {
@@ -258,8 +332,47 @@ function getCommonSlot(sessID, session) {
                     }
                 }
             }
-            console.log('finalList:\n',finalList);
+            //console.log('finalList:\n',finalList);
             resolve(finalList);
+
+            })
+
+        })
+
+    })
+}
+
+// send email to organiser
+function sendEmail(sessID, event, session) {
+    return new Promise(function(resolve, reject) {
+        getRestaurants(sessID, event, session).then((restaurants)=> { //we actl dont need this alr but if someone figure out the html in email shit then yay
+            getOrganiserEmail(sessID, event).then((destEmail) => {
+                getEventName(sessID, event).then((eventName) => {
+                    const email = new Email({
+                        transport: mail.transporter,
+                        send: true,
+                        preview: false,
+                        views: {
+                          options: {
+                            extension: 'pug',
+                          },
+                          root: 'emails',
+                        },
+                      });
+    
+                    email.send({
+                        template: 'hello',
+                        message: {
+                          from: 'Makan Where makanwhere@gmail.com',
+                          to: "lixianchai@gmail.com", //destEmail
+                        },
+                        locals: {
+                          event: eventName
+                        },
+                    })
+                    resolve("Email sent!");
+                })
+            })
         })
     })
 }
@@ -277,5 +390,10 @@ module.exports = {
     getMaxHeadcount: getMaxHeadcount,
     getAllParticipants: getAllParticipants,
     getSelectedSlot: getSelectedSlot,
-    getCommonSlot: getCommonSlot
+    getCommonSlot: getCommonSlot,
+    getCuisine: getCuisine,
+    getBudget: getBudget,
+    getLatitude: getLatitude,
+    getLongitude: getLongitude,
+    getRestaurants: getRestaurants
 }
