@@ -13,11 +13,13 @@ class Timetable extends React.Component {
             logged : false};
             };
     componentDidUpdate(prevProps){
-        if (typeof this.props.startDate === 'string' && typeof this.props.endDate === 'string' && !this.state.logged) {
+        if (/\d/.test(this.props.startDate) && /\d/.test(this.props.endDate) && !this.state.logged) {
             this.setState({ cells: timeTableArrayGenerator(this.props.startDate, this.props.endDate, this.props.timeSlots),
                 dateArray : dateRangeArrayGenerator(this.props.startDate, this.props.endDate) ,
                 timeSlotsArray : timeSlotsArrayGenerator(this.props.startTime, this.props.timeSlots),
                 logged : true})
+            console.log('updated!')
+            console.log('props', this.props)
         }
     }
     render() {
