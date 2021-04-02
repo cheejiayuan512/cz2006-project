@@ -373,7 +373,7 @@ function createTableFromJSON(document, restaurants) {
 // send email to organiser
 function sendEmail(sessID, event, session) {
     return new Promise(function(resolve, reject) {
-        getRestaurants(sessID, event, session).then((restaurants)=> {
+        getRestaurants(sessID, event, session).then((restaurants)=> { //we actl dont need this alr but if someone figure out the html in email shit then yay
             getOrganiserEmail(sessID, event).then((destEmail) => {
                 getEventName(sessID, event).then((eventName) => {
                     const email = new Email({

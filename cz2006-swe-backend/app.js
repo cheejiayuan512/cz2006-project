@@ -34,6 +34,15 @@ MongoClient.connect(url)
   })
 }).catch(error => console.error(error));
 
+// send email
+router.post('/sendEmail', (req, res) => {
+  const event = app.locals.event;
+  const session = app.locals.session;
+  fxn.sendEmail(req.body.eventDetail, event, session).then(function(response) {
+    res.send(response);
+  })
+})
+
 // create event
 router.post('/eventCreation', (req, res) => {
   const event = app.locals.event;
