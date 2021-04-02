@@ -45,7 +45,7 @@ class UserForm extends Component {
             'headCount':'',
             'currentHeadCount':'',
             'startDate':'',
-            'endData':'',}
+            'endDate':'',}
         this.handleTimetable = handleTimetable.bind(this);
         this.handleChange  = handleChange.bind(this);
         this.handleBudgetChange = handleBudgetChange.bind(this);
@@ -156,7 +156,8 @@ class UserForm extends Component {
                                             <Button onClick={() => this.stepper.next()}>Next</Button>}
                                     </div>
                                     <div id="test-l-2" className="content">
-                                        <UserStep2 onCallback={this.handleTimetable}/>
+                                        {this.state.startDate === ''?<div/>:
+                                            <UserStep2 onCallback={this.handleTimetable} startDate={this.state.startDate} endDate={this.state.endDate}/>}
                                         {!this.state.userTiming === "" ?
                                             <h6>Pleas indicate your preferred timing!</h6> :
                                             <div>
