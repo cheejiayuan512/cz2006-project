@@ -296,7 +296,7 @@ function getSelectedSlot(userTiming) {
     return indexes;
 }
 
-function getCommonSlot(sessID, session) {
+function getCommonSlot(sessID, session, event) {
     return new Promise(function(resolve, reject) {
         getAllParticipants(sessID, session).then((resultList) => {
             console.log(resultList)
