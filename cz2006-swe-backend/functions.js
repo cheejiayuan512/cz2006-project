@@ -208,8 +208,8 @@ function getStartDate(sessID, event) {
     return new Promise(function(resolve, reject) {
         event.find({eventCode: sessID}).toArray((err, startDate) => {
             if (!err) {
-                console.log(startDate[0].eventStartDate);
-                resolve(startDate[0].eventStartDate);
+                console.log("startDate: ", startDate[0].startDate);
+                resolve(startDate[0].startDate);
             }
             else {
                 console.log("ERROR: ", err);
@@ -224,7 +224,7 @@ function getEndDate(sessID, event) {
         event.find({eventCode: sessID}).toArray((err, startDate) => {
             if (!err) {
                 //console.log(startDate[0].eventStartDate);
-                resolve(startDate[0].eventEndDate);
+                resolve(startDate[0].endDate);
             }
             else {
                 console.log("ERROR: ", err);
@@ -268,10 +268,12 @@ function getMaxHeadcount(sessID, event) {
 // function to get all participants of an event
 function getAllParticipants(sessID, session) {
     console.log("In getAllParticipants fxn");
+    console.log(sessID);
+    //console.log(session);
     return new Promise(function(resolve, reject) {
         session.find({roomID: sessID}).toArray((err, result) => {
             if (!err) {
-                //console.log(result);
+                console.log(result);
                 resolve(result);
             }
             else {
@@ -296,9 +298,12 @@ function getSelectedSlot(userTiming) {
     return indexes;
 }
 
-function getCommonSlot(sessID, session) {
+function getCommonSlot(sessID, session, event) {
     return new Promise(function(resolve, reject) {
         getAllParticipants(sessID, session).then((resultList) => {
+            getStartDate(sessID, event).then((startDate) => {
+            //console.log(resultList);
+            console.log(startDate);
             var i = 0;
             var j = 0;
             var k = 0;
@@ -322,52 +327,14 @@ function getCommonSlot(sessID, session) {
                     }
                 }
             }
-            console.log('finalList:\n',finalList);
+            //console.log('finalList:\n',finalList);
             resolve(finalList);
+        
+            })
+
         })
+            
     })
-}
-
-// function to create html table
-function createTableFromJSON(document, restaurants) {
-    // EXTRACT VALUE FOR HTML HEADER. 
-    var col = [];
-    for (var i = 0; i < restaurants.length; i++) {
-        for (var key in restaurants[i]) {
-            if (col.indexOf(key) === -1) {
-                col.push(key);
-            }
-        }
-    }
-
-    // CREATE DYNAMIC TABLE.
-    var table = document.createElement("table");
-
-    // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
-
-    var tr = table.insertRow(-1);                   // TABLE ROW.
-
-    for (var i = 0; i < col.length; i++) {
-        var th = document.createElement("th");      // TABLE HEADER.
-        th.innerHTML = col[i];
-        tr.appendChild(th);
-    }
-
-    // ADD JSON DATA TO THE TABLE AS ROWS.
-    for (var i = 0; i < restaurants.length; i++) {
-
-        tr = table.insertRow(-1);
-
-        for (var j = 0; j < col.length; j++) {
-            var tabCell = tr.insertCell(-1);
-            tabCell.innerHTML = restaurants[i][col[j]];
-        }
-    }
-
-    // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
-    var divContainer = document.getElementById("showData");
-    divContainer.innerHTML = "";
-    divContainer.appendChild(table);
 }
 
 // send email to organiser
