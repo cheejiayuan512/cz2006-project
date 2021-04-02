@@ -64,7 +64,8 @@ router.post('/userDetail', async(req, res, next) => {
 // get common time slot but rn it is not done yet. it can only return all the indicated time slots
 router.get('/getCommonSlot', async(req, res, next) => {
   const session = app.locals.session;
-  fxn.getCommonSlot(req.body.eventDetail, session).then(function(response) {
+  const event = app.locals.event;
+  fxn.getCommonSlot(req.body.eventDetail, session, event).then(function(response) {
     res.send(response);
   })
 })

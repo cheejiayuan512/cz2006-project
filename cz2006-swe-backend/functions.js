@@ -1,3 +1,4 @@
+const { default: axios } = require('axios');
 const e = require('express');
 const { resolveContent } = require('nodemailer/lib/shared');
 var mail = require('./email');
@@ -107,7 +108,7 @@ function getLatitude(sessID, event) {
             else {
                 console.log("ERROR:", err);
             }
-
+            
         })
     })
 }
@@ -123,12 +124,12 @@ function getLongitude(sessID, event) {
             else {
                 console.log("ERROR:", err);
             }
-
+            
         })
     })
 }
 
-// get list of restaurants
+// get list of restaurants 
 function getRestaurants(sessID, event, session) {
     return new Promise(function(resolve, reject) {
         getCuisine(sessID, session).then((cuisineList) => {
@@ -207,8 +208,8 @@ function getStartDate(sessID, event) {
     return new Promise(function(resolve, reject) {
         event.find({eventCode: sessID}).toArray((err, startDate) => {
             if (!err) {
-                console.log(startDate[0].eventStartDate);
-                resolve(startDate[0].eventStartDate);
+                console.log("startDate: ", startDate[0].startDate);
+                resolve(startDate[0].startDate);
             }
             else {
                 console.log("ERROR: ", err);
@@ -222,8 +223,8 @@ function getEndDate(sessID, event) {
     return new Promise(function(resolve, reject) {
         event.find({eventCode: sessID}).toArray((err, startDate) => {
             if (!err) {
-                console.log(startDate[0].startDate);
-                resolve(startDate[0].eventEndDate);
+                //console.log(startDate[0].eventStartDate);
+                resolve(startDate[0].endDate);
             }
             else {
                 console.log("ERROR: ", err);
@@ -254,7 +255,7 @@ function getMaxHeadcount(sessID, event) {
     return new Promise(function(resolve, reject) {
         event.find({eventCode: sessID}).toArray((err, result) => {
             if (!err) {
-                console.log(result);
+                //console.log(startDate[0].eventStartDate);
                 resolve(result[0].headCount.toString());
             }
             else {
@@ -266,12 +267,13 @@ function getMaxHeadcount(sessID, event) {
 
 // function to get all participants of an event
 function getAllParticipants(sessID, session) {
-    // console.log(session);
-
+    console.log("In getAllParticipants fxn");
+    console.log(sessID);
+    //console.log(session);
     return new Promise(function(resolve, reject) {
         session.find({roomID: sessID}).toArray((err, result) => {
             if (!err) {
-                // console.log(result);
+                console.log(result);
                 resolve(result);
             }
             else {
@@ -300,116 +302,43 @@ function getCommonSlot(sessID, session, event) {
     return new Promise(function(resolve, reject) {
         getAllParticipants(sessID, session).then((resultList) => {
             console.log(resultList)
+            getStartDate(sessID, event).then((startDate) => {
+            //console.log(resultList);
+            console.log(startDate);
+            var i = 0;
+            var j = 0;
+            var k = 0;
             var totalPax = resultList.length;   // might not even need this now, supposed to check whether any value in
                                                 // timetable is equal to maxPax
             console.log(totalPax)
             var availableSlots = [];
             var availablePeriods = [];
             var finalList =  JSON.parse(JSON.stringify(resultList[0].userTiming));
-            var numberOfSlots = 0;
-            var previous;
-            var start;
-            var startDate = '03/15/2021';
-            // var getStartDate= async() =>{
-            //     startDate = await getStartDate(sessID,session);
-            //     console.log(startDate);
-            //     return startDate;
-            //     };
-            // startDate = getStartDate(sessID, session);
-
-            for (var j = 0; j< resultList[0].userTiming.length; j++){
-                for(var k = 0; k < resultList[0].userTiming[0].length; k++) {
+            //console.log("hehe: ", finalList);
+            for (j = 0; j< resultList[0].userTiming.length; j++){
+                for(k = 0; k < resultList[0].userTiming[0].length; k++) {
                     finalList[j][k] = 0;
                 }
             }
-
-            for (var i = 0; i< resultList.length; i++){
-                for (var j = 0; j< resultList[0].userTiming.length; j++){
-                    for(var k = 0; k < resultList[0].userTiming[0].length; k++) {
+        
+            for (i = 0; i< resultList.length; i++){
+                for (j = 0; j< resultList[0].userTiming.length; j++){
+                    for(k = 0; k < resultList[0].userTiming[0].length; k++) {
                         //console.log(resultList[i].userTiming[j][k])
                         if (resultList[i].userTiming[j][k] === true){
                             finalList[j][k] += 1;
-                        }
+                        };
                     }
                 }
             }
-            finalList = finalList.slice(1,resultList[0].userTiming.length)
-            for (i = 0; i< finalList.length; i++){
-                finalList[i].shift();
-            }
-            for (var j = 0; j < finalList.length; j++){
-                for (var k = 0; k < finalList[0].length; k++){
-                    if (finalList[j][k]===totalPax){
-                        availableSlots = availableSlots.concat([[j,k]]);
-                    }
-                }
-            }
-            availableSlots = availableSlots.concat([[30,0]]); // This is random value that should never be reached
-            numberOfSlots = availableSlots.length;
-            if (numberOfSlots === 0){
-                resolve(finalList);
-                return;
-            }
-            start = availableSlots[0];
-            previous = availableSlots[0];
-            for (var j = 1; j < numberOfSlots; j++){
-                if (availableSlots[j][0]!==start[0] || availableSlots[j][1]!==previous[1]+1){
-                    console.log([[start[0],start[1],previous[1]]]);
-                    availablePeriods = availablePeriods.concat([[start[0],start[1],previous[1]]]);
-                    start = availableSlots[j];
-                }
-                // console.log([[start[0],start[1],previous[1]]]);
-                previous = availableSlots[j];
-            }
-            console.log('startDate:\n',startDate);
-
-
-            console.log('availablePeriods:\n',availablePeriods);
+            //console.log('finalList:\n',finalList);
             resolve(finalList);
+
+            })
+
         })
+
     })
-}
-
-// function to create html table
-function createTableFromJSON(document, restaurants) {
-    // EXTRACT VALUE FOR HTML HEADER.
-    var col = [];
-    for (var i = 0; i < restaurants.length; i++) {
-        for (var key in restaurants[i]) {
-            if (col.indexOf(key) === -1) {
-                col.push(key);
-            }
-        }
-    }
-
-    // CREATE DYNAMIC TABLE.
-    var table = document.createElement("table");
-
-    // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
-
-    var tr = table.insertRow(-1);                   // TABLE ROW.
-
-    for (var i = 0; i < col.length; i++) {
-        var th = document.createElement("th");      // TABLE HEADER.
-        th.innerHTML = col[i];
-        tr.appendChild(th);
-    }
-
-    // ADD JSON DATA TO THE TABLE AS ROWS.
-    for (var i = 0; i < restaurants.length; i++) {
-
-        tr = table.insertRow(-1);
-
-        for (var j = 0; j < col.length; j++) {
-            var tabCell = tr.insertCell(-1);
-            tabCell.innerHTML = restaurants[i][col[j]];
-        }
-    }
-
-    // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
-    var divContainer = document.getElementById("showData");
-    divContainer.innerHTML = "";
-    divContainer.appendChild(table);
 }
 
 // send email to organiser
@@ -429,7 +358,7 @@ function sendEmail(sessID, event, session) {
                           root: 'emails',
                         },
                       });
-
+    
                     email.send({
                         template: 'hello',
                         message: {
