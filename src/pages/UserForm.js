@@ -156,7 +156,7 @@ class UserForm extends Component {
                                             <Button onClick={() => this.stepper.next()}>Next</Button>}
                                     </div>
                                     <div id="test-l-2" className="content">
-                                        <UserStep2 onCallback={this.handleTimetable}/>
+                                        <UserStep2 onCallback={this.handleTimetable} startDate={this.state.startDate} endDate={this.state.endDate}/>
                                         {!this.state.userTiming === "" ?
                                             <h6>Pleas indicate your preferred timing!</h6> :
                                             <div>

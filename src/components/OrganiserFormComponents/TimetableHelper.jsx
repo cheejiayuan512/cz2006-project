@@ -21,7 +21,6 @@ function dateRangeArrayGenerator(startDate, endDate, steps = 1) {
 function createOneHourIntervals(from, timeSlots){
     // ...
     const time = new Date("01/01/2001 " + from);
-    console.log(time)
     const intervals = []; // more clear name than hours
     for (let i = 0; i < timeSlots;   i++) {
         intervals.push(time.toTimeString().slice(0,5));

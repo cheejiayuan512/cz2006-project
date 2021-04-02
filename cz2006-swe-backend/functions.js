@@ -116,7 +116,7 @@ function getStartDate(sessID, event) {
         event.find({eventCode: sessID}).toArray((err, startDate) => {
             if (!err) {
                 //console.log(startDate[0].eventStartDate);
-                resolve(startDate[0].eventStartDate);
+                resolve(startDate[0].startDate);
             }
             else {
                 console.log("ERROR: ", err);
@@ -131,7 +131,7 @@ function getEndDate(sessID, event) {
         event.find({eventCode: sessID}).toArray((err, startDate) => {
             if (!err) {
                 //console.log(startDate[0].eventStartDate);
-                resolve(startDate[0].eventEndDate);
+                resolve(startDate[0].endDate);
             }
             else {
                 console.log("ERROR: ", err);
@@ -184,7 +184,7 @@ function getAllParticipants(sessID, session) {
             else {
                 console.log("ERROR: ", err);
             }
-        })
+        });
     })
 }
 
@@ -195,7 +195,7 @@ function getSelectedSlot(userTiming) {
     var indexes = [];
     console.log(userTiming.length)
     for(i=0; i<=userTiming.length; i++) {
-        if (userTiming[i] == true) {
+        if (userTiming[i] === true) {
             indexes.push(i);
         }
     }

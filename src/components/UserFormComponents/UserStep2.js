@@ -9,8 +9,7 @@ function UserStep2(props) {
             timings?</Form.Label>
         <div>
             <Timetable onCallback={props.onCallback} startTime='08:00'
-                       timeSlots={16} startDate="03/08/2021" endDate="03/14/2021"/>
-            {/*<TimeRange passFunction={setData}/>*/}
+                       timeSlots={16} startDate={props.startDate} endDate={props.endDate}/>
         </div>
     </Form.Group>;
 }
