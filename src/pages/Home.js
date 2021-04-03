@@ -56,7 +56,7 @@ class Home extends Component {
 
 
     return (
-        <div className="w-responsive text-center">
+            <div className="w-responsive text-center">
                 <h2 >Who are we?</h2>
                 <p className='w-50 d-inline-flex'>We are a team of NTU students who are constantly frustrated at the amount of work we have to put
                 in order to get together for a meal with friends. So, we decided to make this webapp which aims to

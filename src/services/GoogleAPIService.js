@@ -11,10 +11,11 @@ class RestaurantSlider extends Component  {
         super(props);
         this.state = {
             restaurants: []
+
         };
 
-    }
 
+    }
 
     componentDidMount() {
         fetch(CORSProxy +'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key='+ GoogleApiKey + '&location='+this.props.lat+','+this.props.long+'&radius='+this.props.radius+'&keyword='+this.props.keyWord)

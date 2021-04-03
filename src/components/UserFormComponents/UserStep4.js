@@ -36,7 +36,7 @@ export function UserStep4(props) {
     const [cuisineList, setCuisineList] = useState([])
     useEffect(() =>
         props.sendDataToParent(cuisineList), [cuisineList])
-    return <Form>
+    return <div>
         <Form.Label column='lg' className='font-weight-bold'
                     style={{fontSize: "150%"}}>Choose your preferred
             cuisines!</Form.Label>
@@ -53,5 +53,5 @@ export function UserStep4(props) {
             <CuisineCard parentFoodArray={cuisineList} parentSetFunction={setCuisineList} id={'Dessert'} img={dessert} title={'Dessert'} flavourText={'Bingsu, Ice Cream, Confectionaries, Cakes'}/>
         </CardColumns>
             </div>
-    </Form>
+    </div>
 }

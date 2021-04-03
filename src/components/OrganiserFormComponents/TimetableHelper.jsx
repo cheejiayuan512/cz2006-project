@@ -2,17 +2,17 @@
 function dateRangeArrayGenerator(startDate, endDate, steps = 1) {
     const dateArray = [];
     const weekday = new Array(7);
-    weekday[0]="Sunday";
-    weekday[1]="Monday";
-    weekday[2]="Tuesday";
-    weekday[3]="Wednesday";
-    weekday[4]="Thursday";
-    weekday[5]="Friday";
-    weekday[6]="Saturday";
+    weekday[0]="Su ";
+    weekday[1]="Mo ";
+    weekday[2]="Tu ";
+    weekday[3]="We ";
+    weekday[4]="Th ";
+    weekday[5]="Fr ";
+    weekday[6]="Sa ";
     let currentDate = new Date(startDate);
     while (currentDate <= new Date(endDate)) {
         const tempDate = new Date(currentDate)
-        dateArray.push(weekday[tempDate.getDay()]);
+        dateArray.push(weekday[tempDate.getDay()]+tempDate.toLocaleDateString());
         // Use UTC date to prevent problems with time zones and DST
         currentDate.setUTCDate(currentDate.getUTCDate() + steps);
     }
@@ -21,7 +21,6 @@ function dateRangeArrayGenerator(startDate, endDate, steps = 1) {
 function createOneHourIntervals(from, timeSlots){
     // ...
     const time = new Date("01/01/2001 " + from);
-    console.log(time)
     const intervals = []; // more clear name than hours
     for (let i = 0; i < timeSlots;   i++) {
         intervals.push(time.toTimeString().slice(0,5));

@@ -35,6 +35,16 @@ MongoClient.connect(url)
   })
 }).catch(error => console.error(error));
 
+
+// get all participants
+router.post('/getAllParticipants', async(req, res, next) => {
+  const session = app.locals.session;
+  fxn.getAllParticipants(req.body.eventDetail, session).then(function(response) {
+    console.log('++++++',response);
+    res.send(response);
+  })
+})
+
 // send email
 router.post('/sendEmail', (req, res) => {
   const event = app.locals.event;
@@ -57,13 +67,13 @@ router.post('/eventCreation', (req, res) => {
 // update participant
 router.post('/userDetail', async(req, res, next) => {
   const session = app.locals.session;
-  fxn.updateParticipant(req.body.userDetail, session).then(function(response) {
+  fxn.updateParticipant(req.body.eventDetail, session).then(function(response) {
     res.send(response);
   });
 });
 
 // get common time slot but rn it is not done yet. it can only return all the indicated time slots
-router.get('/getCommonSlot', async(req, res, next) => {
+router.post('/getCommonSlot', async(req, res, next) => {
   const session = app.locals.session;
   const event = app.locals.event;
   fxn.getCommonSlot(req.body.eventDetail, session, event).then(function(response) {
@@ -127,7 +137,39 @@ router.post('/verifySessID', async (req, res, next) => {
 router.post('/getRestaurants', async(req, res, next) => {
   const event = app.locals.event;
   const session = app.locals.session;
-  fxn.getRestaurants(req.body.eventDetail, event, session).then(function(respponse) {
+  fxn.getRestaurants(req.body.eventDetail, event, session).then(function(response) {
+    res.send(response);
+  })
+})
+
+// get latitude
+router.post('/getLatitude', async(req, res, next) => {
+  const event = app.locals.event;
+  fxn.getLatitude(req.body.eventDetail, event).then(function(response) {
+    res.send(response);
+  })
+})
+
+// get longitude
+router.post('/getLongitude', async(req, res, next) => {
+  const event = app.locals.event;
+  fxn.getLongitude(req.body.eventDetail, event).then(function(response) {
+    res.send(response);
+  })
+})
+
+// get budget estimate
+router.post('/getBudget', async(req, res, next) => {
+  const session = app.locals.session;
+  fxn.getBudget(req.body.eventDetail, session).then(function(response) {
+    res.send(response);
+  })
+})
+
+// get common cuisine
+router.post('/getCuisine', async(req, res, next) => {
+  const session = app.locals.session;
+  fxn.getCuisine(req.body.eventDetail, session).then(function(response) {
     res.send(response);
   })
 })
