@@ -67,7 +67,7 @@ router.post('/eventCreation', (req, res) => {
 // update participant
 router.post('/userDetail', async(req, res, next) => {
   const session = app.locals.session;
-  fxn.updateParticipant(req.body.eventDetail, session).then(function(response) {
+  fxn.updateParticipant(req.body.userDetail, session).then(function(response) {
     res.send(response);
   });
 });
