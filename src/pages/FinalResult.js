@@ -116,13 +116,13 @@ class FinalResult extends Component {
                 <h1 style={{display:"inline"}}>Event Summary for </h1>
                 <h1 style={{fontWeight:800, display:"inline"}}> {this.state.eventName}</h1>
                 <h4 className='mb-4'/>
-                <h5>Who responded? </h5>
+                <h5>Who responded?</h5>
                 <h5 className='mb-4'>{this.state.respondents}</h5>
                 <h5 className='mb-4'>Top Cuisines are: {this.state.commonCuisine}</h5>
                 <h5 className='mb-4'>Your common budget range is between {this.state.commonBudget}</h5>
                 <h5 className='mb-4'>Common timeslots include {this.state.commonTiming}</h5>
                 <h5 className='mb-4'>Here is a custom-generated list of restaurants which may interest you!</h5>
-                <RestaurantSlider lat={1.324421} long={103.887682} keyWord={this.state.commonCuisine} radius={2000}/>
+                <RestaurantSlider lat={this.state.latitude} long={this.state.longitude} keyWord={this.state.commonCuisine} radius={2000}/>
             </div>
         );
     }

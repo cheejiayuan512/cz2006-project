@@ -244,6 +244,11 @@ function verifySessID(sessID, event, session) {
                         console.log("num = ", num);
                         if (num < parseInt(result[0].headCount)) {
                             resolve("Valid.");
+                        } else if (num === parseInt(result[0].headCount)-1){
+                            sendEmail(sessID, event).then((res) => {
+                                console.log(res);
+                            })
+                            resolve("Valid.");
                         }
                         else {
                             resolve("Room is full.");

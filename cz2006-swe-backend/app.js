@@ -27,10 +27,10 @@ MongoClient.connect(url)
     console.log("Server listening on PORT", PORT);
     
     // my test dump LOL 
-    fxn.getCuisine("BX6DX35O", session).then(function(response) {
-      console.log(response);
-      console.log("done");
-    });
+    // fxn.getCuisine("BX6DX35O", session).then(function(response) {
+    //   console.log(response);
+    //   console.log("done");
+    // });
     
   })
 }).catch(error => console.error(error));
