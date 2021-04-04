@@ -25,7 +25,6 @@ class FinalResult extends Component {
                 eventDetail: this.props.eventCode} )
             .then((res) => {
                 console.log('Success common slot');
-                console.log(res.data);
                 return res.data;
             })
             .catch((err) => {
@@ -40,7 +39,6 @@ class FinalResult extends Component {
                 eventDetail: this.props.eventCode} )
             .then((res) => {
                 console.log('Success budget');
-                console.log(res.data);
                 return res.data;
             })
             .catch((err) => {
@@ -56,22 +54,24 @@ class FinalResult extends Component {
             .then((res) => {
                 console.log(this.props.eventCode)
                 console.log('Success getAllParticipants');
-
-                console.log("#########",res.data,"##########");
-                return (res.data);
+                console.log(res.data)
+                var participants=[]
+                for (var i =0; i<res.data.length; i++){
+                    participants.push(res.data[i].userName)
+                }
+                return ([participants.join(', ')]);
             })
             .catch((err) => {
                 console.log(err);
             }).then(result => {
             console.log(result)
-            // this.setState({respondents: result})  // what do we want to save here? confirm current implementation have error if saving the collection directly
-        })  // strangely this gives participants not belonging to this group also
+            this.setState({respondents: result})
+        })
 
         axios.post("http://localhost:9000/getCuisine", {
                 eventDetail: this.props.eventCode })
             .then((res) => {
                 console.log('Success cuisine');
-                console.log(React.Children.toArray(res.data));
                 return res.data;
             })
             .catch((err) => {
@@ -84,46 +84,45 @@ class FinalResult extends Component {
         axios.post("http://localhost:9000/getLatitude", {
             eventDetail: this.props.eventCode })
             .then((res) => {
-                console.log('Success cuisine');
-                console.log(React.Children.toArray(res.data));
+                console.log('Success latitude');
                 return res.data;
             })
             .catch((err) => {
                 console.log(err);
             }).then(result => {
             console.log(result)
-            this.setState({latitude: result})
+            this.setState({latitude: result[0]})
         })
 
         axios.post("http://localhost:9000/getLongitude", {
             eventDetail: this.props.eventCode })
             .then((res) => {
-                console.log('Success cuisine');
-                console.log(React.Children.toArray(res.data));
+                console.log('Success longitude');
                 return res.data;
             })
             .catch((err) => {
                 console.log(err);
             }).then(result => {
             console.log(result)
-            this.setState({longitude: result})
+            this.setState({longitude: result[0]})
+            console.log(' ')
         })
     }
 
     render() {
         return (
             <div className={'w-responsive text-center'}>
-                <h1>{this.state.respondents}</h1>
-                <h2>Everyone has responded to {this.state.eventName}</h2>
-
-                <h2>Event Summary for {this.state.eventName}</h2>
-                <h4>{this.state.roomID}</h4>
-                <h5> Who responded? {this.state.respondents}</h5>
-                <h5>Top Cuisines are {this.state.commonCuisine}</h5>
-                <h5>Your common budget range is between {this.state.commonBudget}</h5>
-                <h5>Common timeslots include {this.state.commonTiming}</h5>
-                <h5>Here is a custom-generated list of restaurants which may interest you!</h5>
-                <RestaurantSlider lat={this.state.latitude} long={this.state.longitude} keyWord={this.state.commonCuisine} radius={500}/>
+                <h4>Thank you! Everyone has responded to {this.state.eventName}</h4>
+                <h1 style={{display:"inline"}}>Event Summary for </h1>
+                <h1 style={{fontWeight:800, display:"inline"}}> {this.state.eventName}</h1>
+                <h4 className='mb-4'/>
+                <h5>Who responded? </h5>
+                <h5 className='mb-4'>{this.state.respondents}</h5>
+                <h5 className='mb-4'>Top Cuisines are: {this.state.commonCuisine}</h5>
+                <h5 className='mb-4'>Your common budget range is between {this.state.commonBudget}</h5>
+                <h5 className='mb-4'>Common timeslots include {this.state.commonTiming}</h5>
+                <h5 className='mb-4'>Here is a custom-generated list of restaurants which may interest you!</h5>
+                <RestaurantSlider lat={1.324421} long={103.887682} keyWord={this.state.commonCuisine} radius={2000}/>
             </div>
         );
     }
