@@ -3,11 +3,15 @@ const e = require('express');
 const { resolveContent } = require('nodemailer/lib/shared');
 var mail = require('./email');
 var fs = require('fs');
-
 const Email = require('email-templates');
 
-
-// generate a unique code for each session
+/**
+ * Generates a unique code for each event
+ * @async
+ * @method
+ * @param {collection} event - Event collection in database
+ * @returns {String} code - event code
+ */
 async function codeGeneration(event) {
     console.log("in codeGeneration fxn");
     while(true) {
@@ -19,7 +23,14 @@ async function codeGeneration(event) {
     }
 }
 
-// create event and store in DB
+/**
+ * Creates event and store in DB
+ * @async
+ * @method
+ * @param {JSON} data - JSON document containing event attributes
+ * @param {collection} event - Event collection in database
+ * @returns {String} code - event code
+ */
 function createEvent(data, event) {
     return new Promise(function(resolve, reject) {
         console.log("in createEvent function");
@@ -39,7 +50,14 @@ function createEvent(data, event) {
     });
 }
 
-// insert participant details into DB
+/**
+ * Creates user and store in DB
+ * @async
+ * @method
+ * @param {JSON} data - JSON document containing user details
+ * @param {collection} session - Session collection in database
+ * @returns  
+ */
 function updateParticipant(data, session) {
     return new Promise(function(resolve, reject) {
         session.insertOne(data, function(err, res) {
@@ -51,7 +69,14 @@ function updateParticipant(data, session) {
     })
 }
 
-// get preferred cuisine
+/**
+ * Get users' preferred cuisine
+ * @async
+ * @method
+ * @param {String} sessID - event code 
+ * @param {collection} session - Session collection in database
+ * @returns {List <String>} cuisineList - List of string of cuisine indicated by users
+ */
 function getCuisine(sessID, session) {
     return new Promise(function(resolve, reject) {
         getAllParticipants(sessID, session).then((result) => {
@@ -73,7 +98,14 @@ function getCuisine(sessID, session) {
     })
 }
 
-// get preferred budget
+/**
+ * Get users' preferred budget
+ * @async
+ * @method
+ * @param {String} sessID - event code 
+ * @param {collection} session - Session collection in database
+ * @returns {List <int>} budgetList - List of integer indicating budget size
+ */
 function getBudget(sessID, session) {
     return new Promise(function(resolve, reject) {
         getAllParticipants(sessID, session).then((result) => {
@@ -92,7 +124,14 @@ function getBudget(sessID, session) {
     })
 }
 
-// get latitude
+/**
+ * Get latitude of location indicated by organiser
+ * @async
+ * @method
+ * @param {String} sessID - event code 
+ * @param {collection} event - Event collection in database
+ * @returns {Double} latitude - latitude of location indicated by organiser
+ */
 function getLatitude(sessID, event) {
     return new Promise(function(resolve, reject) {
         event.find({eventCode: sessID}).toArray((err, result) => {
@@ -109,6 +148,14 @@ function getLatitude(sessID, event) {
 }
 
 // get longitude
+/**
+ * Get longitude indicated by organiser
+ * @async
+ * @method
+ * @param {*} sessID - event code
+ * @param {*} event - Event collection in database
+ * @returns {Double} longitude - longitude indicated by organiser
+ */
 function getLongitude(sessID, event) {
     return new Promise(function(resolve, reject) {
         event.find({eventCode: sessID}).toArray((err, result) => {
@@ -124,7 +171,15 @@ function getLongitude(sessID, event) {
     })
 }
 
-// get list of restaurants 
+/**
+ * Get recommended restaurant list from Google Places APi for user based on user inputs.
+ * @async
+ * @method
+ * @param {String} sessID - event code
+ * @param {collection} event - Event collection in database
+ * @param {collection} session - Session collection in database
+ * @returns {List <Restaurant>} - list of restaurants as returned from Google Places API
+ */
 function getRestaurants(sessID, event, session) {
     return new Promise(function(resolve, reject) {
         getCuisine(sessID, session).then((cuisineList) => {
@@ -143,7 +198,14 @@ function getRestaurants(sessID, event, session) {
     })
 }
 
-// get organiser email
+/**
+ * Get organiser's email
+ * @async
+ * @method
+ * @param {String} sessID - event code
+ * @param {collection} event - Event collection in database
+ * @returns {String} organiserEmail - organiser's email address
+ */
 function getOrganiserEmail(sessID, event) {
     return new Promise(function(resolve, reject) {
         event.find({eventCode: sessID}).toArray((err, result) => {
@@ -157,7 +219,16 @@ function getOrganiserEmail(sessID, event) {
     })
 }
 
-// verify session ID aka room code
+/**
+ * Validate event code and ensure that current number of users registered for the event
+ * does not exceed headcount
+ * @async
+ * @method
+ * @param {String} sessID - event code
+ * @param {collection} event - Event collection in database
+ * @param {collection} session - Session collection in database
+ * @returns 
+ */
 function verifySessID(sessID, event, session) {
     return new Promise(function(resolve, reject) {
         event.find({eventCode: sessID}).toArray((err, result) => {
@@ -184,7 +255,14 @@ function verifySessID(sessID, event, session) {
     })
 }
 
-// get event name
+/**
+ * Get event's name.
+ * @async
+ * @method
+ * @param {String} sessID - event code
+ * @param {collection} event - Event collection in database
+ * @returns {String} eventName - eevnt's name
+ */
 function getEventName(sessID, event) {
     return new Promise(function(resolve, reject) {
         event.find({eventCode: sessID}).toArray((err, result) => {
@@ -198,7 +276,14 @@ function getEventName(sessID, event) {
     })
 }
 
-// get start date of event
+/**
+ * Get start date of event.
+ * @async
+ * @method
+ * @param {String} sessID - event code
+ * @param {collection} event - Event collection in database
+ * @returns {DateTime} startDate - start date of event
+ */
 function getStartDate(sessID, event) {
     return new Promise(function(resolve, reject) {
         event.find({eventCode: sessID}).toArray((err, startDate) => {
@@ -213,7 +298,14 @@ function getStartDate(sessID, event) {
     })
 }
 
-// get end date of event
+/**
+ * Get end date of event.
+ * @async
+ * @method
+ * @param {String} sessID - event code
+ * @param {collection} event - Event collection in database
+ * @returns {DateTime} endDate - end date of event
+ */
 function getEndDate(sessID, event) {
     return new Promise(function(resolve, reject) {
         event.find({eventCode: sessID}).toArray((err, startDate) => {
@@ -228,7 +320,14 @@ function getEndDate(sessID, event) {
     })
 }
 
-// get current headcount of event
+/**
+ * Get current number of pax registered for an event.
+ * @async
+ * @method
+ * @param {String} sessID - event code
+ * @param {collection} session - Session collection in database
+ * @returns {String} - hc - current number of pax registered for an event
+ */
 function getCurrentHeadcount(sessID, session) {
     return new Promise(function(resolve, reject) {
         session.find({roomID: sessID}).count((err, currHeadcount) => {
@@ -244,7 +343,14 @@ function getCurrentHeadcount(sessID, session) {
     })
 }
 
-// get maximum headcount of event
+/**
+ * Get maximum mumber of pax that can be registered for an event as indicated by the organiser.
+ * @async
+ * @method
+ * @param {String} sessID - event code
+ * @param {collection} event - Event collection in database
+ * @returns {String} headCount - maximum number of pax that can be registered for an event 
+ */
 function getMaxHeadcount(sessID, event) {
     return new Promise(function(resolve, reject) {
         event.find({eventCode: sessID}).toArray((err, result) => {
@@ -258,13 +364,21 @@ function getMaxHeadcount(sessID, event) {
     })
 }
 
-// function to get all participants of an event
+/**
+ * Get all the users that are registered for a particular event.
+ * @async
+ * @method
+ * @param {String} sessID - event code
+ * @param {collection} session - Session collection in database
+ * @returns {List <User>} result - list of users registered for an event
+ */
 function getAllParticipants(sessID, session) {
     console.log("In getAllParticipants fxn");
     console.log(sessID);
     return new Promise(function(resolve, reject) {
         session.find({roomID: sessID}).toArray((err, result) => {
             if (!err) {
+                //console.log(result);
                 resolve(result);
             }
             else {
@@ -274,20 +388,15 @@ function getAllParticipants(sessID, session) {
     })
 }
 
-// function to get user selected slot for each day
-function getSelectedSlot(userTiming) {
-    console.log("in getSelectedSlot fxn");
-    var indexes = [];
-    console.log(userTiming.length)
-    for(var i=0; i<=userTiming.length; i++) {
-        if (userTiming[i] == true) {
-            indexes.push(i);
-        }
-    }
-    console.log(indexes);
-    return indexes;
-}
-
+/**
+ * Get the common slot among all slots that users indicated.
+ * @async
+ * @method
+ * @param {String} sessID - event code
+ * @param {collection} session - Session collection in the database
+ * @param {collection} event - Event collection in the database
+ * @returns {List <int>} finalList - list of common timings indicated by users registered for an event
+ */
 function getCommonSlot(sessID, session, event) {
     return new Promise(function(resolve, reject) {
         getAllParticipants(sessID, session).then((resultList) => {
@@ -374,7 +483,15 @@ function getCommonSlot(sessID, session, event) {
     })
 }
 
-// send email to organiser
+/**
+ * Send email to notify organiser that restaurant list is ready.
+ * @async
+ * @method
+ * @param {String} sessID - event code
+ * @param {collection} event - Event collection in database
+ * @param {colection} session - Session collection in database
+ * @returns 
+ */
 function sendEmail(sessID, event, session) {
     return new Promise(function(resolve, reject) {
         getRestaurants(sessID, event, session).then((restaurants)=> { //we actl dont need this alr but if someone figure out the html in email shit then yay
@@ -421,7 +538,6 @@ module.exports = {
     getCurrentHeadcount: getCurrentHeadcount,
     getMaxHeadcount: getMaxHeadcount,
     getAllParticipants: getAllParticipants,
-    getSelectedSlot: getSelectedSlot,
     getCommonSlot: getCommonSlot,
     getCuisine: getCuisine,
     getBudget: getBudget,
