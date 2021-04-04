@@ -5,37 +5,45 @@ import ErrorImage from '../assets/img.png';
 import {Button, Form} from "react-bootstrap";
 
 import ReactLoading from 'react-loading';
+import {
+    dateRangeArrayGenerator,
+    timeSlotsArrayGenerator,
+    timeTableArrayGenerator
+} from "../components/OrganiserFormComponents/TimetableHelper";
 
 class RestaurantSlider extends Component  {
     constructor(props) {
         super(props);
         this.state = {
-            restaurants: []
-
+            restaurants: [],
+            logged: false,
         };
-
-
     }
 
-    componentDidMount() {
-        fetch(CORSProxy +'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key='+ GoogleApiKey + '&location='+this.props.lat+','+this.props.long+'&radius='+this.props.radius+'&keyword='+this.props.keyWord)
-            .then(res => res.json())
-            .then((data) => {
-                this.setState({ restaurants: data });
-            })
-            .catch(console.log)
-
-
+    async componentDidUpdate() {
+        if (/\w/.test(this.props.keyWord) && /\d/.test(this.props.radius) && /\d/.test(this.props.lat) && /\d/.test(this.props.long) && !this.state.logged) {
+            console.log(this.props.long)
+            await fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=' + GoogleApiKey + '&location=' +
+                this.props.lat + ',' + this.props.long + '&radius=' + this.props.radius + '&keyword=' + this.props.keyWord)
+                .then(res => res.json())
+                .then((data) => {
+                    console.log('getting restaurants')
+                    this.setState({restaurants: data, logged: true});
+                })
+                .catch(console.log)
+        }
     }
 
     render() {
 
-    if (!this.state.restaurants['results'] ) {
-        return <div className='d-flex justify-content-center'><ReactLoading color='#0000FF'/></div>
+    if (!this.state.logged ) {
+        return <div className='d-flex justify-content-center'><ReactLoading color='#0000FF'/>
+        </div>
     }
     const jsonQuery = require('json-query');
     return(<div >
-        <h5>message: {this.props.text}, lat: {this.props.lat}, long: {this.props.long}, radius: {this.props.radius}, keyword: {this.props.keyWord}</h5>
+        {/*<h3>{'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key='+ GoogleApiKey + '&location='+this.props.lat+','+this.props.long+'&radius='+this.props.radius+'&keyword='+this.props.keyWord}</h3>*/}
+        {/*<h5>message: {this.props.text}, lat: {this.props.lat}, long: {this.props.long}, radius: {this.props.radius}, keyword: {this.props.keyWord}</h5>*/}
         <div className="container-fluid py-2"  ><Form>
             <div className="d-flex flex-row flex-nowrap scroll" style={{  overflow:'auto' }}>
             {this.state.restaurants['results'].map((anObjectMapped, index)=>

@@ -27,7 +27,7 @@ MongoClient.connect(url)
     console.log("Server listening on PORT", PORT);
     
     // my test dump LOL 
-    /*fxn.verifySessID("3766QK89", event, session).then(function(response) {
+    /*fxn.getCuisine("BX6DX35O", session).then(function(response) {
       console.log(response);
       console.log("done");
     });*/

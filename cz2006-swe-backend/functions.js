@@ -91,6 +91,7 @@ function getCuisine(sessID, session) {
                     }
                 }
             }
+            cuisineList = cuisineList.join(' OR ')
             console.log(cuisineList);
             resolve(cuisineList);
         })
@@ -135,8 +136,8 @@ function getLatitude(sessID, event) {
     return new Promise(function(resolve, reject) {
         event.find({eventCode: sessID}).toArray((err, result) => {
             if (!err) {
-                //console.log(result);
-                resolve(result[0].latitude);
+                console.log(result[0].location.lat);
+                resolve([result[0].location.lat]);
             }
             else {
                 console.log("ERROR:", err);
@@ -159,8 +160,8 @@ function getLongitude(sessID, event) {
     return new Promise(function(resolve, reject) {
         event.find({eventCode: sessID}).toArray((err, result) => {
             if (!err) {
-                //console.log(result);
-                resolve(result[0].longitude);
+                // console.log('======',result[0].location.lng);
+                resolve([result[0].location.lng]);
             }
             else {
                 console.log("ERROR:", err);
