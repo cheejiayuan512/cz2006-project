@@ -241,7 +241,15 @@ function verifySessID(sessID, event, session) {
                     if (err) throw err;
                     else {
                         console.log("num = ", num);
-                        if (num < parseInt(result[0].headCount)) {
+                        if (num == (parseInt(result[0].headCount) - 1)) {
+                            console.log("before calling send email")
+                            sendEmail(sessID, event).then((res) => {
+                                console.log(res);
+                            })
+                            resolve("Valid.")
+                        }
+                        else if (num < parseInt(result[0].headCount)) {
+                            console.log("in first if")
                             resolve("Valid.");
                         }
                         else {
@@ -492,34 +500,33 @@ function getCommonSlot(sessID, session, event) {
  * @returns 
  */
 function sendEmail(sessID, event, session) {
+    console.log("In sendEmail()");
     return new Promise(function(resolve, reject) {
-        getRestaurants(sessID, event, session).then((restaurants)=> { //we actl dont need this alr but if someone figure out the html in email shit then yay
-            getOrganiserEmail(sessID, event).then((destEmail) => {
-                getEventName(sessID, event).then((eventName) => {
-                    const email = new Email({
-                        transport: mail.transporter,
-                        send: true,
-                        preview: false,
-                        views: {
-                          options: {
-                            extension: 'pug',
-                          },
-                          root: 'emails',
-                        },
-                      });
-    
-                    email.send({
-                        template: 'hello',
-                        message: {
-                          from: 'Makan Where makanwhere@gmail.com',
-                          to: "lixianchai@gmail.com", //destEmail
-                        },
-                        locals: {
-                          event: eventName
-                        },
-                    })
-                    resolve("Email sent!");
+        getOrganiserEmail(sessID, event).then((destEmail) => {
+            getEventName(sessID, event).then((eventName) => {
+                const email = new Email({
+                    transport: mail.transporter,
+                    send: true,
+                    preview: false,
+                    views: {
+                      options: {
+                        extension: 'pug',
+                      },
+                      root: 'emails',
+                    },
+                });
+
+                email.send({
+                    template: 'hello',
+                    message: {
+                      from: 'Makan Where makanwhere@gmail.com',
+                      to: "lixianchai@gmail.com", //destEmail
+                    },
+                    locals: {
+                      event: eventName
+                    },
                 })
+                resolve("Email sent!");
             })
         })
     })
