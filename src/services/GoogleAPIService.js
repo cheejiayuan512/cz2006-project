@@ -41,7 +41,7 @@ class RestaurantSlider extends Component  {
     async componentDidUpdate() {
         if (/\w/.test(this.props.keyWord) && /\w/.test(this.props.radius) && /\w/.test(this.props.lat) && /\w/.test(this.props.long) && !this.state.logged) {
             console.log(this.props.long)
-            await fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=' + GoogleApiKey + '&location=' +
+            await fetch(CORSProxy+'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=' + GoogleApiKey + '&location=' +
                 this.props.lat + ',' + this.props.long + '&radius=' + this.props.radius + '&keyword=' + this.props.keyWord)
                 .then(res => res.json())
                 .then((data) => {
