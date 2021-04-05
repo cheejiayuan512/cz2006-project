@@ -501,7 +501,8 @@ function getCommonSlot(sessID, session, event) {
                     outputList = outputList.concat([day.concat(' from ').concat(startTime).concat(' to ').concat(endTime)]);
                 }
                 if (outputList.length===0){
-                    outputList.concat('There is no common timeslot');
+                    outputList = ['There is no common timeslot'];
+                    console.log('======',outputList);
                 }
                 console.log('outputList:\n',outputList);
                 resolve(outputList);

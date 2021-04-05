@@ -113,14 +113,15 @@ class FinalResult extends Component {
     render() {
         return (
             <div className={'w-responsive text-center'}>
-                <h1 style={{display:"inline"}}>Event Summary for </h1>
-                <h1 style={{fontWeight:800, display:"inline"}}> {this.state.eventName}</h1>
-                <h5>Who responded?</h5>
-                <h5 className='mb-4'>{this.state.respondents}</h5>
-                <h5 className='mb-4'>Top Cuisine(s) are: {String(this.state.commonCuisine).split(' OR ').join(', ')}</h5>
-                <h5 className='mb-4'>Your common budget range is between {this.state.commonBudget.join(' to ')}</h5>
-                <h5 className='mb-4'>Common timeslots include {[this.state.commonTiming].join(',').split(',').join(', ')}</h5>
-                <h5 className='mb-4'>Here is a custom-generated list of restaurants which may interest you!</h5>
+                <h1 style={{fontSize:'3vw', display:'inline'}}>Event Summary for </h1>
+                <h1 style={{fontWeight:800, fontSize:'3vw', display:"inline"}} > {this.state.eventName}</h1>
+                <h5 style={{fontSize:'2vw', borderTop:'dotted'}}>Who responded?</h5>
+                <h5 className='mb-4' style={{fontSize:'2vw'}}>{this.state.respondents}</h5>
+                <h5 className='mb-4' style={{fontSize:'2vw'}}>Top Cuisine(s) are: {String(this.state.commonCuisine).split(' OR ').join(', ')}</h5>
+                <h5 className='mb-4' style={{fontSize:'2vw'}}>Your common budget range is between {this.state.commonBudget.join(' to ')}</h5>
+                <h5 className='mb-4' style={{fontSize:'2vw'}}>Common timeslots include: {[this.state.commonTiming].join(',').split(',').join(', ')}</h5>
+                {/*{console.log('commonTiming',[this.state.commonTiming].join(','))}*/}
+                <h5 className='mb-4' style={{fontSize:'2vw'}}>Here is a custom-generated list of restaurants which may interest you!</h5>
                 <RestaurantSlider lat={this.state.latitude} long={this.state.longitude} keyWord={this.state.commonCuisine} radius={2000}/>
             </div>
         );
