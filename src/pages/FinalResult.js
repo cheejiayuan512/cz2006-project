@@ -21,6 +21,7 @@ class FinalResult extends Component {
         this.getEventName = getEventName.bind(this);
         this.getEventName().then(result => this.setState({eventName: result}))
         console.log(this.state.roomID)
+
         axios.post("http://localhost:9000/getCommonSlot", {
                 eventDetail: this.props.eventCode} )
             .then((res) => {
@@ -118,8 +119,9 @@ class FinalResult extends Component {
                 <h4 className='mb-4'/>
                 <h5>Who responded?</h5>
                 <h5 className='mb-4'>{this.state.respondents}</h5>
-                <h5 className='mb-4'>Top Cuisines are: {this.state.commonCuisine}</h5>
-                <h5 className='mb-4'>Your common budget range is between {this.state.commonBudget}</h5>
+                <h5 className='mb-4'>Top Cuisine(s) are: {String(this.state.commonCuisine).split(' OR ').join(', ')}</h5>
+                <h5 className='mb-4'>Your common budget range is between {this.state.commonBudget.join(' to ')}</h5>
+                {/*{console.log(this.state.commonTiming.join(''))}*/}
                 <h5 className='mb-4'>Common timeslots include {this.state.commonTiming}</h5>
                 <h5 className='mb-4'>Here is a custom-generated list of restaurants which may interest you!</h5>
                 <RestaurantSlider lat={this.state.latitude} long={this.state.longitude} keyWord={this.state.commonCuisine} radius={2000}/>

@@ -20,22 +20,24 @@ class RestaurantSlider extends Component  {
             restaurants: [],
             logged: false,
         };
-        // this.convertDollar = convertDollar.bind(this);
-        // convertDollar(number){
-        //     if (number<=1){
-        //         return '$';
-        //     } else if (number===2){
-        //         return '$$';
-        //     } else if (number===3){
-        //         return '$$$';
-        //     } else if (number===4){
-        //         return '$$$$';
-        //     } else if (number===5){
-        //         return '$$$$$';
-        //     } else {
-        //         return 'Price not given'
-        //     }
-        // }
+        this.convertDollar = this.convertDollar.bind(this);
+
+    }
+
+    convertDollar(number){
+        if (number<=1){
+            return '$';
+        } else if (number===2){
+            return '$$';
+        } else if (number===3){
+            return '$$$';
+        } else if (number===4){
+            return '$$$$';
+        } else if (number===5){
+            return '$$$$$';
+        } else {
+            return 'Price not given'
+        }
     }
 
     async componentDidUpdate() {
@@ -61,13 +63,11 @@ class RestaurantSlider extends Component  {
     }
     const jsonQuery = require('json-query');
     return(<div>
-        {/*<h3>{'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key='+ GoogleApiKey + '&location='+this.props.lat+','+this.props.long+'&radius='+this.props.radius+'&keyword='+this.props.keyWord}</h3>*/}
-        {/*<h5>message: {this.props.text}, lat: {this.props.lat}, long: {this.props.long}, radius: {this.props.radius}, keyword: {this.props.keyWord}</h5>*/}
         <div className="container-fluid py-2"><Form>
             <div className="d-flex flex-row flex-nowrap scroll" style={{  overflow:'auto' }}>
             {this.state.restaurants['results'].map((anObjectMapped, index)=>
                 <div className='card' style={{minHeight:'300px', minWidth: '300px', width:'300px', marginRight: '5px'}} id={index} key={`${anObjectMapped.name}`}>
-                    {/*<h5>Price level: {this.convertDollar(anObjectMapped.price_level)}</h5>*/}
+                    {console.log(anObjectMapped)}
                     <div className='d-flex align-items-center' style={{height: '160px', overflow : 'hidden' }}>
                         <img className="card-img-top"
                          src={jsonQuery('photos.photo_reference', {data: anObjectMapped}).value ?
@@ -76,19 +76,10 @@ class RestaurantSlider extends Component  {
                     </div>
                         <h5 className='card-title'>{anObjectMapped.name}</h5>
                     <p className="card-text">{anObjectMapped.user_ratings_total} users gave this place an average rating of {anObjectMapped.rating}!</p>
-                    <Form>
-                        <Button>
-                            Send a reservation!
-                        </Button>
-                    </Form>
-                    {/*<Form.Check*/}
-                    {/*    type="switch"*/}
-                    {/*    label="I would like to eat here!"*/}
-                    {/*    id={anObjectMapped.name.replace(/\./g, '').replace(/ /g,"_")}*/}
-                    {/*    name={anObjectMapped.name.replace(/\./g, '').replace(/ /g,"-")}*/}
-                    {/*    onChange={this.props.onChange}*/}
-                    {/*/>*/}
-
+                    <p>Price level: {this.convertDollar(anObjectMapped.price_level)}</p>
+                    <Button>
+                        Send a reservation!
+                    </Button>
 
                 </div>)}
             </div></Form>
