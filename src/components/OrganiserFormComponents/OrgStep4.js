@@ -13,7 +13,7 @@ function OrgStep4(props) {
             backgroundColor: "#D33434",
             borderColor: "#d33434"
         }} onClick={props.onClick}>-</Button>
-        <Form.Control required name="headCount" value={props.value} placeholder='1'
+        <Form.Control required name="headCount" value={props.value} placeholder='2'
                       style={{
                           margin: "20px",
                           width: "160px",

@@ -10,7 +10,7 @@ export function incrementPax(value){
     }
 }
 export function decrementPax(value){
-    if (value>=2) {
+    if (value>=3) {
         this.setState((prevState) => ({ headCount: prevState.headCount - 1 }))
     }
 }

@@ -32,7 +32,7 @@ class OrgForm extends Component {
             eventName: '',
             startDate: '',
             endDate: '',
-            headCount: 1,
+            headCount: 2,
             organiserEmail: '',
             eventCode: '',
             test: {min: 0, max:5}
