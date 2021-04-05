@@ -74,10 +74,10 @@ class RestaurantSlider extends Component  {
                              `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${jsonQuery('photos.photo_reference', {data: anObjectMapped}).value}&key=${GoogleApiKey}`
                              : ErrorImage} alt="Card image cap"  />
                     </div>
-                        <h5 className='card-title'>{anObjectMapped.name}</h5>
-                    <p className="card-text">{anObjectMapped.user_ratings_total} users gave this place an average rating of {anObjectMapped.rating}!</p>
-                    <p>Price level: {this.convertDollar(anObjectMapped.price_level)}</p>
-                    <Button>
+                        <h5 className='card-title' style={{fontSize:'1.25vw'}}>{anObjectMapped.name}</h5>
+                    <p className="card-text"  style={{fontSize:'1vw'}}>{anObjectMapped.user_ratings_total} users gave this place an average rating of {anObjectMapped.rating}!</p>
+                    <p style={{fontSize:'1vw'}}>Price level: {this.convertDollar(anObjectMapped.price_level)}</p>
+                    <Button  style={{fontSize:'1vw'}}>
                         Send a reservation!
                     </Button>
 
