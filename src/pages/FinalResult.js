@@ -113,10 +113,8 @@ class FinalResult extends Component {
     render() {
         return (
             <div className={'w-responsive text-center'}>
-                <h4>Thank you! Everyone has responded to {this.state.eventName}</h4>
                 <h1 style={{display:"inline"}}>Event Summary for </h1>
                 <h1 style={{fontWeight:800, display:"inline"}}> {this.state.eventName}</h1>
-                <h4 className='mb-4'/>
                 <h5>Who responded?</h5>
                 <h5 className='mb-4'>{this.state.respondents}</h5>
                 <h5 className='mb-4'>Top Cuisine(s) are: {String(this.state.commonCuisine).split(' OR ').join(', ')}</h5>
