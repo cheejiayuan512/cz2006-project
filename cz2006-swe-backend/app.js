@@ -1,12 +1,15 @@
-var express = require('express'); 
-var app = express(); 
-var PORT = 9000; 
-var fxn = require('./functions');
-var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb+srv://makanwhere:makanwhere@cluster0.buyjh.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"; 
-const axios = require('axios')
-var router = express.Router(); 
+const express = require('express');
+const app = express();
+const cors = require("cors")
 
+const PORT = 9000;
+const path = require("path");
+const fxn = require('./functions');
+const MongoClient = require('mongodb').MongoClient;
+const url = "mongodb+srv://makanwhere:makanwhere@cluster0.buyjh.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const axios = require('axios')
+const router = express.Router();
+app.use(cors())
 app.use(
   express.urlencoded({
     extended: true

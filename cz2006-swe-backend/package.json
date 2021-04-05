@@ -20,5 +20,8 @@
     "fs": "0.0.1-security",
     "mongodb": "^3.0.1",
     "pug": "^3.0.2"
+  },
+  "devDependencies": {
+    "cors": "^2.8.5"
   }
 }

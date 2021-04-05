@@ -4,7 +4,6 @@ import {Link, Route} from "react-router-dom";
 import axios from "axios";
 import { withRouter } from "react-router";
 import {UserForm} from "./UserForm";
-import {RestaurantSlider} from "../services/GoogleAPIService";
 
 class Home extends Component {
 
