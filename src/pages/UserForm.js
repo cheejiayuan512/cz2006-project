@@ -91,6 +91,7 @@ class UserForm extends Component {
                 console.log(err);
             })
 
+
     }
     componentDidMount() {
         this.stepper = new Stepper(document.querySelector('#stepper1'), {
@@ -191,7 +192,9 @@ class UserForm extends Component {
                                         <div><UserResult userName={this.state.userName} userTiming={this.state.userTiming}
                                                     userBudget={this.state.userBudget}
                                                     userCuisine={this.state.userCuisine} userMessage={this.state.userCode}/>
-                                        <Button onClick={this.onSubmit} className="btn btn-warning">Submit your response!</Button></div>
+                                            {this.state.userCode==''?<Button onClick={this.onSubmit} className="btn btn-warning">Submit your
+                                                response!</Button>:<h3></h3>}
+                                        </div>
 
                                         <Button className='m-2' onClick={() => this.stepper.previous()}>Back</Button>
 
