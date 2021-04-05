@@ -4,7 +4,6 @@ import {Link, Route} from "react-router-dom";
 import axios from "axios";
 import { withRouter } from "react-router";
 import {UserForm} from "./UserForm";
-import {RestaurantSlider} from "../services/GoogleAPIService";
 
 class Home extends Component {
 
@@ -34,7 +33,7 @@ class Home extends Component {
 
                 }
                 else if (eventValidityPromise === 'Invalid event code.'){
-                    this.setState({errorMsg:'The event code is invalid/misspelled!'})
+                    this.setState({errorMsg:'Invalid/misspelled event code!'})
 
 
                 }
@@ -56,36 +55,40 @@ class Home extends Component {
 
 
     return (
-            <div className="w-responsive text-center">
+            <div className="w-responsive text-center" style={{fontSize:'2vh'}}>
                 <h2 >Who are we?</h2>
-                <p className='w-50 d-inline-flex'>We are a team of NTU students who are constantly frustrated at the amount of work we have to put
+                <p className='w-50 d-inline-flex' >We are a team of NTU students who are constantly frustrated at the amount of work we have to put
                 in order to get together for a meal with friends. So, we decided to make this webapp which aims to
                 optimise this process!</p>
-                <Container fluid className="pt-2 pl-5 pr-5">
-                    <Row className="justify-content-md-center">
+                <Container fluid className="pt-2 pl-5 pr-5 justify-content-md-center"  >
+                    <Row >
                         <Col>
                             <p className="text-center font-weight-bold">Have a code?</p>
                             <div className="d-flex justify-content-center">
-                            <Form inline className='justify-content-center' required >
+                            <Form inline className='justify-content-center' required>
                                 <Row>
                                     <Col>
                             <Form.Control required type="text" placeholder="Your Event Code"  className='m-3' name="eventCodeField" onChange={this.handleEventCode}/>
-                            <h6>{this.state.errorMsg}</h6>
+                            <p className={'text-info'}>{this.state.errorMsg}</p>
                                     </Col>
+
                                     <Col>
-                            <button onClick={this.clickSubmit}  className="btn btn-primary btn-lg m-3">Join Event</button>
+                            <Button onClick={this.clickSubmit}  className="m-3">Join Event</Button>
                                     </Col>
                                 </Row>
                             </Form>
                             </div>
                         </Col>
+                    </Row>
+
+                    <Row>
                         <Col>
                             <p className="text-center font-weight-bold">Want to create an event? </p>
                             <Link exact to="/testing">
-                                <Button type="button" className="btn btn-secondary btn-lg m-3">Create New Event</Button>
+                                <Button type="button">Create New Event</Button>
                             </Link>
                         </Col>
-                    </Row>
+                        </Row>
                     {/*<RestaurantSlider lat={1.35} long={103.8198} radius={5000} text={'hello'} keyWord={'fast+food'} onChange={this.handleRestaurants}/>*/}
                 </Container>
 

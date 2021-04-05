@@ -7,8 +7,11 @@ body {
   margin: 0;
   overflow: hidden;
 }
-h1, h2, p, ul, li {
+h1, h2, h3, h4, h5, p, ul, li {
   font-family: sans-serif;
+  font-size: 8vw;
+  width:calc((100% / 4) * 3);
+  --width: calc((100% / 4) * 3);
 }
 ul.header li {
   display: inline;

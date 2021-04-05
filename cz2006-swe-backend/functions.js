@@ -252,6 +252,11 @@ function verifySessID(sessID, event, session) {
                         else if (num < parseInt(result[0].headCount)) {
                             console.log("in first if")
                             resolve("Valid.");
+                        } else if (num === parseInt(result[0].headCount)-1){
+                            sendEmail(sessID, event).then((res) => {
+                                console.log(res);
+                            })
+                            resolve("Valid.");
                         }
                         else {
                             resolve("Room is full.");
@@ -413,28 +418,36 @@ function getCommonSlot(sessID, session, event) {
                                                     // value in timetable is equal to maxPax
                 var availableSlots = [];
                 var availablePeriods = [];
-                var finalList =  JSON.parse(JSON.stringify(resultList[0].userTiming));
+                var finalList =  [];
                 var numberOfSlots = 0;
                 var previous;
                 var start;
                 var outputList = [];
-                for (var j = 0; j< resultList[0].userTiming.length; j++){
-                    for(var k = 0; k < resultList[0].userTiming[0].length; k++) {
-                        finalList[j][k] = 0;
+
+                console.log('1',finalList);
+                for (var j = 0; j< resultList[0].userTiming[0].length; j++) {
+                    finalList.push([]);
+                }
+                console.log('2',finalList);
+                for (var j = 0; j< resultList[0].userTiming.length; j++){ //5
+                    for(var k = 0; k < resultList[0].userTiming[0].length; k++) { //6
+                        finalList[k].push(0);
                     }
                 }
-
+                console.log('3',finalList);
                 for (var i = 0; i< resultList.length; i++){
                     for (var j = 0; j< resultList[0].userTiming.length; j++){
                         for(var k = 0; k < resultList[0].userTiming[0].length; k++) {
                             //console.log(resultList[i].userTiming[j][k])
                             if (resultList[i].userTiming[j][k] === true){
-                                finalList[j][k] += 1;
+                                finalList[k][j] += 1;
                             };
                         }
                     }
                 }
+                console.log('4',finalList);
                 finalList = finalList.slice(1,resultList[0].userTiming.length)
+                console.log('finalList:', finalList)
                 for (i = 0; i< finalList.length; i++){
                     finalList[i].shift();
                 }
@@ -460,9 +473,15 @@ function getCommonSlot(sessID, session, event) {
                     }
                     previous = availableSlots[j];
                 }
+                console.log('availablePeriods:', availablePeriods)
                 startDate = new Date(startDate);
                 for (var j=0; j<availablePeriods.length;j++){
-                    var day = (startDate + availablePeriods[j][0]).toString().substring(4,15);
+                    // console.log(availablePeriods[j][0])
+                    // startDate = startDate + availablePeriods[j][0]
+                    // console.log(startDate.toString().substring(4,15))
+                    var currentDate = startDate
+                    currentDate.setDate(startDate.getDate() + availablePeriods[j][0])
+                    var day = currentDate.toString().substring(4,15);
                     var startTime = 8 + availablePeriods[j][1];
                     var endTime = 9 + availablePeriods[j][2];
                     if (startTime<10){
@@ -482,7 +501,8 @@ function getCommonSlot(sessID, session, event) {
                     outputList = outputList.concat([day.concat(' from ').concat(startTime).concat(' to ').concat(endTime)]);
                 }
                 if (outputList.length===0){
-                    outputList.concat('There is no common timeslot');
+                    outputList = ['There is no common timeslot'];
+                    console.log('======',outputList);
                 }
                 console.log('outputList:\n',outputList);
                 resolve(outputList);
